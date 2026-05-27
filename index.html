@@ -272,7 +272,6 @@
     font-weight: 400;
     margin-bottom: 2rem;
     opacity: 0;
-    animation: fadeUp 1s 0.3s forwards;
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -312,7 +311,6 @@
     max-width: 520px;
     line-height: 1.65;
     opacity: 0;
-    animation: fadeUp 1s 0.8s forwards;
     margin-bottom: 3rem;
   }
 
@@ -321,7 +319,6 @@
     align-items: center;
     gap: 2rem;
     opacity: 0;
-    animation: fadeUp 1s 1s forwards;
   }
 
   .btn-primary {
@@ -393,7 +390,6 @@
     position: relative;
     z-index: 2;
     opacity: 0;
-    animation: fadeUp 1s 1.2s forwards;
   }
 
   .hero-stat-item {}
@@ -423,7 +419,7 @@
     gap: 0.5rem;
     z-index: 2;
     opacity: 0;
-    animation: fadeIn 1s 1.5s forwards;
+    animation: fadeIn 1s 2.5s forwards;
   }
   .hero-scroll-indicator span {
     font-size: 0.6rem;
@@ -3071,18 +3067,14 @@ footer::before {
 }
 .coffee-card:hover::after { opacity: 0.8; }
 
-/* ── Split line inner: ink-bleed reveal ─────────────────────────── */
+/* ── Split line inner: GSAP handles the 3D reveal, just set overflow ── */
 .split-line {
   overflow: hidden;
   display: block;
 }
-.split-line-inner {
-  display: block;
-  animation: splitReveal 1.2s cubic-bezier(0.76, 0, 0.24, 1) both;
-  animation-play-state: paused;
-}
+/* animation-play-state removed — GSAP is authoritative for split-line-inner */
 .hero-headline.animate .split-line-inner {
-  animation-play-state: running;
+  /* GSAP will set transform to 0 */
 }
 .split-line:nth-child(1) .split-line-inner { animation-delay: 0.5s; }
 .split-line:nth-child(2) .split-line-inner { animation-delay: 0.65s; }
@@ -4876,12 +4868,11 @@ section > * { position: relative; z-index: 1; }
 
   // Marquee speed on hover
   const track = document.querySelector('.marquee-track');
-  document.querySelector('.marquee-section').addEventListener('mouseenter', () => {
-    track.style.animationDuration = '50s';
-  });
-  document.querySelector('.marquee-section').addEventListener('mouseleave', () => {
-    track.style.animationDuration = '30s';
-  });
+  const marqueeSection = document.querySelector('.marquee-section');
+  if (marqueeSection && track) {
+    marqueeSection.addEventListener('mouseenter', () => { track.style.animationDuration = '50s'; });
+    marqueeSection.addEventListener('mouseleave', () => { track.style.animationDuration = '30s'; });
+  }
 
   // Smooth anchor scroll
   document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -4973,7 +4964,8 @@ section > * { position: relative; z-index: 1; }
       '.process-step','.contact-form-wrap','.contact-info','.contact-col',
       '.section-label','.section-eyebrow','.footer-editorial',
       '.manifesto-statement','.mstat-item','.quotes-header','.quote-card',
-      '.hscroll-label','.hscroll-heading','.hscroll-body','.hscroll-stat','.hscroll-cta'
+      '.hscroll-label','.hscroll-heading','.hscroll-body','.hscroll-stat','.hscroll-cta',
+      '.hero-eyebrow','.hero-sub','.hero-actions','.hero-stats','.hero-scroll-indicator'
     ].join(',');
     document.querySelectorAll(gsapTargets).forEach(el => {
       if (getComputedStyle(el).opacity === '0' || el.style.opacity === '0') {
