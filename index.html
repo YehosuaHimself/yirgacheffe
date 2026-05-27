@@ -1,0 +1,2172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YCFCU — Yirgacheffe Coffee Farmers Cooperative Union</title>
+<meta name="description" content="From the highlands of Southern Ethiopia, where coffee was born — the world's finest Arabica, grown by 46,094 farmers, certified organic and Fairtrade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --earth: #1a120a;
+    --soil: #2c1a0e;
+    --bark: #3d2410;
+    --clay: #7a4a28;
+    --amber: #c07830;
+    --gold: #d4983a;
+    --cream: #f0e8d8;
+    --parchment: #e8dcc8;
+    --fog: #c8c0b0;
+    --moss: #4a5a38;
+    --leaf: #6a8050;
+    --cherry: #8b2020;
+    --white: #faf8f4;
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-serif: 'Cormorant Garamond', serif;
+    --font-sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    background: var(--earth);
+    color: var(--cream);
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, opacity 0.2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.12s ease-out, width 0.3s, height 0.3s;
+    opacity: 0.6;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Noise overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 3rem;
+    mix-blend-mode: normal;
+    transition: background 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(26,18,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,152,58,0.12);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-logo span {
+    color: var(--fog);
+    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    display: block;
+    margin-top: -4px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--fog);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--earth);
+    background: var(--gold);
+    padding: 0.6rem 1.5rem;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    font-weight: 500;
+  }
+  .nav-cta:hover { background: var(--amber); color: var(--cream); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    position: relative;
+    overflow: hidden;
+    padding: 0 3rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(61,36,16,0.7) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(106,128,80,0.15) 0%, transparent 60%),
+      linear-gradient(165deg, #0d0905 0%, #1a120a 35%, #2c1a0e 70%, #1a0f07 100%);
+  }
+
+  /* SVG coffee bean decorations */
+  .hero-deco {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 10rem;
+    padding-bottom: 4rem;
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(5rem, 12vw, 11rem);
+    line-height: 0.88;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+    margin-bottom: 1.5rem;
+  }
+  .hero-headline em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--gold);
+    font-size: 0.8em;
+    font-weight: 300;
+  }
+
+  .hero-sub {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fog);
+    max-width: 520px;
+    line-height: 1.65;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s forwards;
+    margin-bottom: 3rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 1s forwards;
+  }
+
+  .btn-primary {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--earth);
+    background: var(--gold);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: var(--amber);
+    transition: width 0.4s;
+    z-index: -1;
+  }
+  .btn-primary:hover::after { width: 100%; }
+  .btn-primary:hover { color: var(--cream); }
+
+  .btn-ghost {
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fog);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); }
+  .btn-ghost .arrow {
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+    transition: width 0.3s;
+  }
+  .btn-ghost:hover .arrow { width: 40px; }
+  .btn-ghost .arrow::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    width: 6px;
+    height: 6px;
+    border-right: 1px solid currentColor;
+    border-top: 1px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(212,152,58,0.15);
+    position: relative;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .hero-stat-item {}
+  .hero-stat-number {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .hero-stat-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--fog);
+    font-weight: 300;
+    margin-top: 0.4rem;
+  }
+
+  .hero-scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 2;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .hero-scroll-indicator span {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fog);
+    writing-mode: vertical-rl;
+    font-weight: 300;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    background: var(--gold);
+    padding: 1rem 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 3;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    width: max-content;
+    animation: marquee 30s linear infinite;
+  }
+  .marquee-item {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    color: var(--earth);
+    white-space: nowrap;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .marquee-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--bark);
+    border-radius: 50%;
+  }
+
+  /* SECTIONS shared */
+  section { position: relative; }
+
+  .section-eyebrow {
+    font-size: 0.67rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  /* ORIGIN STORY */
+  .origin {
+    padding: 8rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    background: var(--soil);
+  }
+
+  .origin-visual {
+    position: relative;
+    height: 600px;
+  }
+
+  .origin-img-frame {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(212,152,58,0.2);
+  }
+
+  .origin-img-frame::before {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: 20px;
+    bottom: 20px;
+    border: 1px solid rgba(212,152,58,0.08);
+  }
+
+  /* Ethiopian highlands illustration */
+  .origin-illustration {
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse 100% 50% at 50% 100%, rgba(106,128,80,0.3) 0%, transparent 70%),
+      linear-gradient(170deg, #0a1a06 0%, #1a2e0e 40%, #2a3c18 70%, #1a2e0e 100%);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .altitude-label {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: rgba(212,152,58,0.15);
+    line-height: 1;
+    letter-spacing: 0.05em;
+  }
+  .altitude-label small {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(212,152,58,0.4);
+    font-weight: 300;
+  }
+
+  .origin-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 5vw, 3.8rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .origin-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .origin-text p {
+    font-size: 1.0rem;
+    line-height: 1.9;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .origin-text .pull-quote {
+    border-left: 2px solid var(--gold);
+    padding-left: 1.5rem;
+    margin: 2.5rem 0;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--cream);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .timeline {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+  .timeline-year {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+    min-width: 60px;
+    padding-top: 0.1rem;
+  }
+  .timeline-text {
+    font-size: 0.85rem;
+    color: var(--fog);
+    line-height: 1.7;
+    font-weight: 300;
+    border-top: 1px solid rgba(212,152,58,0.12);
+    padding-top: 0.3rem;
+    flex: 1;
+  }
+
+  /* COFFEE TYPES */
+  .coffee-section {
+    padding: 8rem 3rem;
+    background: var(--earth);
+  }
+
+  .coffee-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 5rem;
+  }
+  .coffee-header h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 6rem);
+    letter-spacing: 0.03em;
+    color: var(--cream);
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+  }
+  .coffee-header p {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--fog);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .coffee-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(212,152,58,0.1);
+  }
+
+  .coffee-card {
+    background: var(--earth);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s;
+    cursor: default;
+  }
+  .coffee-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(61,36,16,0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .coffee-card:hover { background: var(--soil); }
+  .coffee-card:hover::before { opacity: 1; }
+
+  .coffee-card-num {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    color: rgba(212,152,58,0.08);
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.4s;
+  }
+  .coffee-card:hover .coffee-card-num { color: rgba(212,152,58,0.15); }
+
+  .coffee-card-type {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 0.8rem;
+  }
+
+  .coffee-card h3 {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .coffee-card p {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .flavor-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .flavor-tag {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clay);
+    border: 1px solid rgba(122,74,40,0.4);
+    padding: 0.3rem 0.8rem;
+    font-weight: 400;
+    transition: all 0.3s;
+  }
+  .coffee-card:hover .flavor-tag {
+    color: var(--gold);
+    border-color: rgba(212,152,58,0.4);
+  }
+
+  /* GRADES */
+  .grades-section {
+    padding: 6rem 3rem;
+    background: var(--bark);
+  }
+  .grades-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .grade-item {
+    border-top: 2px solid var(--gold);
+    padding-top: 1.5rem;
+  }
+  .grade-item h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .grade-item p {
+    font-size: 0.82rem;
+    color: var(--fog);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* ORGANIC / UNESCO */
+  .heritage-section {
+    padding: 10rem 3rem;
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    gap: 6rem;
+    align-items: center;
+    background: linear-gradient(160deg, var(--soil) 0%, #1a1f10 60%, var(--earth) 100%);
+    position: relative;
+  }
+
+  .heritage-section::before {
+    content: 'UNESCO';
+    position: absolute;
+    top: 4rem;
+    right: 3rem;
+    font-family: var(--font-display);
+    font-size: 8rem;
+    color: rgba(106,128,80,0.06);
+    letter-spacing: 0.2em;
+    pointer-events: none;
+  }
+
+  .heritage-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .heritage-text h2 em {
+    font-style: italic;
+    color: var(--leaf);
+  }
+  .heritage-text p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .cert-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .cert-card {
+    border: 1px solid rgba(212,152,58,0.15);
+    padding: 2rem;
+    background: rgba(26,18,10,0.5);
+    position: relative;
+  }
+  .cert-card::before {
+    content: '✓';
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--gold);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+  }
+  .cert-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .cert-card p {
+    font-size: 0.82rem;
+    color: var(--fog);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* MISSION */
+  .mission-section {
+    padding: 8rem 3rem;
+    background: var(--earth);
+    text-align: center;
+  }
+  .mission-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    max-width: 900px;
+    margin: 0 auto 2rem;
+    line-height: 1;
+  }
+  .mission-section h2 em {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+    font-size: 0.85em;
+  }
+  .mission-body {
+    font-family: var(--font-serif);
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--fog);
+    max-width: 620px;
+    margin: 0 auto 4rem;
+    line-height: 1.75;
+  }
+
+  .mission-pillars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 5rem;
+    border: 1px solid rgba(212,152,58,0.1);
+  }
+  .pillar {
+    padding: 3rem 2rem;
+    border-right: 1px solid rgba(212,152,58,0.1);
+    text-align: left;
+    position: relative;
+    transition: background 0.4s;
+  }
+  .pillar:last-child { border-right: none; }
+  .pillar:hover { background: rgba(44,26,14,0.5); }
+
+  .pillar-num {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .pillar h3 {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .pillar p {
+    font-size: 0.83rem;
+    color: var(--fog);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* COMMUNITY */
+  .community-section {
+    padding: 8rem 3rem;
+    background: var(--soil);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  .community-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .community-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .community-text p {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  .community-projects {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .project-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(212,152,58,0.1);
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .project-item:hover {
+    border-color: rgba(212,152,58,0.3);
+    background: rgba(26,18,10,0.4);
+  }
+  .project-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(212,152,58,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+  }
+  .project-content h4 {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .project-content p {
+    font-size: 0.8rem;
+    color: var(--fog);
+    line-height: 1.6;
+    font-weight: 300;
+    margin: 0;
+  }
+
+  /* D4A */
+  .d4a-banner {
+    background: var(--moss);
+    padding: 5rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .d4a-banner::before {
+    content: 'D4A';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-display);
+    font-size: 20rem;
+    color: rgba(0,0,0,0.15);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+  }
+  .d4a-banner h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 2;
+  }
+  .d4a-banner p {
+    font-size: 0.9rem;
+    color: rgba(240,232,216,0.75);
+    max-width: 580px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-weight: 300;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* MANDATES */
+  .mandates-section {
+    padding: 8rem 3rem;
+    background: var(--earth);
+  }
+  .mandates-section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    margin-bottom: 4rem;
+    max-width: 600px;
+  }
+  .mandates-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    background: rgba(212,152,58,0.08);
+  }
+  .mandate-item {
+    background: var(--earth);
+    padding: 3rem;
+    transition: background 0.4s;
+  }
+  .mandate-item:hover { background: rgba(44,26,14,0.6); }
+  .mandate-num {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: rgba(212,152,58,0.15);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .mandate-item h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .mandate-item p {
+    font-size: 0.87rem;
+    color: var(--fog);
+    line-height: 1.85;
+    font-weight: 300;
+  }
+
+  /* NUMBERS STRIP */
+  .numbers-strip {
+    background: var(--gold);
+    padding: 4rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    text-align: center;
+  }
+  .number-item {
+    padding: 1rem;
+    border-right: 1px solid rgba(26,18,10,0.15);
+  }
+  .number-item:last-child { border-right: none; }
+  .number-big {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    color: var(--earth);
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .number-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--bark);
+    font-weight: 400;
+    margin-top: 0.5rem;
+  }
+
+  /* CONTACT */
+  .contact-section {
+    padding: 8rem 3rem;
+    background: var(--soil);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-text h2 {
+    font-family: var(--font-serif);
+    font-size: clamp(2.8rem, 5vw, 4rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .contact-text h2 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .contact-text > p {
+    font-size: 0.92rem;
+    line-height: 1.85;
+    color: var(--fog);
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+  .contact-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .contact-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    min-width: 80px;
+    padding-top: 0.15rem;
+  }
+  .contact-value {
+    font-size: 0.88rem;
+    color: var(--fog);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+  .contact-value a {
+    color: var(--fog);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .contact-value a:hover { color: var(--gold); }
+
+  .contact-form-side {}
+  .contact-form-side h3 {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--cream);
+    margin-bottom: 2rem;
+  }
+  .form-group {
+    margin-bottom: 1.2rem;
+  }
+  .form-group label {
+    display: block;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    background: rgba(26,18,10,0.5);
+    border: 1px solid rgba(212,152,58,0.15);
+    color: var(--cream);
+    padding: 0.85rem 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .form-submit {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: var(--gold);
+    color: var(--earth);
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--amber); color: var(--cream); }
+
+  .socials {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .social-link {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--clay);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(122,74,40,0.3);
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .social-link:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* FOOTER */
+  footer {
+    background: #0d0905;
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(212,152,58,0.08);
+  }
+  .footer-left {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+  .footer-left small {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 300;
+    margin-top: 0.3rem;
+  }
+  .footer-right {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clay);
+    font-weight: 300;
+    text-align: right;
+  }
+  .footer-right a {
+    color: var(--clay);
+    text-decoration: none;
+    transition: color 0.3s;
+    display: block;
+    margin-top: 0.3rem;
+  }
+  .footer-right a:hover { color: var(--gold); }
+
+  /* SCROLL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s, transform 0.9s;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(0.8); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+  }
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Coffee bean SVG animations */
+  .bean-float {
+    animation: float 8s ease-in-out infinite;
+  }
+  .bean-float-2 {
+    animation: float 11s 2s ease-in-out infinite;
+  }
+  .bean-float-3 {
+    animation: float 14s 5s ease-in-out infinite;
+  }
+
+  /* Counter animation */
+  .counter { transition: all 0.5s; }
+
+  /* Horizontal scrolling text */
+  .big-text-row {
+    overflow: hidden;
+    padding: 2rem 0;
+    border-top: 1px solid rgba(212,152,58,0.08);
+    border-bottom: 1px solid rgba(212,152,58,0.08);
+  }
+  .big-text {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 8rem);
+    letter-spacing: 0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(212,152,58,0.2);
+    white-space: nowrap;
+    display: block;
+  }
+
+  /* Tooltip on cert */
+  .cert-link {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--leaf);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    transition: color 0.3s;
+  }
+  .cert-link:hover { color: var(--gold); }
+  .cert-link::after {
+    content: '→';
+    font-size: 0.9em;
+  }
+
+  /* Progress bars for profile stats */
+  .stat-bar-wrap {
+    margin-top: 0.5rem;
+    height: 2px;
+    background: rgba(212,152,58,0.1);
+    overflow: hidden;
+  }
+  .stat-bar {
+    height: 100%;
+    background: var(--gold);
+    width: 0;
+    transition: width 1.5s ease;
+  }
+
+  /* Vision bold statement */
+  .vision-strip {
+    background: var(--bark);
+    padding: 5rem 3rem;
+    text-align: center;
+  }
+  .vision-strip p {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--cream);
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+  .vision-strip strong {
+    font-weight: 500;
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  /* Mobile menu toggle */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .menu-toggle span {
+    display: block;
+    width: 24px;
+    height: 1px;
+    background: var(--fog);
+    transition: all 0.3s;
+  }
+
+  @media (max-width: 1024px) {
+    .origin { grid-template-columns: 1fr; gap: 3rem; }
+    .origin-visual { height: 350px; }
+    .heritage-section { grid-template-columns: 1fr; gap: 3rem; }
+    .community-section { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-section { grid-template-columns: 1fr; gap: 3rem; }
+    .mission-pillars { grid-template-columns: repeat(2, 1fr); }
+    .numbers-strip { grid-template-columns: repeat(3, 1fr); }
+    .mandates-grid { grid-template-columns: 1fr; }
+    .coffee-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .nav-cta { display: none; }
+    .menu-toggle { display: flex; }
+    .hero { padding: 0 1.5rem; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    section { padding-left: 1.5rem !important; padding-right: 1.5rem !important; }
+    .mission-pillars { grid-template-columns: 1fr; }
+    .numbers-strip { grid-template-columns: repeat(2, 1fr); }
+    .grades-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1.5rem; text-align: center; }
+    .footer-right { text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAVIGATION -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    YCFCU
+    <span>Est. 2002 · Gedeo Highlands, Ethiopia</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#origin">Our Story</a></li>
+    <li><a href="#coffee">The Coffee</a></li>
+    <li><a href="#heritage">Heritage</a></li>
+    <li><a href="#community">Community</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Source Our Coffee</a>
+  <div class="menu-toggle" id="menuToggle">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+
+  <!-- Floating coffee beans SVG -->
+  <div class="hero-deco">
+    <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <g class="bean-float" transform="translate(1100, 200)">
+        <ellipse cx="0" cy="0" rx="60" ry="38" fill="none" stroke="rgba(212,152,58,0.08)" stroke-width="1"/>
+        <path d="M 0 -38 Q 30 0 0 38" fill="none" stroke="rgba(212,152,58,0.08)" stroke-width="1"/>
+      </g>
+      <g class="bean-float-2" transform="translate(200, 400)">
+        <ellipse cx="0" cy="0" rx="40" ry="25" fill="none" stroke="rgba(212,152,58,0.06)" stroke-width="1" transform="rotate(30)"/>
+        <path d="M 0 -25 Q 20 0 0 25" fill="none" stroke="rgba(212,152,58,0.06)" stroke-width="1" transform="rotate(30)"/>
+      </g>
+      <g class="bean-float-3" transform="translate(1300, 600)">
+        <ellipse cx="0" cy="0" rx="30" ry="18" fill="none" stroke="rgba(106,128,80,0.08)" stroke-width="1" transform="rotate(-20)"/>
+        <path d="M 0 -18 Q 15 0 0 18" fill="none" stroke="rgba(106,128,80,0.08)" stroke-width="1" transform="rotate(-20)"/>
+      </g>
+      <!-- Altitude rings -->
+      <circle cx="1150" cy="650" r="180" fill="none" stroke="rgba(212,152,58,0.03)" stroke-width="1"/>
+      <circle cx="1150" cy="650" r="280" fill="none" stroke="rgba(212,152,58,0.025)" stroke-width="1"/>
+      <circle cx="1150" cy="650" r="380" fill="none" stroke="rgba(212,152,58,0.02)" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Birthplace of Coffee · Gedeo Highlands · 1,600–2,400m</div>
+    <h1 class="hero-headline">
+      WHERE<br>
+      COFFEE<br>
+      <em>Began.</em>
+    </h1>
+    <p class="hero-sub">
+      Forty-six thousand farmers. Sixty-two thousand hectares of ancient agroforest.
+      One name the world's finest baristas reach for first.
+    </p>
+    <div class="hero-actions">
+      <a href="#coffee" class="btn-primary">Explore Our Coffee</a>
+      <a href="#origin" class="btn-ghost">
+        <span class="arrow"></span>
+        Our Story
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">46,094</div>
+      <div class="hero-stat-label">Smallholder Farmers</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">28</div>
+      <div class="hero-stat-label">Member Cooperatives</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">62,000</div>
+      <div class="hero-stat-label">Hectares of Garden Coffee</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">350K+</div>
+      <div class="hero-stat-label">Family Members Supported</div>
+    </div>
+    <div class="hero-stat-item">
+      <div class="hero-stat-number">100%</div>
+      <div class="hero-stat-label">Arabica, Organic by Tradition</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Organic Certified <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fairtrade Certified <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Rainforest Alliance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">UNESCO Heritage Landscape <span class="marquee-dot"></span></div>
+    <div class="marquee-item">100% Arabica <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Traceable to Farm <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Washed · Natural · Roasted <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Est. June 2002 <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Organic Certified <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fairtrade Certified <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Rainforest Alliance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">UNESCO Heritage Landscape <span class="marquee-dot"></span></div>
+    <div class="marquee-item">100% Arabica <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Traceable to Farm <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Washed · Natural · Roasted <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Est. June 2002 <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ORIGIN STORY -->
+<section class="origin" id="origin">
+  <div class="origin-visual reveal">
+    <div class="origin-img-frame">
+      <div class="origin-illustration">
+        <!-- Ethiopian highlands illustration in SVG -->
+        <svg width="100%" height="100%" viewBox="0 0 460 580" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <!-- Sky -->
+          <rect width="460" height="580" fill="#0a1505"/>
+          <!-- Stars -->
+          <circle cx="80" cy="40" r="1" fill="rgba(212,152,58,0.6)"/>
+          <circle cx="200" cy="25" r="0.8" fill="rgba(240,232,216,0.4)"/>
+          <circle cx="350" cy="55" r="1.2" fill="rgba(240,232,216,0.5)"/>
+          <circle cx="420" cy="30" r="0.7" fill="rgba(212,152,58,0.4)"/>
+          <circle cx="140" cy="70" r="0.9" fill="rgba(240,232,216,0.3)"/>
+          <circle cx="300" cy="80" r="0.6" fill="rgba(212,152,58,0.5)"/>
+          <!-- Moon glow -->
+          <circle cx="380" cy="80" r="35" fill="rgba(212,152,58,0.04)"/>
+          <circle cx="380" cy="80" r="20" fill="rgba(212,152,58,0.07)"/>
+          <!-- Mountains / highlands layered -->
+          <path d="M0 340 Q100 180 200 220 Q300 260 380 160 L460 200 L460 580 L0 580 Z" fill="#1a2e0e"/>
+          <path d="M0 400 Q80 280 160 310 Q240 340 340 260 Q400 220 460 280 L460 580 L0 580 Z" fill="#1f3812"/>
+          <path d="M0 450 Q120 360 200 380 Q280 400 380 340 L460 370 L460 580 L0 580 Z" fill="#243f14"/>
+          <!-- Coffee trees as silhouettes -->
+          <g fill="#1a2e0e">
+            <!-- Tree silhouettes -->
+            <ellipse cx="60" cy="470" rx="30" ry="40" fill="#152508"/>
+            <rect x="57" y="505" width="6" height="30" fill="#0f1c04"/>
+            <ellipse cx="130" cy="455" rx="25" ry="35" fill="#1a2e0e"/>
+            <rect x="127" y="485" width="6" height="40" fill="#0f1c04"/>
+            <ellipse cx="200" cy="465" rx="20" ry="30" fill="#1f3812"/>
+            <rect x="197" y="490" width="6" height="35" fill="#0f1c04"/>
+            <ellipse cx="260" cy="450" rx="28" ry="38" fill="#152508"/>
+            <rect x="257" y="482" width="6" height="40" fill="#0f1c04"/>
+            <ellipse cx="330" cy="460" rx="22" ry="32" fill="#1a2e0e"/>
+            <rect x="327" y="487" width="6" height="38" fill="#0f1c04"/>
+            <ellipse cx="400" cy="455" rx="26" ry="36" fill="#152508"/>
+            <rect x="397" y="484" width="6" height="36" fill="#0f1c04"/>
+          </g>
+          <!-- Coffee cherries red dots on trees -->
+          <g fill="#8b2020" opacity="0.7">
+            <circle cx="50" cy="465" r="3"/>
+            <circle cx="65" cy="475" r="2.5"/>
+            <circle cx="72" cy="462" r="2"/>
+            <circle cx="120" cy="450" r="3"/>
+            <circle cx="135" cy="460" r="2.5"/>
+            <circle cx="190" cy="460" r="2.5"/>
+            <circle cx="205" cy="470" r="2"/>
+            <circle cx="250" cy="445" r="3"/>
+            <circle cx="268" cy="455" r="2.5"/>
+            <circle cx="320" cy="455" r="2"/>
+            <circle cx="340" cy="462" r="3"/>
+            <circle cx="390" cy="450" r="2.5"/>
+            <circle cx="408" cy="460" r="2"/>
+          </g>
+          <!-- Ground / soil -->
+          <path d="M0 520 Q100 510 200 515 Q300 520 460 508 L460 580 L0 580 Z" fill="#2c1a0e"/>
+          <!-- Morning mist -->
+          <path d="M0 400 Q150 385 300 395 Q400 400 460 390 L460 430 Q400 435 300 428 Q150 420 0 440 Z" fill="rgba(240,232,216,0.03)"/>
+          <!-- Altitude label -->
+          <text x="340" y="120" font-family="'Bebas Neue', sans-serif" font-size="52" fill="rgba(212,152,58,0.12)" letter-spacing="3">2400</text>
+          <text x="360" y="140" font-family="'DM Sans', sans-serif" font-size="9" fill="rgba(212,152,58,0.25)" letter-spacing="3">METRES ASL</text>
+          <!-- Coordinates -->
+          <text x="20" y="560" font-family="'DM Sans', sans-serif" font-size="8" fill="rgba(212,152,58,0.25)" letter-spacing="2">6.2613°N · 38.2098°E</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="origin-text">
+    <div class="section-eyebrow reveal">Our Origin</div>
+    <h2 class="reveal reveal-delay-1">
+      Born from<br>
+      <em>necessity,</em><br>
+      built on trust.
+    </h2>
+
+    <p class="reveal reveal-delay-2">
+      The Yirgacheffe Coffee Farmers' Cooperative Union — YCFCU — was established in June 2002, registered under Ethiopia's cooperative society proclamation No. 147/1998. It began with 13 member cooperatives, each bearing the wounds of a generation shaped by political interference, exploitation, and broken promises under the Dergue Regime.
+    </p>
+
+    <div class="pull-quote reveal reveal-delay-2">
+      "Coffee is not a commodity here. It is a covenant — between land, farmer, and family."
+    </div>
+
+    <p class="reveal reveal-delay-3">
+      When the socialist model collapsed, these cooperatives faced bankruptcy. Yet rather than yield to traders who preyed on their poverty, farmers chose solidarity. YCFCU became their creditor, their guarantor, their voice to the world. Today, the union has grown into a living proof that ethical trade is not an ideal — it is the most durable model in agriculture.
+    </p>
+
+    <div class="timeline reveal reveal-delay-3">
+      <div class="timeline-item">
+        <div class="timeline-year">2002</div>
+        <div class="timeline-text">Union formally established with 13 founding cooperatives in Gedeo Zone, Southern Ethiopia.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2005</div>
+        <div class="timeline-text">First organic and Fairtrade certifications secured, unlocking direct international market access.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2018</div>
+        <div class="timeline-text">Gedeo Cultural Landscape inscribed as UNESCO World Heritage Site — home to YCFCU's gardens.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">Today</div>
+        <div class="timeline-text">28 cooperatives, 46,094 farmers, 350,000+ family members supported. Growing still.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG TEXT ROW -->
+<div class="big-text-row" style="background: var(--earth);">
+  <span class="big-text">&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;&nbsp;&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;</span>
+</div>
+
+<!-- COFFEE TYPES -->
+<section class="coffee-section" id="coffee">
+  <div class="coffee-header">
+    <div class="section-eyebrow reveal" style="justify-content: center; margin-bottom: 1rem;">
+      <span style="color: var(--gold); letter-spacing: 0.3em; font-size: 0.67rem; text-transform: uppercase; font-weight: 400;">The Coffee</span>
+    </div>
+    <h2 class="reveal">THREE<br>EXPRESSIONS</h2>
+    <p class="reveal reveal-delay-1">
+      Each process is a distinct language. The same highland terroir,
+      spoken three different ways — through sun, water, and flame.
+    </p>
+  </div>
+
+  <div class="coffee-grid reveal">
+    <div class="coffee-card">
+      <div class="coffee-card-num">01</div>
+      <div class="coffee-card-type">Sun Dried · Natural</div>
+      <h3>The Wild One</h3>
+      <p>
+        Left whole on raised beds under the Ethiopian sun, the fruit ferments gently around the seed. The result is a cup of extraordinary depth — heavy with dark fruit and vinous complexity. Hints of cherry, grape, peach, and wild lime emerge from a body that is at once earthy and ethereal.
+      </p>
+      <p style="font-size: 0.82rem; color: var(--clay);">
+        Beans dried incorrectly grow brittle, sour — a reminder that natural processing demands patience and mastery. Our farmers have both.
+      </p>
+      <div class="flavor-tags">
+        <span class="flavor-tag">Cherry</span>
+        <span class="flavor-tag">Dark Grape</span>
+        <span class="flavor-tag">Peach</span>
+        <span class="flavor-tag">Wild Lime</span>
+        <span class="flavor-tag">Earthy</span>
+      </div>
+    </div>
+
+    <div class="coffee-card">
+      <div class="coffee-card-num">02</div>
+      <div class="coffee-card-type">Wet Processed · Washed</div>
+      <h3>The Pure One</h3>
+      <p>
+        Meticulously washed and turned on rotating drying beds for 48 to 72 hours, every surface of the bean is dried evenly and gently. This method removes fermented characters and reveals the terroir in its clearest expression — bright, clean, florally luminous, with citrus top notes that linger long after the cup is empty.
+      </p>
+      <p style="font-size: 0.82rem; color: var(--clay);">
+        Yirgacheffe washed is what most roasters mean when they speak of Yirgacheffe. It is the signature of our highlands.
+      </p>
+      <div class="flavor-tags">
+        <span class="flavor-tag">Jasmine</span>
+        <span class="flavor-tag">Bergamot</span>
+        <span class="flavor-tag">Lemon</span>
+        <span class="flavor-tag">Soft Acidity</span>
+        <span class="flavor-tag">Floral</span>
+      </div>
+    </div>
+
+    <div class="coffee-card">
+      <div class="coffee-card-num">03</div>
+      <div class="coffee-card-type">Roasted · Light · Medium · Dark</div>
+      <h3>The Crafted One</h3>
+      <p>
+        Yirgacheffe beans are small and dense — they demand a delicate hand on the roasting drum. Medium roast is our most beloved expression, enhancing the beans' intrinsic sweet aromas and bright acidity without overwhelming their subtle floral architecture. We offer light, medium, and dark roasts for both local and international markets.
+      </p>
+      <p style="font-size: 0.82rem; color: var(--clay);">
+        Available ready for your shelves — roasted to order, freshness guaranteed.
+      </p>
+      <div class="flavor-tags">
+        <span class="flavor-tag">Caramel</span>
+        <span class="flavor-tag">Almond</span>
+        <span class="flavor-tag">Brown Sugar</span>
+        <span class="flavor-tag">Bright Acidity</span>
+        <span class="flavor-tag">Smooth</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grades -->
+  <div class="grades-section" style="margin: 0 -3rem; padding: 4rem 3rem; margin-top: 1px;">
+    <div class="section-eyebrow reveal">Available Grades</div>
+    <div class="grades-grid">
+      <div class="grade-item reveal">
+        <h4>Washed Grade 1</h4>
+        <p>The pinnacle of our washed selection. Exceptional clarity, uniform bean size, near-zero defects. The choice of specialty roasters worldwide.</p>
+      </div>
+      <div class="grade-item reveal reveal-delay-1">
+        <h4>Washed Grade 2</h4>
+        <p>Outstanding quality with the same highland character. Broader availability, still certified organic and Fairtrade.</p>
+      </div>
+      <div class="grade-item reveal reveal-delay-2">
+        <h4>Natural Grade 1</h4>
+        <p>Our finest sun-dried expression. Maximum fruit intensity, exceptional terroir character, traceable to micro-region.</p>
+      </div>
+      <div class="grade-item reveal reveal-delay-3">
+        <h4>Natural Grade 3</h4>
+        <p>Rich and complex with characteristic natural-process depth. Consistent quality for volume buyers in specialty markets.</p>
+      </div>
+      <div class="grade-item reveal">
+        <h4>Roasted — 3 Profiles</h4>
+        <p>Light, medium, and dark roasts. Small-batch roasted, packaged for both retail and foodservice. Local and export markets.</p>
+      </div>
+      <div class="grade-item reveal reveal-delay-1">
+        <h4>2025 Crop · New Season</h4>
+        <p>Fresh harvest now available. Be among the first importers to secure this year's Yirgacheffe — contact us to reserve your allocation.</p>
+        <a href="#contact" class="cert-link">Reserve Allocation</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERITAGE / ORGANIC / UNESCO -->
+<section class="heritage-section" id="heritage">
+  <div class="heritage-text">
+    <div class="section-eyebrow reveal">Living Heritage</div>
+    <h2 class="reveal reveal-delay-1">
+      Organic by <em>nature.</em><br>
+      Certified by<br>
+      the world.
+    </h2>
+    <p class="reveal reveal-delay-2">
+      In Gedeo, agroforestry is not a technique — it is a way of being. For centuries, the Gedeo people have grown coffee beneath a layered canopy of shade trees, preserving biodiversity while sequestering carbon and nurturing the soil. No synthetic fertilizers. No pesticides. Just an intimate understanding of land that science is only now beginning to measure.
+    </p>
+    <p class="reveal reveal-delay-2">
+      This indigenous practice earned the Gedeo Cultural Landscape its place on the UNESCO World Heritage List in 2018 — one of only a handful of working agricultural landscapes to receive this distinction. Every bag of Yirgacheffe coffee carries that history in its flavour.
+    </p>
+    <p class="reveal reveal-delay-3">
+      Our coffee is produced and processed by smallholder farmers engaged in 100% pure Arabica cultivation, certified organic and Fairtrade — with a sustainable, environmentally sound production system rooted in thousands of years of indigenous knowledge.
+    </p>
+    <a href="https://whc.unesco.org/en/list/1641/" target="_blank" class="cert-link reveal reveal-delay-3">
+      Visit UNESCO — The Gedeo Cultural Landscape
+    </a>
+  </div>
+
+  <div class="cert-cards">
+    <div class="cert-card reveal">
+      <h4>Organic Certified</h4>
+      <p>100% certified organic production across all 62,000 hectares. No synthetic inputs — ever. Verified by accredited third-party certifiers. Our fertilizer is exclusively the natural byproduct of our own agroforest.</p>
+    </div>
+    <div class="cert-card reveal reveal-delay-1">
+      <h4>Fairtrade International</h4>
+      <p>Every cooperative is Fairtrade certified. Premiums fund social development projects: bridges, schools, electricity infrastructure. Fairtrade sales have directly increased farmer income and insulated families from international price volatility.</p>
+    </div>
+    <div class="cert-card reveal reveal-delay-2">
+      <h4>Rainforest Alliance</h4>
+      <p>Our shade-grown production system is recognised by the Rainforest Alliance for its contribution to ecosystem preservation, biodiversity, and climate resilience. Coffee and forest, inseparable.</p>
+    </div>
+    <div class="cert-card reveal reveal-delay-3">
+      <h4>UNESCO World Heritage</h4>
+      <p>The Gedeo Cultural Landscape — inscribed 2018. A living, breathing monument to what sustainable agriculture can be when people, plants, and time work together over millennia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISION STRIP -->
+<div class="vision-strip">
+  <p class="reveal">
+    "To be a <strong>leading and dynamic cooperative union</strong> in Africa and the world — connecting the hands that grow with the hearts that drink, in fairness, transparency, and exceptional quality."
+  </p>
+</div>
+
+<!-- MISSION / PILLARS -->
+<section class="mission-section" id="about">
+  <div class="section-eyebrow reveal" style="justify-content: center;">Mission & Mandate</div>
+  <h2 class="reveal reveal-delay-1">
+    Not a<br><em>briefcase company.</em>
+  </h2>
+  <p class="mission-body reveal reveal-delay-2">
+    Our mission is to promote and support the continuous development of sustainable coffee supply — maximising financial returns to member cooperatives, and through them, elevating the livelihoods of every farmer and every family in our community.
+  </p>
+
+  <div class="mission-pillars reveal reveal-delay-2">
+    <div class="pillar">
+      <span class="pillar-num">01</span>
+      <h3>Direct Export</h3>
+      <p>YCFCU is mandated to export member coffee without middlemen. No central market. We work directly, one-on-one with buyers, ensuring supply demands are met and relationships endure.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">02</span>
+      <h3>Farmer–Customer Connection</h3>
+      <p>The world's best roasters know their coffee's story. We are continuously building direct linkages between our farmers and their global customers — traceability as a living relationship.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">03</span>
+      <h3>Free Market Access</h3>
+      <p>As a member of international specialty coffee unions, YCFCU provides its farmers with free advertisement and awareness opportunities — markets that would be inaccessible individually.</p>
+    </div>
+    <div class="pillar">
+      <span class="pillar-num">04</span>
+      <h3>Group Certification</h3>
+      <p>Specialty market certifications obtained as a collective — organic, Fairtrade, Rainforest Alliance — that no single farmer could afford alone. Solidarity as financial strategy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NUMBERS STRIP -->
+<div class="numbers-strip reveal">
+  <div class="number-item">
+    <div class="number-big">28</div>
+    <div class="number-label">Cooperatives</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">46K</div>
+    <div class="number-label">Member Farmers</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">62K</div>
+    <div class="number-label">Hectares</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">44</div>
+    <div class="number-label">Processing Sites</div>
+  </div>
+  <div class="number-item">
+    <div class="number-big">2400m</div>
+    <div class="number-label">Max Altitude</div>
+  </div>
+</div>
+
+<!-- COMMUNITY SERVICE -->
+<section class="community-section" id="community">
+  <div class="community-text">
+    <div class="section-eyebrow reveal">Community Service</div>
+    <h2 class="reveal reveal-delay-1">
+      Coffee that<br>
+      <em>builds bridges.</em><br>
+      Literally.
+    </h2>
+    <p class="reveal reveal-delay-2">
+      When cooperatives achieve Fairtrade certification, a portion of every sale returns as a premium — funds that are voted on collectively and invested in the community. The results are tangible: bridges connecting isolated communities to markets, additional classrooms for children, improvements to electricity infrastructure.
+    </p>
+    <p class="reveal reveal-delay-2">
+      Before the union existed, cooperatives without working capital watched traders slash prices at harvest time, knowing farmers needed cash immediately. Today, YCFCU provides loan access and guarantor status to cooperatives — transforming the economics of smallholder farming at its roots.
+    </p>
+    <p class="reveal reveal-delay-3">
+      This rise in fair pricing has been most profound for the poorest farmers — those who once sold wet, undried cherries at desperate prices simply because they had no other choice. No longer.
+    </p>
+  </div>
+
+  <div class="community-projects">
+    <div class="project-item reveal">
+      <div class="project-icon">⚡</div>
+      <div class="project-content">
+        <h4>Electricity Infrastructure</h4>
+        <p>Fairtrade premiums have funded improvements to electricity transmission in Gedeo communities, bringing light and economic opportunity to remote highland villages.</p>
+      </div>
+    </div>
+    <div class="project-item reveal reveal-delay-1">
+      <div class="project-icon">🌉</div>
+      <div class="project-content">
+        <h4>Bridge Construction</h4>
+        <p>Physical connections that were once absent — bridges linking farming communities to roads, markets, and schools — built with coffee money, maintained with community pride.</p>
+      </div>
+    </div>
+    <div class="project-item reveal reveal-delay-2">
+      <div class="project-icon">📚</div>
+      <div class="project-content">
+        <h4>School Classrooms</h4>
+        <p>Additional classroom construction and school improvements funded through Fairtrade premium programs across member cooperative communities.</p>
+      </div>
+    </div>
+    <div class="project-item reveal reveal-delay-3">
+      <div class="project-icon">🤝</div>
+      <div class="project-content">
+        <h4>SECAEC Capacity Program</h4>
+        <p>Partnership with Solidaridad Eastern and Center African Expertise Center — practical training, demonstration, and on-job support for sustainable market access.</p>
+      </div>
+    </div>
+    <div class="project-item reveal">
+      <div class="project-icon">♀</div>
+      <div class="project-content">
+        <h4>Women's School of Leadership</h4>
+        <p>Within the Dignity for All program, YCFCU supports gender inclusion and disability rights through the Women's School of Leadership initiative across Ethiopia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D4A BANNER -->
+<div class="d4a-banner reveal">
+  <h2>Dignity for All — the D4A Impact Program</h2>
+  <p>
+    A four-year program (2018–2021) funded by the Ministry for Foreign Affairs of Finland, in partnership with Fairtrade International. Targeting Sidama, Yirgacheffe, and Benchmaji unions, the D4A program pursues justice and fairness through rights, empowerment, and resilient agro-based trade systems — with a specific focus on gender equity, workers' rights, living income, and social inclusion.
+  </p>
+</div>
+
+<!-- MANDATES -->
+<section class="mandates-section">
+  <div class="section-eyebrow reveal">How We Operate</div>
+  <h2 class="reveal reveal-delay-1">Our Primary<br>Mandates</h2>
+  <div class="mandates-grid">
+    <div class="mandate-item reveal">
+      <div class="mandate-num">I</div>
+      <h3>Mandate to Facilitate Direct Coffee Exportation</h3>
+      <p>YCFCU is mandated to export the coffee of member cooperatives directly — bypassing middlemen and central markets entirely. Our market strategy is built on one-on-one relationships with international buyers, ensuring supply needs are met with precision, consistency, and mutual benefit.</p>
+    </div>
+    <div class="mandate-item reveal reveal-delay-1">
+      <div class="mandate-num">II</div>
+      <h3>Directly Connecting Farmer to Customer</h3>
+      <p>The world's most discerning coffee buyers already know: traceability is trust. YCFCU works continuously to create direct connections between its member farmers and international customers — a relationship that benefits both in price, quality, and story.</p>
+    </div>
+    <div class="mandate-item reveal reveal-delay-2">
+      <div class="mandate-num">III</div>
+      <h3>Free Advertisement Opportunities for Members</h3>
+      <p>Membership in international and continental specialty coffee unions gives YCFCU farmers access to global marketing platforms — opportunities that would be prohibitively expensive, or simply impossible, for any individual farmer to access alone. The union amplifies every voice.</p>
+    </div>
+    <div class="mandate-item reveal reveal-delay-3">
+      <div class="mandate-num">IV</div>
+      <h3>Easier Acquisition of Certification</h3>
+      <p>Specialty market certifications — organic, Fairtrade, Rainforest Alliance — are obtained as a collective, making the process affordable and administratively feasible. What a single farmer cannot do, forty-six thousand can. This is the arithmetic of solidarity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUALITY & TRACEABILITY -->
+<section style="padding: 8rem 3rem; background: var(--soil);">
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;">
+    <div>
+      <div class="section-eyebrow reveal">Quality Management</div>
+      <h2 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 2rem;">
+        Managing quality at<br><em style="color: var(--gold); font-style: italic;">every single step.</em>
+      </h2>
+      <p class="reveal reveal-delay-2" style="font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 1.5rem;">
+        YCFCU operates a comprehensive quality management system from farm gate to export. Our union provides training and direct support across every stage of the supply chain — not as a formality, but as a commitment to excellence that protects both farmer income and buyer trust.
+      </p>
+      <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem;">
+        <div style="padding: 1rem 0; border-top: 1px solid rgba(212,152,58,0.12);">
+          <div style="font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; font-weight: 400;">Processing Quality</div>
+          <div style="font-size: 0.85rem; color: var(--fog); line-height: 1.6; font-weight: 300;">Washing, pulping, handling, storage, and sampling — all monitored and guided by union agronomists.</div>
+        </div>
+        <div style="padding: 1rem 0; border-top: 1px solid rgba(212,152,58,0.12);">
+          <div style="font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; font-weight: 400;">Business Management</div>
+          <div style="font-size: 0.85rem; color: var(--fog); line-height: 1.6; font-weight: 300;">Financial training and cooperative governance support to ensure sustainability at organisational level.</div>
+        </div>
+        <div style="padding: 1rem 0; border-top: 1px solid rgba(212,152,58,0.12);">
+          <div style="font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; font-weight: 400;">Agronomy & Best Practice</div>
+          <div style="font-size: 0.85rem; color: var(--fog); line-height: 1.6; font-weight: 300;">Farm-level training in indigenous agroforestry practices, supplemented by modern agronomic guidance.</div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-eyebrow reveal">Traceability</div>
+      <h2 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 2rem;">
+        We know exactly<br><em style="color: var(--leaf); font-style: italic;">where it was born.</em>
+      </h2>
+      <p class="reveal reveal-delay-2" style="font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 2rem;">
+        We prioritise traceability without exception. Across a sourcing base of over 43,000 farmers on 62,000 hectares, we maintain an effective traceability system capable of pinpointing the exact micro-region of origin — and in many cases, the individual farm. This is not a marketing claim. It is a structural requirement for the buyers we serve and the farmers we represent.
+      </p>
+      <div style="background: rgba(26,18,10,0.5); border: 1px solid rgba(212,152,58,0.1); padding: 2rem;">
+        <div style="font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; font-weight: 400;">Alliances for Action Network</div>
+        <p style="font-size: 0.85rem; color: var(--fog); line-height: 1.75; font-weight: 300; margin-bottom: 1.2rem;">
+          YCFCU is a proud member of the International Trade Centre's Alliances for Action network. This membership has opened new markets — including recent successful delegations to international coffee fairs in Tokyo and Seoul, where we secured new buyers from the Asian market.
+        </p>
+        <p style="font-size: 0.85rem; color: var(--fog); line-height: 1.75; font-weight: 300;">
+          The network provides market linkage, roasting training for domestic product development, and targeted marketing communication for each global segment.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="contact-text">
+    <div class="section-eyebrow reveal">Get In Touch</div>
+    <h2 class="reveal reveal-delay-1">
+      Let's build<br>
+      something<br>
+      <em>lasting.</em>
+    </h2>
+    <p class="reveal reveal-delay-2">
+      Whether you are an importer, a roaster, a researcher, or someone who simply believes in the people behind exceptional coffee — we welcome your conversation. We are honest, traceable, and not a briefcase company. When this is all considered, there is truly none who can compare.
+    </p>
+
+    <div class="contact-details reveal reveal-delay-3">
+      <div class="contact-row">
+        <div class="contact-label">Head Office</div>
+        <div class="contact-value">Maselitegna Woreda 05,<br>Akaki Kaliti, Addis Ababa, Ethiopia</div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-label">Phone</div>
+        <div class="contact-value">
+          <a href="tel:+251011471701">(+251) 011-471-7017 / 18 / 19</a><br>
+          <a href="tel:+251949393939">(+251) 949-393939</a>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-label">Email</div>
+        <div class="contact-value"><a href="mailto:info@yirgacheffeunion.com">info@yirgacheffeunion.com</a></div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-label">GPS</div>
+        <div class="contact-value">8.931094°N, 38.763543°E</div>
+      </div>
+    </div>
+
+    <div class="socials reveal">
+      <a href="https://www.facebook.com/yirgachffecoffee" target="_blank" class="social-link">Facebook</a>
+      <a href="https://twitter.com/YCFCU" target="_blank" class="social-link">Twitter</a>
+      <a href="https://www.instagram.com/yirgacheffeunion/" target="_blank" class="social-link">Instagram</a>
+      <a href="https://www.youtube.com/channel/UCjg1pdLrmX6eEtOormNLHHA" target="_blank" class="social-link">YouTube</a>
+    </div>
+  </div>
+
+  <div class="contact-form-side reveal reveal-delay-2">
+    <h3>Send an enquiry</h3>
+    <form onsubmit="handleForm(event)">
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" placeholder="Full name" required>
+      </div>
+      <div class="form-group">
+        <label>Organisation</label>
+        <input type="text" placeholder="Company or cooperative">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>I am interested in</label>
+        <select>
+          <option value="">Select…</option>
+          <option>Sourcing Green Coffee (Washed)</option>
+          <option>Sourcing Green Coffee (Natural)</option>
+          <option>Sourcing Roasted Coffee</option>
+          <option>Partnership / Trade Programme</option>
+          <option>Research / Media Enquiry</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your needs — volume, grade, delivery timeline, certifications required…"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Send Enquiry →</button>
+    </form>
+    <div id="form-success" style="display:none; margin-top: 1.5rem; padding: 1.5rem; border: 1px solid rgba(106,128,80,0.3); background: rgba(106,128,80,0.08);">
+      <p style="font-size: 0.88rem; color: var(--leaf); font-weight: 400; letter-spacing: 0.05em;">Your message has been received. We will respond within two working days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    YCFCU
+    <small>Yirgacheffe Coffee Farmers' Cooperative Union Ltd.<br>© 2025 · Est. June 2002 · Gedeo Zone, Southern Ethiopia</small>
+  </div>
+  <div class="footer-right">
+    Organic · Fairtrade · Rainforest Alliance<br>
+    UNESCO World Heritage Region
+    <a href="https://whc.unesco.org/en/list/1641/" target="_blank">The Gedeo Cultural Landscape ↗</a>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .coffee-card, .project-item, .mandate-item, .pillar').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '16px';
+      cursor.style.height = '16px';
+      ring.style.width = '50px';
+      ring.style.height = '50px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px';
+      cursor.style.height = '8px';
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+    });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // Reveal on scroll
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Animate stat bars if inside
+        e.target.querySelectorAll('.stat-bar').forEach(b => {
+          b.style.width = b.dataset.width;
+        });
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Marquee speed on hover
+  const track = document.querySelector('.marquee-track');
+  document.querySelector('.marquee-section').addEventListener('mouseenter', () => {
+    track.style.animationDuration = '50s';
+  });
+  document.querySelector('.marquee-section').addEventListener('mouseleave', () => {
+    track.style.animationDuration = '30s';
+  });
+
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Form handler
+  function handleForm(e) {
+    e.preventDefault();
+    e.target.style.opacity = '0.4';
+    e.target.style.pointerEvents = 'none';
+    setTimeout(() => {
+      e.target.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }, 600);
+  }
+
+  // Parallax hero text
+  window.addEventListener('scroll', () => {
+    const hero = document.querySelector('.hero-content');
+    const scrolled = window.scrollY;
+    if (hero && scrolled < window.innerHeight) {
+      hero.style.transform = `translateY(${scrolled * 0.25}px)`;
+      hero.style.opacity = 1 - scrolled / (window.innerHeight * 0.75);
+    }
+  });
+
+  // Number counter animation
+  const numberItems = document.querySelectorAll('.number-big, .hero-stat-number');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !entry.target.dataset.animated) {
+        entry.target.dataset.animated = 'true';
+        // just a subtle pulse since numbers are static
+        entry.target.style.transform = 'scale(1.05)';
+        setTimeout(() => { entry.target.style.transform = 'scale(1)'; }, 300);
+        entry.target.style.transition = 'transform 0.4s ease';
+      }
+    });
+  }, { threshold: 0.5 });
+  numberItems.forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>
