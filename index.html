@@ -962,9 +962,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    transition: background 0.5s cubic-bezier(0.16,1,0.3,1), padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition: background 0.5s cubic-bezier(0.16,1,0.3,1);
     cursor: default;
     overflow: hidden;
+  }
+  .cert-card-inner {
+    display: contents;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
   }
   .cert-card::before {
     content: '';
@@ -980,7 +984,6 @@
   }
   .cert-card:hover {
     background: rgba(212,152,58,0.05);
-    padding-left: 3rem;
   }
   .cert-card:hover::before { transform: scaleY(1); }
 
@@ -4693,7 +4696,7 @@ section > * { position: relative; z-index: 1; }
       width="1600" height="300"
       alt="Yirgacheffe natural coffee drying beds — cooperative farmers at work"
       class="photo-break-img"
-      style="filter: grayscale(100%) contrast(1.28) brightness(1.06) sharpen(1); image-rendering: high-quality;"
+      style="filter: grayscale(100%) contrast(1.28) brightness(1.06);"
       onerror="this.closest('div').style.display='none'"
     />
   </picture>
@@ -5184,9 +5187,9 @@ section > * { position: relative; z-index: 1; }
   <div class="contact-ticker reveal">
     <div class="contact-ticker-left">
       <span class="ticker-dot"></span>
-      <span class="ticker-text">2024/25 CROP &nbsp;·&nbsp; WASHED G1 IN STOCK &nbsp;·&nbsp; NATURAL G3 LIMITED &nbsp;·&nbsp; NEW SEASON ALLOCATIONS OPEN</span>
+      <span class="ticker-text">2025/26 CROP &nbsp;·&nbsp; WASHED G1 IN STOCK &nbsp;·&nbsp; NATURAL G3 LIMITED &nbsp;·&nbsp; NEW SEASON ALLOCATIONS OPEN</span>
     </div>
-    <a href="mailto:hello@yirgacheffe.love?subject=2024%2F25%20Crop%20Allocation%20Request&body=Hello%20YCFCU%20team%2C%0A%0AI%20would%20like%20to%20reserve%20an%20allocation%20from%20the%202024%2F25%20crop.%0A%0AOrganisation%3A%20%0AGrade%3A%20%0AVolume%3A%20%0A" class="ticker-cta">Reserve Allocation →</a>
+    <a href="mailto:hello@yirgacheffe.love?subject=2025%2F26%20Crop%20Allocation%20Request&body=Hello%20YCFCU%20team%2C%0A%0AI%20would%20like%20to%20reserve%20an%20allocation%20from%20the%202025%2F26%20crop.%0A%0AOrganisation%3A%20%0AGrade%3A%20%0AVolume%3A%20%0A" class="ticker-cta">Reserve Allocation →</a>
   </div>
 
 </section>
