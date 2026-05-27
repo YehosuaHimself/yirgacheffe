@@ -2672,6 +2672,216 @@
 }
 @media (prefers-reduced-motion: reduce) { #hero-grain { display: none; } }
 
+/* ═══════════════════════════════════════════════════════════════════
+   ITERATION 2 — WORLD-CLASS VISUAL REFINEMENTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Nav: smoother transition + glow on scrolled ─────────────────── */
+nav {
+  transition: background 0.5s cubic-bezier(0.22,1,0.36,1),
+              border-color 0.5s ease,
+              padding 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+nav.scrolled {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background: rgba(13,9,5,0.96) !important;
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border-bottom: 1px solid rgba(212,152,58,0.18) !important;
+  box-shadow: 0 1px 40px rgba(0,0,0,0.4);
+}
+
+/* ── Scroll progress bar: glowing gold ─────────────────────────── */
+#scrollProgress {
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, #f0d060 60%, var(--leaf) 100%);
+  box-shadow: 0 0 12px rgba(212,152,58,0.8), 0 0 30px rgba(212,152,58,0.3);
+  transition: width 0.08s linear;
+}
+
+/* ── Cursor: cross-hair inner dot + softer ring ─────────────────── */
+@media (pointer: fine) {
+  #cursor-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--gold);
+    box-shadow: 0 0 8px rgba(212,152,58,0.6);
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  }
+  #cursor-ring {
+    border-color: rgba(212,152,58,0.55);
+    transition: border-color 0.3s ease, width 0.35s cubic-bezier(0.22,1,0.36,1),
+                height 0.35s cubic-bezier(0.22,1,0.36,1), opacity 0.2s,
+                left 0s, top 0s;
+    mix-blend-mode: normal;
+  }
+  #cursor-ring.hovering {
+    border-color: rgba(212,152,58,0.9);
+    background: rgba(212,152,58,0.04);
+  }
+  a:hover ~ #cursor-ring,
+  button:hover ~ #cursor-ring { transform: translate(-50%,-50%) scale(1.2); }
+}
+
+/* ── Coffee cards: border glow on hover ─────────────────────────── */
+.coffee-card {
+  border: 1px solid transparent;
+  transition: background 0.5s, border-color 0.5s, box-shadow 0.5s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.coffee-card:hover {
+  border-color: rgba(212,152,58,0.2);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), inset 0 0 40px rgba(212,152,58,0.03);
+  transform: translateY(-4px);
+}
+
+/* ── Mandate items: refined hover ───────────────────────────────── */
+.mandate-item {
+  transition: background 0.4s, border-color 0.4s, transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+}
+.mandate-item:hover {
+  transform: translateX(6px);
+  box-shadow: -4px 0 0 var(--gold), 0 4px 30px rgba(0,0,0,0.3);
+}
+
+/* ── Process steps: top-border glow on hover ───────────────────── */
+.process-step {
+  transition: border-color 0.4s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.process-step:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold) !important;
+}
+.process-step:hover .process-num {
+  color: rgba(212,152,58,0.22) !important;
+}
+
+/* ── Quote cards: lift on hover ─────────────────────────────────── */
+.quote-card {
+  transition: border-color 0.35s, background 0.35s, transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+}
+.quote-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px rgba(0,0,0,0.35);
+}
+
+/* ── Grade items: subtle left-border appear on hover ────────────── */
+.grade-item {
+  transition: background 0.35s, border-left-color 0.35s, padding-left 0.35s;
+  border-left: 2px solid transparent;
+}
+.grade-item:hover {
+  border-left-color: var(--gold);
+  padding-left: calc(1.5rem + 6px);
+  background: rgba(212,152,58,0.04);
+}
+
+/* ── Buttons: refined ripple feel ──────────────────────────────── */
+.btn-primary {
+  transition: color 0.3s, background 0.3s, transform 0.2s, box-shadow 0.3s;
+  will-change: transform;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(212,152,58,0.3);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ── Eyebrow shimmer: trigger on section entry ──────────────────── */
+.section-eyebrow.in-view::after {
+  animation: shimmer-pass 1.2s cubic-bezier(.4,0,.2,1) forwards;
+}
+
+/* ── Section eyebrow counter line — elegant left-rule variant ───── */
+.section-eyebrow::before {
+  transition: width 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.section-eyebrow.in-view::before {
+  animation: eyebrow-line-grow 0.8s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes eyebrow-line-grow {
+  from { width: 0; }
+  to { width: 30px; }
+}
+
+/* ── Heritage / origin img: subtle kenburns ─────────────────────── */
+.heritage-img, .origin-img, .quality-img-cover {
+  transition: transform 6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.heritage-section:hover .heritage-img,
+.origin:hover .origin-img { transform: scale(1.04); }
+
+/* ── Footer: refined ────────────────────────────────────────────── */
+.footer-editorial {
+  transition: opacity 0.8s;
+}
+
+/* ── Hero headline split-line: stagger via nth-child ───────────── */
+.split-line:nth-child(1) .split-line-inner { transition-delay: 0s; }
+.split-line:nth-child(2) .split-line-inner { transition-delay: 0.08s; }
+.split-line:nth-child(3) .split-line-inner { transition-delay: 0.16s; }
+
+/* ── Process grid: nth-child stagger ────────────────────────────── */
+.process-step:nth-child(1) { transition-delay: 0s; }
+.process-step:nth-child(2) { transition-delay: 0.06s; }
+.process-step:nth-child(3) { transition-delay: 0.12s; }
+.process-step:nth-child(4) { transition-delay: 0.18s; }
+.process-step:nth-child(5) { transition-delay: 0.24s; }
+.process-step:nth-child(6) { transition-delay: 0.30s; }
+.process-step:nth-child(7) { transition-delay: 0.36s; }
+.process-step:nth-child(8) { transition-delay: 0.42s; }
+
+/* ── Coffee grid: nth-child stagger ─────────────────────────────── */
+.coffee-card:nth-child(1) { transition-delay: 0s; }
+.coffee-card:nth-child(2) { transition-delay: 0.08s; }
+.coffee-card:nth-child(3) { transition-delay: 0.16s; }
+
+/* ── Manifest stats: stagger ─────────────────────────────────────── */
+.mstat-item:nth-child(1) { transition-delay: 0s; }
+.mstat-item:nth-child(2) { transition-delay: 0.1s; }
+.mstat-item:nth-child(3) { transition-delay: 0.2s; }
+
+/* ── hscroll panel: tighter stat typography ─────────────────────── */
+.hscroll-stat {
+  font-size: clamp(4rem, 10vw, 8rem);
+  font-family: var(--font-display);
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+.hscroll-stat span {
+  font-size: 0.35em;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  vertical-align: super;
+  font-weight: 300;
+}
+
+/* ── Text selection: brand colors ──────────────────────────────── */
+::selection {
+  background: rgba(212,152,58,0.35);
+  color: var(--cream);
+}
+
+/* ── Focus visible: accessible gold outline ─────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ── Smooth image loading ───────────────────────────────────────── */
+img {
+  transition: opacity 0.4s ease;
+}
+img[loading="lazy"] {
+  opacity: 0;
+}
+img[loading="lazy"].loaded,
+img.loaded {
+  opacity: 1;
+}
+
 </style>
 <style>
 #page-intro {
@@ -4981,6 +5191,28 @@ section > * { position: relative; z-index: 1; }
 
   // Init GSAP after scripts load (they are defer'd)
   window.addEventListener('load', initGSAP);
+
+  // ── ITERATION 2 ENHANCEMENTS ─────────────────────────────────────
+
+  // Lazy image fade-in on load
+  document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+    if (img.complete) {
+      img.classList.add('loaded');
+    } else {
+      img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+    }
+  });
+
+  // Eyebrow in-view trigger for shimmer + line-grow animations
+  const eyebrowObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in-view');
+        eyebrowObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.section-eyebrow').forEach(el => eyebrowObs.observe(el));
 
   // ── WEBGL ANIMATED GRAIN ─────────────────────────────────────────
   (function initGrain() {
