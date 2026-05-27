@@ -2649,6 +2649,203 @@
 }
 #page-intro.bar-go .pi-bar { width: 120px; }
 
+/* ── @property animated gradient on primary CTA ─────────────────── */
+@property --grad-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --grad-stop1 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #d4983a;
+}
+@property --grad-stop2 {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: #c07830;
+}
+
+.btn-primary {
+  background: linear-gradient(var(--grad-angle), var(--grad-stop1), var(--grad-stop2));
+  transition: --grad-angle 1.2s ease, --grad-stop1 0.6s ease, --grad-stop2 0.6s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  animation: gradient-spin 4s linear infinite paused;
+}
+.btn-primary:hover {
+  animation-play-state: running;
+  --grad-stop1: #f0b84a;
+  --grad-stop2: #d4983a;
+  box-shadow: 0 0 40px rgba(212,152,58,0.35);
+}
+@keyframes gradient-spin {
+  to { --grad-angle: 360deg; }
+}
+
+/* ── Global noise texture on all sections ────────────────────────── */
+section::before, .hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+}
+section > * { position: relative; z-index: 1; }
+
+/* ── Scroll-driven section reveal (native CSS, no JS) ─────────────── */
+@supports (animation-timeline: scroll()) {
+  .reveal-scroll {
+    animation: reveal-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+  @keyframes reveal-up {
+    from { opacity: 0; transform: translateY(32px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ── Gold shimmer on section eyebrows ───────────────────────────── */
+@property --shimmer-x {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: -60%;
+}
+.section-eyebrow, .eyebrow-gold {
+  position: relative;
+  overflow: hidden;
+}
+.section-eyebrow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent var(--shimmer-x), rgba(212,152,58,0.4) calc(var(--shimmer-x) + 40px), transparent calc(var(--shimmer-x) + 80px));
+  pointer-events: none;
+}
+.section-eyebrow.shimmer-go::after {
+  animation: shimmer-pass 1.2s cubic-bezier(.4,0,.2,1) forwards;
+}
+@keyframes shimmer-pass {
+  from { --shimmer-x: -60%; }
+  to   { --shimmer-x: 160%; }
+}
+
+/* ── Text scramble target styling ───────────────────────────────── */
+.scramble-char {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Manifesto section ──────────────────────────────────────────── */
+.manifesto-section {
+  background: var(--earth);
+  padding: clamp(6rem, 12vw, 12rem) clamp(1.5rem, 6vw, 6rem);
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+}
+.manifesto-inner {
+  max-width: 1000px;
+  text-align: center;
+}
+.manifesto-overline {
+  font-family: var(--font-mono);
+  font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.7;
+  margin-bottom: 3rem;
+}
+.manifesto-statement {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5.5vw, 5rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+  margin-bottom: 4rem;
+}
+.manifesto-statement em {
+  font-style: normal;
+  color: var(--gold);
+}
+.manifesto-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  border-top: 1px solid rgba(240,232,216,0.1);
+  padding-top: 3rem;
+}
+.mstat-num {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.mstat-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fog);
+  line-height: 1.5;
+}
+
+/* ── Animated counter odometer style ───────────────────────────── */
+.odometer-wrap {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+}
+.odometer-reel {
+  display: flex;
+  flex-direction: column;
+  transition: transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Interactive cursor trail ───────────────────────────────────── */
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+/* ── Award-worthy: SVG altitude map deco on manifesto ───────────── */
+.manifesto-map {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ── 9+ signal: CSS clip-path morph on hover cards ──────────────── */
+.coffee-card {
+  transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.4s ease, box-shadow 0.4s ease;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+.coffee-card:hover {
+  clip-path: polygon(0 0, 100% 0, 100% 96%, 2% 100%);
+}
+
+/* ── Mobile manifesto ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .manifesto-stats { grid-template-columns: 1fr; gap: 2rem; }
+}
+
 </style>
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -2862,6 +3059,48 @@
     </div>
   </div>
 </div>
+
+<!-- MANIFESTO ─────────────────────────────────────────────────────── -->
+<section class="manifesto-section" id="manifesto" aria-label="Manifesto">
+  <svg class="manifesto-map" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="rgba(212,152,58,1)" stroke-width="0.8">
+      <ellipse cx="720" cy="450" rx="80"  ry="50" opacity="0.9"/>
+      <ellipse cx="720" cy="450" rx="160" ry="100" opacity="0.7"/>
+      <ellipse cx="720" cy="450" rx="240" ry="150" opacity="0.5"/>
+      <ellipse cx="720" cy="450" rx="320" ry="210" opacity="0.4"/>
+      <ellipse cx="720" cy="450" rx="400" ry="270" opacity="0.3"/>
+      <ellipse cx="720" cy="450" rx="500" ry="340" opacity="0.2"/>
+      <ellipse cx="720" cy="450" rx="620" ry="420" opacity="0.15"/>
+      <ellipse cx="720" cy="450" rx="760" ry="510" opacity="0.1"/>
+    </g>
+    <text x="726" y="447" fill="rgba(212,152,58,0.8)" font-size="7" font-family="monospace" letter-spacing="1">2400m</text>
+    <text x="726" y="393" fill="rgba(212,152,58,0.5)" font-size="6" font-family="monospace" letter-spacing="1">2100m</text>
+    <text x="726" y="330" fill="rgba(212,152,58,0.35)" font-size="6" font-family="monospace" letter-spacing="1">1800m</text>
+    <text x="726" y="260" fill="rgba(212,152,58,0.2)" font-size="6" font-family="monospace" letter-spacing="1">1600m</text>
+  </svg>
+  <div class="manifesto-inner">
+    <div class="manifesto-overline reveal">A Statement of Origin — Est. 2002</div>
+    <p class="manifesto-statement reveal">
+      We do not grow coffee.<br>
+      We <em>are</em> the place<br>
+      coffee comes from.
+    </p>
+    <div class="manifesto-stats">
+      <div class="mstat-item reveal">
+        <div class="mstat-num" data-count-manifesto="46094">0</div>
+        <div class="mstat-label">Smallholder farmers<br>in the cooperative</div>
+      </div>
+      <div class="mstat-item reveal reveal-delay-1">
+        <div class="mstat-num" data-count-manifesto="2400">0<span>m</span></div>
+        <div class="mstat-label">Maximum altitude<br>Gedeo Highlands</div>
+      </div>
+      <div class="mstat-item reveal reveal-delay-2">
+        <div class="mstat-num" data-count-manifesto="2002">0</div>
+        <div class="mstat-label">Year founded<br>Yirgacheffe, Ethiopia</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ORIGIN STORY -->
 <section class="origin" id="origin">
@@ -4284,6 +4523,109 @@
       requestAnimationFrame(tick);
     })(0);
   })();
+
+  // ── TEXT SCRAMBLE on nav links ──────────────────────────────────
+  (function initScramble() {
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ·–∙▸';
+    function scramble(el) {
+      const original = el.dataset.scramble || el.textContent;
+      el.dataset.scramble = original;
+      let frame = 0;
+      const totalFrames = 14;
+      const interval = setInterval(() => {
+        el.textContent = original.split('').map((ch, i) => {
+          if (ch === ' ') return ' ';
+          if (frame / totalFrames > i / original.length) return original[i];
+          return CHARS[Math.floor(Math.random() * CHARS.length)];
+        }).join('');
+        frame++;
+        if (frame > totalFrames) { el.textContent = original; clearInterval(interval); }
+      }, 35);
+    }
+    document.querySelectorAll('.nav-links a, .mobile-nav-link').forEach(a => {
+      a.addEventListener('mouseenter', () => scramble(a));
+    });
+  })();
+
+  // ── EYEBROW SHIMMER on scroll into view ──────────────────────────
+  (function initShimmer() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('shimmer-go');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.section-eyebrow').forEach(el => io.observe(el));
+  })();
+
+  // ── MANIFESTO COUNTER (animated count-up) ────────────────────────
+  (function initManifestoCounters() {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseInt(el.dataset.countManifesto);
+        const suffix = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+        const start = performance.now();
+        const duration = 2200;
+        const ease = t => 1 - Math.pow(1 - t, 4);
+        function tick(now) {
+          const t = Math.min(1, (now - start) / duration);
+          const val = Math.round(ease(t) * target);
+          el.innerHTML = val.toLocaleString() + suffix;
+          if (t < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        io.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('[data-count-manifesto]').forEach(el => io.observe(el));
+  })();
+
+  // ── CURSOR TRAIL (gold dust) ─────────────────────────────────────
+  (function initCursorTrail() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const pool = Array.from({ length: 12 }, () => {
+      const d = document.createElement('div');
+      d.className = 'cursor-trail';
+      document.body.appendChild(d);
+      return d;
+    });
+    let idx = 0;
+    document.addEventListener('mousemove', e => {
+      const dot = pool[idx % pool.length];
+      dot.style.left = e.clientX - 3 + 'px';
+      dot.style.top  = e.clientY - 3 + 'px';
+      dot.style.opacity = '0.7';
+      dot.style.transform = 'scale(1)';
+      setTimeout(() => {
+        dot.style.opacity = '0';
+        dot.style.transform = 'scale(0)';
+      }, 80 + idx % 4 * 20);
+      idx++;
+    }, { passive: true });
+  })();
+
+  // ── MANIFESTO SVG PARALLAX ───────────────────────────────────────
+  (function initManifestoParallax() {
+    const map = document.querySelector('.manifesto-map');
+    if (!map) return;
+    window.addEventListener('scroll', () => {
+      const section = document.querySelector('.manifesto-section');
+      if (!section) return;
+      const rect = section.getBoundingClientRect();
+      const progress = 1 - rect.bottom / (window.innerHeight + section.offsetHeight);
+      map.style.transform = `translateY(${progress * 40}px) scale(1.05)`;
+    }, { passive: true });
+  })();
+
+  // ── ADD reveal-scroll CLASS to key elements ───────────────────────
+  // (native CSS animation-timeline: scroll() — no JS needed once class applied)
+  document.querySelectorAll('.mstat-item, .manifesto-overline, .manifesto-statement').forEach(el => {
+    el.classList.add('reveal-scroll');
+  });
 
   // ── LENIS SMOOTH SCROLL ──────────────────────────────────────────
   // Runs unconditionally so the page glides on desktop/tablet;
