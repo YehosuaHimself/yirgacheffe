@@ -178,6 +178,7 @@
     transition: color 0.3s;
   }
   .nav-links a:hover { color: var(--gold); }
+  .nav-links a.nav-active { color: var(--gold); }
   .nav-cta {
     font-size: 0.7rem;
     letter-spacing: 0.2em;
@@ -271,7 +272,7 @@
   }
   .hero-headline em {
     font-family: var(--font-serif);
-    
+    font-style: normal;
     color: var(--gold);
     font-size: 0.8em;
     font-weight: 300;
@@ -2754,7 +2755,23 @@
 
 
 
-  // ── FLOATING SAMPLE CTA — show after hero ──
+  // ── ACTIVE NAV HIGHLIGHTING ──
+  const navSections = document.querySelectorAll('section[id], div[id="contact"]');
+  const navLinkEls = document.querySelectorAll('.nav-links a[href^="#"]');
+  const activateNav = () => {
+    let current = '';
+    navSections.forEach(sec => {
+      const top = sec.getBoundingClientRect().top;
+      if (top <= window.innerHeight * 0.4) current = '#' + sec.id;
+    });
+    navLinkEls.forEach(a => {
+      a.classList.toggle('nav-active', a.getAttribute('href') === current);
+    });
+  };
+  window.addEventListener('scroll', activateNav, { passive: true });
+  activateNav();
+
+
   const floatingCta = document.getElementById('floatingCta');
   if (floatingCta) {
     const heroHeight = window.innerHeight * 0.8;
