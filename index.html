@@ -164,6 +164,9 @@
     padding: 1.5rem 3rem;
     mix-blend-mode: normal;
     transition: background 0.4s;
+    background: rgba(13,9,5,0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   nav.scrolled {
     background: rgba(26,18,10,0.92);
@@ -1097,31 +1100,38 @@
   /* NUMBERS STRIP */
   .numbers-strip {
     background: var(--gold);
-    padding: 4rem 3rem;
+    padding: 5rem 3rem;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 0;
     text-align: center;
+    border-top: 1px solid rgba(26,18,10,0.12);
+    border-bottom: 1px solid rgba(26,18,10,0.12);
   }
   .number-item {
-    padding: 1rem;
-    border-right: 1px solid rgba(26,18,10,0.15);
+    padding: 1.5rem 1rem;
+    border-right: 1px solid rgba(26,18,10,0.12);
+    position: relative;
+    transition: background 0.3s;
   }
+  .number-item:hover { background: rgba(26,18,10,0.06); }
   .number-item:last-child { border-right: none; }
   .number-big {
     font-family: var(--font-display);
-    font-size: 3.5rem;
+    font-size: clamp(2.8rem, 4vw, 4.5rem);
     color: var(--earth);
-    letter-spacing: 0.02em;
+    letter-spacing: -0.02em;
     line-height: 1;
+    font-weight: 500;
   }
   .number-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--bark);
     font-weight: 400;
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
+    font-family: 'Courier New', monospace;
   }
 
   /* CONTACT */
@@ -1913,6 +1923,28 @@
     color: var(--gold);
     
   }
+  .vision-strip-tag {
+    position: relative;
+    z-index: 1;
+    font-size: 0.65rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: 'Courier New', monospace;
+    margin-bottom: 2rem;
+    opacity: 0.8;
+  }
+  .vision-strip-sub {
+    position: relative;
+    z-index: 1;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fog);
+    font-family: 'Courier New', monospace;
+    margin-top: 2rem !important;
+    opacity: 0.6;
+  }
 
   /* Mobile menu toggle */
   .menu-toggle {
@@ -2485,7 +2517,7 @@
 .quality-img-wrap { width:100%;height:240px;overflow:hidden;margin-bottom:2rem;border:1px solid rgba(212,152,58,0.2); }
 .quality-img-cover { width:100%;height:100%;object-fit:cover;object-position:center; }
 .quality-body-b { font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 2rem; }
-.quality-callout { background: rgba(26,18,10,0.5); border: 1px solid rgba(212,152,58,0.1); padding: 2rem; }
+.quality-callout { background: rgba(212,152,58,0.04); border: 1px solid rgba(212,152,58,0.2); padding: 2.5rem; margin-top: 2.5rem; position: relative; }
 .quality-callout-label {
   font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 1.2rem; font-weight: 400;
@@ -2495,7 +2527,7 @@
 
 /* ── GALLERY STRIP ───────────────────────────────────────────────── */
 .gallery-strip { padding: 0; overflow: hidden; }
-.gallery-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); height: 380px; }
+.gallery-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); height: 420px; }
 .gallery-slot { overflow:hidden; position:relative; }
 .gallery-slot-img { width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 0.6s ease; }
 .gallery-slot-img:hover { transform:scale(1.07); }
@@ -2520,6 +2552,8 @@
 }
 .gallery-text-slot-a { background:linear-gradient(160deg,rgba(58,35,18,0.96),rgba(26,18,10,1)); }
 .gallery-text-slot-b { background:linear-gradient(160deg,rgba(26,14,8,0.98),rgba(42,25,12,1)); }
+.gallery-text-slot-c { background:linear-gradient(160deg,rgba(40,24,10,0.97),rgba(18,12,6,1)); }
+.gallery-text-slot-d { background:linear-gradient(160deg,rgba(61,36,16,0.95),rgba(28,18,8,1)); }
 .gallery-text-inner { text-align:center;padding:2rem; }
 .gallery-text-label { font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem; }
 .gallery-text-rule { width:40px;height:1px;background:rgba(212,152,58,0.4);margin:0 auto 1rem; }
@@ -3998,7 +4032,7 @@ section > * { position: relative; z-index: 1; }
 
     <div class="coffee-card" data-score="3 ROAST PROFILES">
       <div class="coffee-card-img">
-        <img width="900" height="600" loading="lazy" src="images/photo-roasted-bag.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans in a burlap bag" onerror="this.parentElement.style.display='none'"/>
+        <img width="900" height="600" loading="lazy" src="images/photo-roasted-bag.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans in a burlap bag" style="object-position: center 15%;" onerror="this.parentElement.style.display='none'"/>
       </div>
       <div class="coffee-card-num">03</div>
       <div class="coffee-card-type">Roasted · Light · Medium · Dark</div>
@@ -4117,8 +4151,12 @@ section > * { position: relative; z-index: 1; }
 
 <!-- VISION STRIP -->
 <div class="vision-strip">
+  <div class="vision-strip-tag reveal">Quality is Our Motto</div>
   <p class="reveal">
     "To be a <strong>leading and dynamic cooperative union</strong> in Africa and the world — connecting the hands that grow with the hearts that drink, in fairness, transparency, and exceptional quality."
+  </p>
+  <p class="vision-strip-sub reveal reveal-delay-1">
+    Traceable. Honest. Not a briefcase company.
   </p>
 </div>
 
@@ -4368,18 +4406,18 @@ section > * { position: relative; z-index: 1; }
   </div>
 </section>
 
-<!-- GALLERY STRIP -->
+<!-- GALLERY STRIP — purely typographic -->
 <section class="gallery-strip">
   <div class="gallery-strip-grid">
-    <div class="gallery-slot">
-      <img width="1600" height="900" loading="lazy" src="images/beans-dried.webp" referrerpolicy="no-referrer" alt="Yirgacheffe highland farms" class="gallery-slot-img"/>
-      <div class="gallery-caption">Highland Farms</div>
-    </div>
-    <div class="gallery-slot">
-      <div role="img" aria-label="Natural sun-dried coffee cherries on drying beds" class="gallery-css-bg" style="background-image:url('images/beans-sorted.webp')"></div>
-      <div class="gallery-caption">Sun-Dried Cherries</div>
-    </div>
     <div class="gallery-text-slot gallery-text-slot-a">
+      <div class="gallery-text-inner">
+        <div class="gallery-text-label">Origin</div>
+        <div class="gallery-text-rule"></div>
+        <div class="gallery-text-body">Gedeo Highlands.<br>1,600–2,400m.</div>
+      </div>
+      <div class="gallery-caption-gold">Altitude</div>
+    </div>
+    <div class="gallery-text-slot gallery-text-slot-b">
       <div class="gallery-text-inner">
         <div class="gallery-text-label">Washed Process</div>
         <div class="gallery-text-rule"></div>
@@ -4387,13 +4425,21 @@ section > * { position: relative; z-index: 1; }
       </div>
       <div class="gallery-caption-gold">Processing</div>
     </div>
-    <div class="gallery-text-slot gallery-text-slot-b">
+    <div class="gallery-text-slot gallery-text-slot-c">
       <div class="gallery-text-inner">
         <div class="gallery-text-label">Quality Control</div>
         <div class="gallery-text-rule"></div>
         <div class="gallery-text-body">43,000 farmers.<br>One standard.</div>
       </div>
       <div class="gallery-caption-gold">Traceability</div>
+    </div>
+    <div class="gallery-text-slot gallery-text-slot-d">
+      <div class="gallery-text-inner">
+        <div class="gallery-text-label">Our Motto</div>
+        <div class="gallery-text-rule"></div>
+        <div class="gallery-text-body">Quality is<br>our motto.</div>
+      </div>
+      <div class="gallery-caption-gold">Since 2002</div>
     </div>
   </div>
 </section>
