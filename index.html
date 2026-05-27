@@ -89,7 +89,7 @@
 
 <style>
   :root {
-  --ink: #0d0b08;
+    --ink: #0d0b08;
     --earth: #1a120a;
     --soil: #2c1a0e;
     --bark: #3d2410;
@@ -103,7 +103,6 @@
     --leaf: #6a8050;
     --cherry: #8b2020;
     --white: #faf8f4;
-    --green: #6a8050;
     --font-display: 'HelveticaNeueReal', 'neue-haas-grotesk-display', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --font-serif: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --font-sans: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
@@ -238,7 +237,6 @@
     position: absolute;
     inset: 0;
     background-image: url('images/photo-hero.webp');
-    background-image: image-set(url('images/photo-hero.webp') 1x);
     background-size: cover;
     background-position: center 40%;
     z-index: -1;
@@ -1000,7 +998,6 @@
   .d4a-banner {
     background: var(--moss);
     background-image: url('images/photo-burlap-bags.webp');
-    background-image: image-set(url('images/photo-burlap-bags.webp') 1x);
     background-size: cover;
     background-position: center;
     padding: 5rem 3rem;
@@ -1887,7 +1884,6 @@
   .vision-strip {
     background: var(--bark);
     background-image: url('images/beans-roasted.webp');
-    background-image: image-set(url('images/beans-roasted.webp') 1x);
     background-size: cover;
     background-position: center;
     padding: 5rem 3rem;
@@ -2178,12 +2174,12 @@
   top: 0;
   left: 0;
   width: 0%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold) 0%, #e8c97a 50%, var(--green) 100%);
-  z-index: 9999;
-  transition: width 0.05s linear;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold) 0%, #f0d060 60%, var(--leaf) 100%);
+  z-index: 9000;
+  transition: width 0.08s linear;
   transform-origin: left;
-  box-shadow: 0 0 8px rgba(196,160,64,0.6);
+  box-shadow: 0 0 12px rgba(212,152,58,0.8), 0 0 30px rgba(212,152,58,0.3);
 }
 
 /* ── CUSTOM CURSOR (desktop only) ── */
@@ -2585,7 +2581,6 @@
   border-right: 1px solid rgba(212,152,58,0.08);
   position: relative;
   background: #0d0b08;
-  position: relative;
   box-sizing: border-box;
 }
 .hscroll-panel--intro { background: var(--bark); }
@@ -2689,13 +2684,7 @@ nav.scrolled {
   box-shadow: 0 1px 40px rgba(0,0,0,0.4);
 }
 
-/* ── Scroll progress bar: glowing gold ─────────────────────────── */
-#scrollProgress {
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold) 0%, #f0d060 60%, var(--leaf) 100%);
-  box-shadow: 0 0 12px rgba(212,152,58,0.8), 0 0 30px rgba(212,152,58,0.3);
-  transition: width 0.08s linear;
-}
+/* ── Scroll progress bar: glowing gold (merged rule — canonical is above) ─── */
 
 /* ── Cursor: cross-hair inner dot + softer ring ─────────────────── */
 @media (pointer: fine) {
@@ -3235,11 +3224,15 @@ footer::before {
 }
 .quotes-track-wrap {
   cursor: grab;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 1rem 0 2rem;
   user-select: none;
   -webkit-overflow-scrolling: touch;
+  /* scrollbar hidden visually but still keyboard-accessible */
+  scrollbar-width: none;
 }
+.quotes-track-wrap::-webkit-scrollbar { display: none; }
 .quotes-track-wrap.dragging { cursor: grabbing; }
 .quotes-track {
   display: flex;
@@ -3540,6 +3533,7 @@ section > * { position: relative; z-index: 1; }
   opacity: 0.04;
   pointer-events: none;
   overflow: hidden;
+  z-index: 0;
 }
 
 /* ── 9+ signal: CSS clip-path morph on hover cards ──────────────── */
@@ -3632,8 +3626,8 @@ section > * { position: relative; z-index: 1; }
     <div class="pi-bar"></div>
   </div>
 </div>
-<!-- PAGE LOADER -->
-<div id="page-loader" aria-hidden="true">
+<!-- PAGE LOADER (fallback only — page-intro is primary; this only shows if JS fails to load page-intro) -->
+<div id="page-loader" aria-hidden="true" style="display:none">
   <div class="loader-logo">YCFCU</div>
   <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
   <div class="loader-sub">Yirgacheffe · Ethiopia</div>
@@ -3667,8 +3661,8 @@ section > * { position: relative; z-index: 1; }
 <div id="scrollProgress" aria-hidden="true"></div>
 
 <!-- NAVIGATION -->
-<nav id="mainNav">
-  <a href="#" class="nav-logo">
+<nav id="mainNav" aria-label="Main navigation">
+  <a href="#home" class="nav-logo" aria-label="YCFCU — Return to top">
     YCFCU
     <span>Est. 2002 · Gedeo Highlands, Ethiopia</span>
   </a>
@@ -3737,26 +3731,26 @@ section > * { position: relative; z-index: 1; }
     </div>
   </div>
 
-  <div class="hero-stats">
-    <div class="hero-stat-item">
-      <div class="hero-stat-number">46,094</div>
-      <div class="hero-stat-label">Smallholder Farmers</div>
+  <div class="hero-stats" aria-label="Key statistics">
+    <div class="hero-stat-item" aria-label="46,094 Smallholder Farmers">
+      <div class="hero-stat-number" aria-hidden="true">46,094</div>
+      <div class="hero-stat-label" aria-hidden="true">Smallholder Farmers</div>
     </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-number">28</div>
-      <div class="hero-stat-label">Member Cooperatives</div>
+    <div class="hero-stat-item" aria-label="28 Member Cooperatives">
+      <div class="hero-stat-number" aria-hidden="true">28</div>
+      <div class="hero-stat-label" aria-hidden="true">Member Cooperatives</div>
     </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-number">62,000</div>
-      <div class="hero-stat-label">Hectares of Garden Coffee</div>
+    <div class="hero-stat-item" aria-label="62,000 Hectares of Garden Coffee">
+      <div class="hero-stat-number" aria-hidden="true">62,000</div>
+      <div class="hero-stat-label" aria-hidden="true">Hectares of Garden Coffee</div>
     </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-number">350K+</div>
-      <div class="hero-stat-label">Family Members Supported</div>
+    <div class="hero-stat-item" aria-label="350,000+ Family Members Supported">
+      <div class="hero-stat-number" aria-hidden="true">350K+</div>
+      <div class="hero-stat-label" aria-hidden="true">Family Members Supported</div>
     </div>
-    <div class="hero-stat-item">
-      <div class="hero-stat-number">100%</div>
-      <div class="hero-stat-label">Arabica, Organic by Tradition</div>
+    <div class="hero-stat-item" aria-label="100% Arabica, Organic by Tradition">
+      <div class="hero-stat-number" aria-hidden="true">100%</div>
+      <div class="hero-stat-label" aria-hidden="true">Arabica, Organic by Tradition</div>
     </div>
   </div>
 
@@ -4506,7 +4500,7 @@ section > * { position: relative; z-index: 1; }
     <div class="section-eyebrow"><span class="eyebrow-gold">Voices</span></div>
     <h2>What the world's<br>best roasters say.</h2>
   </div>
-  <div class="quotes-track-wrap" id="quotesTrack" role="region" aria-label="Scrollable testimonials">
+  <div class="quotes-track-wrap" id="quotesTrack" role="region" aria-label="Scrollable testimonials — drag or use arrow keys" tabindex="0">
     <div class="quotes-track" id="quotesInner">
 
       <figure class="quote-card" data-n="01">
@@ -4793,9 +4787,9 @@ section > * { position: relative; z-index: 1; }
     }, 2500);
   })();
 
-  // ── MAGNETIC BUTTONS ─────────────────────────────────────────────
+  // MAGNETIC BUTTONS — unified system (covers .magnetic, .cta-btn, .intent-btn)
   if (window.matchMedia('(pointer: fine)').matches) {
-    document.querySelectorAll('.magnetic').forEach(btn => {
+    document.querySelectorAll('.magnetic, .cta-btn').forEach(btn => {
       const strength = 0.35;
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
@@ -5172,23 +5166,6 @@ section > * { position: relative; z-index: 1; }
     obs.observe(h2);
   });
 
-  // MAGNETIC BUTTONS — subtle pull effect on hero CTA buttons
-  document.querySelectorAll('.cta-btn, .intent-btn').forEach(btn => {
-    btn.classList.add('mag-btn');
-    btn.addEventListener('mousemove', e => {
-      const rect = btn.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) * 0.28;
-      const dy = (e.clientY - cy) * 0.28;
-      btn.style.transform = `translate(${dx}px, ${dy}px)`;
-    });
-    btn.addEventListener('mouseleave', () => {
-      btn.style.transform = 'translate(0,0)';
-    });
-  });
-
-
   // STAGGER delays on process steps
   document.querySelectorAll('.process-step').forEach((el, i) => {
     el.classList.add(`stagger-${(i % 8) + 1}`);
@@ -5224,14 +5201,16 @@ section > * { position: relative; z-index: 1; }
   const parallaxBg = document.getElementById('parallaxBg');
   if (parallaxBg) {
     const parallaxSection = parallaxBg.closest('.parallax-break');
-    window.addEventListener('scroll', () => {
-      const rect = parallaxSection.getBoundingClientRect();
-      const viewH = window.innerHeight;
-      if (rect.bottom < 0 || rect.top > viewH) return;
-      const progress = (viewH - rect.top) / (viewH + rect.height);
-      const offset = (progress - 0.5) * 120;
-      parallaxBg.style.transform = `translateY(${offset}px)`;
-    }, { passive: true });
+    if (parallaxSection) {
+      window.addEventListener('scroll', () => {
+        const rect = parallaxSection.getBoundingClientRect();
+        const viewH = window.innerHeight;
+        if (rect.bottom < 0 || rect.top > viewH) return;
+        const progress = (viewH - rect.top) / (viewH + rect.height);
+        const offset = (progress - 0.5) * 120;
+        parallaxBg.style.transform = `translateY(${offset}px)`;
+      }, { passive: true });
+    }
   }
 
   // ── GSAP SCROLL CHOREOGRAPHY ──────────────────────────────────────
