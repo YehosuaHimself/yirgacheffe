@@ -6738,6 +6738,8 @@ section > * { position: relative; z-index: 1; }
       strip.addEventListener('mouseleave', () => ping.querySelectorAll('animate').forEach(a => a.setAttribute('dur','2.5s')));
     }
 
+  })(); // close outer IIFE
+
 </script>
 </body>
 </html>
