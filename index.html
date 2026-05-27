@@ -1703,7 +1703,22 @@
   </div>
 
   <!-- Grades -->
-  <div class="grades-section" style="margin: 0 -3rem; padding: 4rem 3rem; margin-top: 1px;">
+  <div class="grades-section" style="margin: 0 -3rem; padding: 4rem 3rem; margin-top: 1px; position: relative; overflow: hidden;">
+    <!-- Subtle background texture -->
+    <div style="position:absolute;inset:0;z-index:0;opacity:0.07;pointer-events:none;">
+      <picture>
+        <img
+          src="https://yirgacheffeunion.com/wp-content/uploads/2022/03/cropped-cropped-coffee_feeding_green_coffee_beans-1-1.jpg"
+          referrerpolicy="no-referrer"
+          loading="lazy"
+          width="1600" height="600"
+          alt=""
+          aria-hidden="true"
+          style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;"
+        />
+      </picture>
+    </div>
+    <div style="position:relative;z-index:1;">
     <div class="section-eyebrow reveal">Available Grades</div>
     <div class="grades-grid">
       <div class="grade-item reveal">
@@ -1731,11 +1746,10 @@
         <p>Fresh harvest now available. Be among the first importers to secure this year's Yirgacheffe — contact us to reserve your allocation.</p>
         <a href="#contact" class="cert-link">Reserve Allocation</a>
       </div>
-    </div>
+    </div><!-- /grades-grid -->
+    </div><!-- /relative z-1 -->
   </div>
 </section>
-
-<!-- HERITAGE / ORGANIC / UNESCO -->
 <section class="heritage-section" id="heritage">
   <div class="heritage-text">
     <div class="section-eyebrow reveal">Living Heritage</div>
