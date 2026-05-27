@@ -831,80 +831,187 @@
   }
 
   /* ORGANIC / UNESCO */
+  /* ── HERITAGE SECTION — World-Class Redesign ── */
   .heritage-section {
-    padding: 10rem 3rem;
+    padding: 0;
     display: grid;
-    grid-template-columns: 5fr 4fr;
-    gap: 6rem;
-    align-items: center;
-    background: linear-gradient(160deg, var(--soil) 0%, #1a1f10 60%, var(--earth) 100%);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 0;
+    align-items: stretch;
+    background: #0d0905;
     position: relative;
+    overflow: hidden;
   }
 
+  /* Giant watermark number */
   .heritage-section::before {
-    content: 'UNESCO';
+    content: '1902';
     position: absolute;
-    top: 4rem;
-    right: 3rem;
+    bottom: -2rem;
+    left: -1rem;
     font-family: var(--font-display);
-    font-size: 8rem;
-    color: rgba(106,128,80,0.06);
-    letter-spacing: 0.2em;
+    font-size: 22rem;
+    color: rgba(212,152,58,0.03);
+    letter-spacing: -0.04em;
     pointer-events: none;
+    line-height: 1;
+    z-index: 0;
+  }
+
+  .heritage-text {
+    padding: 8rem 5rem 8rem 5rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid rgba(212,152,58,0.1);
+  }
+
+  .heritage-text .section-eyebrow {
+    color: var(--gold);
+    margin-bottom: 2.5rem;
   }
 
   .heritage-text h2 {
     font-family: var(--font-serif);
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-size: clamp(2.6rem, 4vw, 3.8rem);
     font-weight: 300;
-    line-height: 1.15;
+    line-height: 1.12;
     color: var(--cream);
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
   .heritage-text h2 em {
-    
     color: var(--leaf);
+    font-style: italic;
   }
   .heritage-text p {
-    font-size: 1rem;
-    line-height: 1.9;
+    font-size: 1.02rem;
+    line-height: 1.95;
     color: var(--fog);
     font-weight: 300;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.6rem;
+    max-width: 520px;
   }
 
+  /* Cert cards — right column, stacked full height */
   .cert-cards {
+    display: grid;
+    grid-template-rows: 280px 1fr 1fr 1fr 1fr;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .grades-img-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid rgba(212,152,58,0.12);
+  }
+  .grades-img-wrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(13,9,5,0.1) 0%, rgba(13,9,5,0.55) 100%);
+    z-index: 1;
+  }
+  .grades-img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    display: block;
+    transition: transform 8s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .heritage-section:hover .grades-img-cover { transform: scale(1.04); }
+
+  .cert-card {
+    border-bottom: 1px solid rgba(212,152,58,0.1);
+    border-left: none;
+    padding: 2rem 2.5rem;
+    background: rgba(13,9,5,0.0);
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-  }
-  .cert-card {
-    border: 1px solid rgba(212,152,58,0.15);
-    padding: 2rem;
-    background: rgba(26,18,10,0.5);
-    position: relative;
+    justify-content: center;
+    transition: background 0.5s cubic-bezier(0.16,1,0.3,1), padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+    cursor: default;
+    overflow: hidden;
   }
   .cert-card::before {
-    content: '✓';
+    content: '';
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    color: var(--gold);
-    font-size: 1rem;
-    font-family: var(--font-sans);
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--gold);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
   }
+  .cert-card:hover {
+    background: rgba(212,152,58,0.05);
+    padding-left: 3rem;
+  }
+  .cert-card:hover::before { transform: scaleY(1); }
+
+  .cert-card:last-child { border-bottom: none; }
+
+  .cert-logo-box { margin-bottom: 0.75rem; }
+
   .cert-card h4 {
     font-family: var(--font-display);
-    font-size: 1.1rem;
-    letter-spacing: 0.12em;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
     color: var(--gold);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.45rem;
+    text-transform: uppercase;
   }
   .cert-card p {
-    font-size: 1.0rem;
+    font-size: 0.88rem;
     color: var(--fog);
-    line-height: 1.7;
+    line-height: 1.65;
     font-weight: 300;
+    margin: 0;
+  }
+
+  /* Heritage stat row */
+  .heritage-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 3.5rem;
+    border-top: 1px solid rgba(212,152,58,0.15);
+    padding-top: 2rem;
+  }
+  .heritage-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding-right: 1.5rem;
+  }
+  .heritage-stat + .heritage-stat {
+    border-left: 1px solid rgba(212,152,58,0.12);
+    padding-left: 1.5rem;
+    padding-right: 0;
+  }
+  .heritage-stat-num {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    color: var(--cream);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .heritage-stat-label {
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-transform: uppercase;
   }
 
   /* MISSION */
@@ -2151,7 +2258,7 @@
   @media (max-width: 1024px) {
     .origin { grid-template-columns: 1fr; gap: 3rem; }
     .origin-visual { height: 350px; }
-    .heritage-section { grid-template-columns: 1fr; gap: 3rem; }
+    .heritage-section { grid-template-columns: 1fr; grid-template-rows: auto; gap: 0; }
     .community-section { grid-template-columns: 1fr; gap: 3rem; }
     .contact-hero-grid { grid-template-columns: 1fr; gap: 2rem; }
     .contact-intent-grid { grid-template-columns: repeat(2, 1fr); }
@@ -2425,7 +2532,9 @@
   .coffee-card-title { font-size: 1.6rem; }
 
   /* HERITAGE */
-  .heritage-section { padding: 5rem 1.2rem; gap: 2.5rem; }
+  .heritage-section { grid-template-columns: 1fr; }
+  .heritage-text { padding: 4rem 1.5rem; border-right: none; border-bottom: 1px solid rgba(212,152,58,0.1); }
+  .cert-cards { grid-template-rows: 220px 1fr 1fr 1fr 1fr; }
   .heritage-headline { font-size: clamp(2.2rem, 10vw, 3.5rem); }
   .heritage-image { height: 280px; }
   .heritage-image img { object-fit: cover; height: 100%; width: 100%; }
@@ -2561,8 +2670,10 @@
 }
 .grades-inner { position:relative;z-index:1; }
 .grades-img-wrap { width:100%;height:260px;overflow:hidden;margin-bottom:1rem;border:1px solid rgba(212,152,58,0.2); }
+.heritage-section .grades-img-wrap { height:100%;margin-bottom:0;border:none; }
 .grades-img-cover { width:100%;height:100%;object-fit:cover;object-position:center; }
 .cert-logo-box { height:60px;display:flex;align-items:center;margin-bottom:1rem; }.cert-logo { max-height:55px;max-width:140px;object-fit:contain; }
+.heritage-section .cert-logo-box { height:40px;margin-bottom:0.5rem; }
 
 /* ── MISSION EYEBROW ─────────────────────────────────────────────── */
 .eyebrow-mission { justify-content: center; }
@@ -4298,9 +4409,7 @@ section > * { position: relative; z-index: 1; }
 </section>
 
 <!-- BIG TEXT ROW -->
-<div class="big-text-row bg-earth">
-  <span class="big-text">&nbsp;&nbsp;<span class="bw-fill">ORGANIC</span> BY TRADITION · <span class="bw-fill">SUSTAINABLE</span> BY CHOICE · <span class="bw-fill">FAIRTRADE</span> BY CONVICTION&nbsp;&nbsp;&nbsp;&nbsp;<span class="bw-fill">ORGANIC</span> BY TRADITION · <span class="bw-fill">SUSTAINABLE</span> BY CHOICE · <span class="bw-fill">FAIRTRADE</span> BY CONVICTION&nbsp;</span>
-</div>
+
 
 <!-- PARALLAX BREAK -->
 <div class="parallax-break" aria-hidden="true">
@@ -4449,6 +4558,21 @@ section > * { position: relative; z-index: 1; }
     <a href="https://whc.unesco.org/en/list/1641/" target="_blank" rel="noopener noreferrer" class="cert-link reveal reveal-delay-3">
       Visit UNESCO — The Gedeo Cultural Landscape
     </a>
+
+    <div class="heritage-stats reveal reveal-delay-3">
+      <div class="heritage-stat">
+        <span class="heritage-stat-num">2018</span>
+        <span class="heritage-stat-label">UNESCO Inscription</span>
+      </div>
+      <div class="heritage-stat">
+        <span class="heritage-stat-num">62K</span>
+        <span class="heritage-stat-label">Certified Hectares</span>
+      </div>
+      <div class="heritage-stat">
+        <span class="heritage-stat-num">100%</span>
+        <span class="heritage-stat-label">Pure Arabica</span>
+      </div>
+    </div>
   </div>
 
   <div class="cert-cards">
