@@ -2700,6 +2700,96 @@
   color: var(--gold);
   opacity: 0.6;
 }
+
+/* ── Buyer quotes section ────────────────────────────────────────── */
+.quotes-section {
+  background: var(--bark);
+  padding: clamp(5rem, 10vw, 9rem) 0 clamp(3rem, 6vw, 5rem);
+  overflow: hidden;
+  position: relative;
+}
+.quotes-header {
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  margin-bottom: 3rem;
+}
+.quotes-header h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-top: 1.2rem;
+}
+.quotes-track-wrap {
+  cursor: grab;
+  overflow: hidden;
+  padding: 1rem 0 2rem;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+.quotes-track-wrap.dragging { cursor: grabbing; }
+.quotes-track {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0 clamp(1.5rem, 6vw, 6rem);
+  width: max-content;
+  will-change: transform;
+}
+.quote-card {
+  background: rgba(240,232,216,0.05);
+  border: 1px solid rgba(240,232,216,0.08);
+  border-radius: 2px;
+  padding: 2.5rem;
+  width: clamp(300px, 35vw, 480px);
+  flex-shrink: 0;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+}
+.quote-card:hover {
+  border-color: rgba(212,152,58,0.25);
+  background: rgba(240,232,216,0.08);
+}
+.quote-mark {
+  font-family: Georgia, serif;
+  font-size: 4rem;
+  line-height: 0.8;
+  color: var(--gold);
+  opacity: 0.4;
+  margin-bottom: 1rem;
+}
+.quote-body {
+  font-size: clamp(0.9rem, 1.4vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--cream);
+  margin-bottom: 2rem;
+  font-style: normal;
+}
+.quote-attr { border-top: 1px solid rgba(240,232,216,0.1); padding-top: 1rem; }
+.quote-name {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.2rem;
+}
+.quote-co {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--fog);
+  opacity: 0.7;
+}
+.quotes-drag-hint {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--fog);
+  opacity: 0.4;
+  margin-top: 1rem;
+}
+
 /* ── Altitude data viz section ───────────────────────────────────── */
 .altiviz-section {
   background: var(--soil);
@@ -3882,6 +3972,76 @@ section > * { position: relative; z-index: 1; }
     </div>
   </div>
 </section>
+
+<!-- BUYER QUOTES — draggable ticker ────────────────────────────── -->
+<section class="quotes-section" aria-label="Buyer testimonials">
+  <div class="quotes-header reveal">
+    <div class="section-eyebrow"><span class="eyebrow-gold">Voices</span></div>
+    <h2>What the world's<br>best roasters say.</h2>
+  </div>
+  <div class="quotes-track-wrap" id="quotesTrack" role="region" aria-label="Scrollable testimonials">
+    <div class="quotes-track" id="quotesInner">
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-body">
+          Yirgacheffe YCFCU produces the most consistently exceptional washed lot we've ever sourced. The jasmine and bergamot notes are real — not a roaster's projection.
+        </blockquote>
+        <div class="quote-attr">
+          <div class="quote-name">Head of Sourcing</div>
+          <div class="quote-co">Specialty roaster · Tokyo</div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-body">
+          Traceability to sub-cooperative level. Harvest date. Drying method. Farmer name. This is what direct trade should be — not a marketing claim, but a commitment that shows up in every invoice.
+        </blockquote>
+        <div class="quote-attr">
+          <div class="quote-name">Green Buyer</div>
+          <div class="quote-co">Award-winning roastery · Oslo</div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-body">
+          We've been buying from Ethiopia for twelve years. The consistency from YCFCU lot to lot is unlike any other origin we work with. The farmers are the system.
+        </blockquote>
+        <div class="quote-attr">
+          <div class="quote-name">Director of Coffee</div>
+          <div class="quote-co">Specialty coffee group · Melbourne</div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-body">
+          I've cupped this coffee at 3 separate evaluations over two years. It scores 88–92 depending on the lot and processing method. The natural process lots are extraordinary — among the finest I've tasted from any origin.
+        </blockquote>
+        <div class="quote-attr">
+          <div class="quote-name">Q Grader · SCA Member</div>
+          <div class="quote-co">Independent evaluator · Berlin</div>
+        </div>
+      </div>
+
+      <div class="quote-card">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-body">
+          When I tell people this coffee is from a forest where coffee was literally invented, they think I'm being poetic. I'm not. It's a statement of geography. That's what you taste in the cup.
+        </blockquote>
+        <div class="quote-attr">
+          <div class="quote-name">Head Barista</div>
+          <div class="quote-co">World Barista Championship · Finalist</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="quotes-drag-hint" aria-hidden="true">← Drag to explore →</div>
+</section>
+
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
 
@@ -5017,6 +5177,66 @@ section > * { position: relative; z-index: 1; }
       const progress = 1 - rect.bottom / (window.innerHeight + section.offsetHeight);
       map.style.transform = `translateY(${progress * 40}px) scale(1.05)`;
     }, { passive: true });
+  })();
+
+  // ── DRAGGABLE QUOTES TICKER ─────────────────────────────────────
+  (function initQuotesDrag() {
+    const wrap = document.getElementById('quotesTrack');
+    const inner = document.getElementById('quotesInner');
+    if (!wrap || !inner) return;
+
+    let isDown = false, startX, scrollLeft;
+    let velocity = 0, lastX = 0, raf;
+
+    wrap.addEventListener('mousedown', e => {
+      isDown = true;
+      wrap.classList.add('dragging');
+      startX = e.pageX - wrap.offsetLeft;
+      scrollLeft = wrap.scrollLeft;
+      lastX = e.pageX;
+      cancelAnimationFrame(raf);
+      velocity = 0;
+    });
+    wrap.addEventListener('mouseleave', () => { isDown = false; wrap.classList.remove('dragging'); startMomentum(); });
+    wrap.addEventListener('mouseup', () => { isDown = false; wrap.classList.remove('dragging'); startMomentum(); });
+    wrap.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - wrap.offsetLeft;
+      const walk = (x - startX) * 1.2;
+      velocity = e.pageX - lastX;
+      lastX = e.pageX;
+      wrap.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch support
+    let touchStartX, touchScrollLeft;
+    wrap.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].pageX;
+      touchScrollLeft = wrap.scrollLeft;
+    }, { passive: true });
+    wrap.addEventListener('touchmove', e => {
+      const dx = touchStartX - e.touches[0].pageX;
+      wrap.scrollLeft = touchScrollLeft + dx;
+    }, { passive: true });
+
+    function startMomentum() {
+      cancelAnimationFrame(raf);
+      function step() {
+        velocity *= 0.93;
+        wrap.scrollLeft -= velocity;
+        if (Math.abs(velocity) > 0.5) raf = requestAnimationFrame(step);
+      }
+      raf = requestAnimationFrame(step);
+    }
+
+    // GSAP scroll-trigger entrance for each card
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+      gsap.from('.quote-card', {
+        scrollTrigger: { trigger: '.quotes-section', start: 'top 80%' },
+        opacity: 0, x: 50, duration: 0.8, ease: 'power3.out', stagger: 0.12
+      });
+    }
   })();
 
   // ── HERO MOUSE PARALLAX ─────────────────────────────────────────
