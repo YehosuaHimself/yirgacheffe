@@ -1561,6 +1561,40 @@
     line-height: 1.75;
   }
 
+  /* CLIP-REVEAL HEADINGS */
+  .clip-reveal {
+    overflow: hidden;
+    display: block;
+  }
+  .clip-reveal-inner {
+    display: block;
+    transform: translateY(110%);
+    transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .clip-reveal.in-view .clip-reveal-inner {
+    transform: translateY(0);
+  }
+
+  /* MAGNETIC BUTTON */
+  .mag-btn {
+    display: inline-block;
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1),
+                box-shadow 0.3s ease;
+  }
+  .mag-btn:hover {
+    box-shadow: 0 20px 60px rgba(212,152,58,0.25);
+  }
+
+  /* STAGGER DELAY HELPERS */
+  .stagger-1 { transition-delay: 0.05s !important; }
+  .stagger-2 { transition-delay: 0.12s !important; }
+  .stagger-3 { transition-delay: 0.19s !important; }
+  .stagger-4 { transition-delay: 0.26s !important; }
+  .stagger-5 { transition-delay: 0.33s !important; }
+  .stagger-6 { transition-delay: 0.40s !important; }
+  .stagger-7 { transition-delay: 0.47s !important; }
+  .stagger-8 { transition-delay: 0.54s !important; }
+
   /* SCROLL ANIMATIONS */
   .reveal {
     opacity: 0;
@@ -3105,8 +3139,47 @@
     revealEls.forEach(el => revealObserver.observe(el));
   }
 
+  // CLIP-REVEAL on h2 headings
+  document.querySelectorAll(
+    '.origin-text h2, .coffee-header h2, .heritage-text h2, .mission-section h2, .community-text h2, .mandates-section h2, .process-section h2'
+  ).forEach(h2 => {
+    h2.classList.add('clip-reveal');
+    const inner = document.createElement('span');
+    inner.className = 'clip-reveal-inner';
+    inner.innerHTML = h2.innerHTML;
+    h2.innerHTML = '';
+    h2.appendChild(inner);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { h2.classList.add('in-view'); obs.unobserve(h2); }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(h2);
+  });
+
+  // MAGNETIC BUTTONS — subtle pull effect on hero CTA buttons
+  document.querySelectorAll('.cta-btn, .intent-btn').forEach(btn => {
+    btn.classList.add('mag-btn');
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) * 0.28;
+      const dy = (e.clientY - cy) * 0.28;
+      btn.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = 'translate(0,0)';
+    });
+  });
+
+
+  // STAGGER delays on process steps
+  document.querySelectorAll('.process-step').forEach((el, i) => {
+    el.classList.add(`stagger-${(i % 8) + 1}`);
+  });
+
   // PAGE LOADER
-  const loader = document.getElementById('page-loader');
   const loaderBar = document.getElementById('loaderBar');
   if (loader && loaderBar) {
     setTimeout(() => { loaderBar.style.width = '60%'; }, 100);
