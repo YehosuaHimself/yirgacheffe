@@ -2599,7 +2599,20 @@
   .hscroll-stat { font-size: clamp(3rem, 12vw, 5rem); }
 }
 
-/* ── PAGE LOAD TRANSITION ────────────────────────────────────────── */
+/* ── WEBGL GRAIN CANVAS ──────────────────────────────────────────── */
+#hero-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.38;
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: reduce) { #hero-grain { display: none; } }
+
+</style>
 #page-intro {
   position: fixed; inset: 0; z-index: 9999;
   display: flex; align-items: center; justify-content: center;
@@ -2712,6 +2725,8 @@
   <div class="hero-bg">
     <div class="hero-bg-photo"></div>
   </div>
+  <!-- WebGL animated grain overlay -->
+  <canvas id="hero-grain" aria-hidden="true"></canvas>
 
   <!-- Floating coffee beans SVG -->
   <div class="hero-deco">
@@ -4176,6 +4191,99 @@
 
   // Init GSAP after scripts load (they are defer'd)
   window.addEventListener('load', initGSAP);
+
+  // ── WEBGL ANIMATED GRAIN ─────────────────────────────────────────
+  (function initGrain() {
+    const canvas = document.getElementById('hero-grain');
+    if (!canvas) return;
+
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) { canvas.style.display = 'none'; return; }
+
+    // Resize canvas to hero
+    function resize() {
+      canvas.width  = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    // Vertex shader — full-screen quad
+    const VS = `
+      attribute vec2 a_pos;
+      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
+    `;
+
+    // Fragment shader — animated film grain using hash noise
+    const FS = `
+      precision mediump float;
+      uniform vec2  u_res;
+      uniform float u_time;
+      uniform float u_strength;
+
+      float hash(vec2 p) {
+        p = fract(p * vec2(234.34, 435.345));
+        p += dot(p, p + 34.23);
+        return fract(p.x * p.y);
+      }
+
+      void main() {
+        vec2 uv = gl_FragCoord.xy / u_res;
+        // Animate grain by shifting the noise seed each frame
+        float grain = hash(uv + vec2(u_time * 0.1719, u_time * 0.1337));
+        // Add a second octave for richness
+        grain += 0.4 * hash(uv * 1.7 + vec2(u_time * 0.0871, u_time * 0.2113));
+        grain /= 1.4;
+        // Remap to centered luminance
+        float lum = (grain - 0.5) * u_strength;
+        gl_FragColor = vec4(lum + 0.5, lum + 0.5, lum + 0.5, 1.0);
+      }
+    `;
+
+    function compile(type, src) {
+      const sh = gl.createShader(type);
+      gl.shaderSource(sh, src);
+      gl.compileShader(sh);
+      return sh;
+    }
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, compile(gl.VERTEX_SHADER, VS));
+    gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FS));
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    // Full-screen quad
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const aPosLoc = gl.getAttribLocation(prog, 'a_pos');
+    gl.enableVertexAttribArray(aPosLoc);
+    gl.vertexAttribPointer(aPosLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes      = gl.getUniformLocation(prog, 'u_res');
+    const uTime     = gl.getUniformLocation(prog, 'u_time');
+    const uStrength = gl.getUniformLocation(prog, 'u_strength');
+
+    // Only animate when hero is near viewport
+    let running = true;
+    const io = new IntersectionObserver(entries => {
+      running = entries[0].isIntersecting;
+    }, { threshold: 0 });
+    io.observe(canvas);
+
+    let frame = 0;
+    (function tick(t) {
+      if (running) {
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        gl.uniform1f(uTime, t * 0.001);
+        gl.uniform1f(uStrength, 0.55); // grain intensity
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      }
+      requestAnimationFrame(tick);
+    })(0);
+  })();
 
   // ── LENIS SMOOTH SCROLL ──────────────────────────────────────────
   // Runs unconditionally so the page glides on desktop/tablet;
