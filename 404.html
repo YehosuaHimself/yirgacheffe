@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>404 — Page Not Found · YCFCU</title>
+  <meta name="robots" content="noindex"/>
+  <style>
+    :root {
+      --earth:   #1a120a;
+      --soil:    #2c1a0e;
+      --bark:    #3d2410;
+      --clay:    #7a4a28;
+      --gold:    #d4983a;
+      --cream:   #f0e8d8;
+      --fog:     #c8c0b0;
+      --font-serif: 'Helvetica Neue', Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      --font-mono:  'Courier New', Courier, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--earth);
+      color: var(--cream);
+      font-family: var(--font-serif);
+      overflow: hidden;
+    }
+
+    /* ── CANVAS GRAIN ── */
+    #grain-404 {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+      opacity: 0.28; mix-blend-mode: screen;
+    }
+
+    /* ── BACKGROUND TEXTURE ── */
+    .bg-texture {
+      position: fixed; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 45%, rgba(61,36,16,0.55) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 80% at 10% 90%, rgba(106,128,80,0.1) 0%, transparent 60%),
+        var(--earth);
+    }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      position: relative; z-index: 2;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    /* ── EYEBROW ── */
+    .eyebrow {
+      font-size: 0.6rem; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold);
+      font-weight: 400; margin-bottom: 2.5rem;
+      opacity: 0; transform: translateY(16px);
+      animation: rise 0.8s 0.2s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    /* ── BIG NUMBER ── */
+    .four-o-four {
+      font-size: clamp(8rem, 24vw, 22rem);
+      font-weight: 300; line-height: 0.85;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(212,152,58,0.25);
+      letter-spacing: -0.02em;
+      opacity: 0;
+      animation: rise 1s 0.35s cubic-bezier(.16,1,.3,1) forwards;
+      user-select: none;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      width: 0; height: 1px;
+      background: var(--gold);
+      margin: 2rem auto;
+      animation: expand 0.9s 0.8s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    /* ── HEADLINE ── */
+    .headline {
+      font-size: clamp(1.1rem, 3vw, 2rem);
+      font-weight: 300; color: var(--cream);
+      letter-spacing: 0.04em; line-height: 1.3;
+      opacity: 0; transform: translateY(20px);
+      animation: rise 0.9s 0.9s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    /* ── BODY ── */
+    .body-text {
+      margin-top: 1.2rem;
+      font-size: 0.85rem; line-height: 1.85;
+      color: var(--fog); font-weight: 300;
+      max-width: 36ch;
+      opacity: 0; transform: translateY(16px);
+      animation: rise 0.9s 1.05s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    /* ── CTA BUTTONS ── */
+    .actions {
+      display: flex; gap: 1.2rem; flex-wrap: wrap;
+      justify-content: center; margin-top: 3rem;
+      opacity: 0; transform: translateY(14px);
+      animation: rise 0.9s 1.2s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    .btn-home {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 2.2rem;
+      background: var(--gold); color: var(--earth);
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 500;
+      text-decoration: none;
+      transition: background 0.25s ease, transform 0.25s ease;
+    }
+    .btn-home:hover { background: var(--cream); transform: translateY(-2px); }
+
+    .btn-origin {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.85rem 2.2rem;
+      border: 1px solid rgba(212,152,58,0.4); color: var(--gold);
+      font-size: 0.72rem; letter-spacing: 0.2em;
+      text-transform: uppercase; font-weight: 400;
+      text-decoration: none;
+      transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    }
+    .btn-origin:hover {
+      border-color: var(--gold); color: var(--cream);
+      transform: translateY(-2px);
+    }
+
+    /* ── COORDINATES ── */
+    .coords {
+      position: fixed; bottom: 2rem; left: 2rem;
+      font-family: var(--font-mono);
+      font-size: 0.6rem; color: rgba(212,152,58,0.35);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      animation: rise 1s 1.5s ease forwards; opacity: 0;
+    }
+    .brand-link {
+      position: fixed; bottom: 2rem; right: 2rem;
+      font-size: 0.6rem; letter-spacing: 0.35em;
+      text-transform: uppercase; color: rgba(212,152,58,0.35);
+      text-decoration: none;
+      animation: rise 1s 1.5s ease forwards; opacity: 0;
+      transition: color 0.2s ease;
+    }
+    .brand-link:hover { color: var(--gold); }
+
+    /* ── SVG BEAN ── */
+    .bean-deco {
+      position: fixed; bottom: 8vh; right: 8vw;
+      opacity: 0.06; pointer-events: none;
+      animation: slow-spin 60s linear infinite;
+    }
+    @keyframes slow-spin { to { transform: rotate(360deg); } }
+
+    /* ── ANIMATIONS ── */
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0) scaleX(1); }
+    }
+    @keyframes expand {
+      from { width: 0; }
+      to { width: 80px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .eyebrow, .four-o-four, .headline, .body-text, .actions,
+      .coords, .brand-link { opacity: 1; transform: none; }
+      .divider { width: 80px; }
+    }
+
+    @media (max-width: 480px) {
+      .actions { flex-direction: column; align-items: center; }
+      .btn-home, .btn-origin { width: 100%; justify-content: center; }
+      .coords, .brand-link { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-texture" aria-hidden="true"></div>
+  <canvas id="grain-404" aria-hidden="true"></canvas>
+
+  <!-- Decorative coffee bean -->
+  <svg class="bean-deco" width="320" height="320" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <ellipse cx="100" cy="100" rx="80" ry="52" fill="none" stroke="rgba(212,152,58,1)" stroke-width="1.5"/>
+    <path d="M 100 48 Q 140 100 100 152" fill="none" stroke="rgba(212,152,58,1)" stroke-width="1.5"/>
+    <ellipse cx="100" cy="100" rx="60" ry="38" fill="none" stroke="rgba(212,152,58,0.4)" stroke-width="0.8"/>
+  </svg>
+
+  <div class="wrapper">
+    <div class="eyebrow">Yirgacheffe Coffee Farmers Cooperative Union</div>
+    <div class="four-o-four" aria-label="404">404</div>
+    <div class="divider"></div>
+    <h1 class="headline">This page got lost<br>in the highlands.</h1>
+    <p class="body-text">
+      At 1,900 metres, even the best trails sometimes disappear.<br>
+      Let us guide you back.
+    </p>
+    <div class="actions">
+      <a href="/" class="btn-home">Back to Home</a>
+      <a href="/#origin" class="btn-origin">Our Story →</a>
+    </div>
+  </div>
+
+  <div class="coords">6.2613°N · 38.2098°E</div>
+  <a href="/" class="brand-link">YCFCU</a>
+
+  <script>
+    // WebGL grain — identical shader to index.html
+    (function() {
+      const canvas = document.getElementById('grain-404');
+      if (!canvas) return;
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) return;
+
+      function resize() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      const VS = `attribute vec2 a_pos; void main(){gl_Position=vec4(a_pos,0.,1.);}`;
+      const FS = `
+        precision mediump float;
+        uniform vec2 u_res; uniform float u_time;
+        float hash(vec2 p){p=fract(p*vec2(234.34,435.345));p+=dot(p,p+34.23);return fract(p.x*p.y);}
+        void main(){
+          vec2 uv=gl_FragCoord.xy/u_res;
+          float g=hash(uv+vec2(u_time*.1719,u_time*.1337));
+          g+=.4*hash(uv*1.7+vec2(u_time*.0871,u_time*.2113));
+          g/=1.4;
+          float l=(g-.5)*.55;
+          gl_FragColor=vec4(l+.5,l+.5,l+.5,1.);
+        }
+      `;
+
+      function sh(type, src) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src); gl.compileShader(s); return s;
+      }
+      const p = gl.createProgram();
+      gl.attachShader(p, sh(gl.VERTEX_SHADER, VS));
+      gl.attachShader(p, sh(gl.FRAGMENT_SHADER, FS));
+      gl.linkProgram(p); gl.useProgram(p);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+      const loc = gl.getAttribLocation(p, 'a_pos');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes  = gl.getUniformLocation(p, 'u_res');
+      const uTime = gl.getUniformLocation(p, 'u_time');
+
+      (function tick(t) {
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        gl.uniform1f(uTime, t * .001);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        requestAnimationFrame(tick);
+      })(0);
+    })();
+  </script>
+</body>
+</html>
