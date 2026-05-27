@@ -164,7 +164,7 @@
     padding: 1.5rem 3rem;
     mix-blend-mode: normal;
     transition: background 0.4s;
-    background: rgba(13,9,5,0.75);
+    background: rgba(13,9,5,0.97);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -2517,7 +2517,7 @@
 .quality-img-wrap { width:100%;height:240px;overflow:hidden;margin-bottom:2rem;border:1px solid rgba(212,152,58,0.2); }
 .quality-img-cover { width:100%;height:100%;object-fit:cover;object-position:center; }
 .quality-body-b { font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 2rem; }
-.quality-callout { background: rgba(212,152,58,0.04); border: 1px solid rgba(212,152,58,0.2); padding: 2.5rem; margin-top: 2.5rem; position: relative; }
+.quality-callout { background: rgba(212,152,58,0.04); border: 1px solid rgba(212,152,58,0.2); padding: 2.5rem; margin-top: 2.5rem; position: relative; max-width: 780px; margin-left: auto; margin-right: auto; }
 .quality-callout-label {
   font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
   color: var(--gold); margin-bottom: 1.2rem; font-weight: 400;
@@ -4032,7 +4032,7 @@ section > * { position: relative; z-index: 1; }
 
     <div class="coffee-card" data-score="3 ROAST PROFILES">
       <div class="coffee-card-img">
-        <img width="900" height="600" loading="lazy" src="images/photo-roasted-bag.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans in a burlap bag" style="object-position: 60% 80%; transform: scale(1.6); transform-origin: 60% 80%;" onerror="this.parentElement.style.display='none'"/>
+        <img width="900" height="600" loading="lazy" src="images/photo-roasted-bag.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans in a burlap bag" style="object-position: 80% 60%; transform: scale(2.2); transform-origin: 80% 60%;" onerror="this.parentElement.style.display='none'"/>
       </div>
       <div class="coffee-card-num">03</div>
       <div class="coffee-card-type">Roasted · Light · Medium · Dark</div>
@@ -4393,16 +4393,17 @@ section > * { position: relative; z-index: 1; }
       <p class="reveal reveal-delay-2 quality-body-b">
         We prioritise traceability without exception. Across a sourcing base of over 43,000 farmers on 62,000 hectares, we maintain an effective traceability system capable of pinpointing the exact micro-region of origin — and in many cases, the individual farm. This is not a marketing claim. It is a structural requirement for the buyers we serve and the farmers we represent.
       </p>
-      <div class="quality-callout">
-        <div class="quality-callout-label">Alliances for Action Network</div>
-        <p class="quality-callout-body">
-          YCFCU is a proud member of the International Trade Centre's Alliances for Action network. This membership has opened new markets — including recent successful delegations to international coffee fairs in Tokyo and Seoul, where we secured new buyers from the Asian market.
-        </p>
-        <p class="quality-callout-body-last">
-          The network provides market linkage, roasting training for domestic product development, and targeted marketing communication for each global segment.
-        </p>
-      </div>
     </div>
+  </div>
+
+  <div class="quality-callout reveal">
+    <div class="quality-callout-label">Alliances for Action Network</div>
+    <p class="quality-callout-body">
+      YCFCU is a proud member of the International Trade Centre's Alliances for Action network. This membership has opened new markets — including recent successful delegations to international coffee fairs in Tokyo and Seoul, where we secured new buyers from the Asian market.
+    </p>
+    <p class="quality-callout-body-last">
+      The network provides market linkage, roasting training for domestic product development, and targeted marketing communication for each global segment.
+    </p>
   </div>
 </section>
 
