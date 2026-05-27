@@ -2526,8 +2526,9 @@
 }
 .split-line-inner {
   display: block;
-  transform: translateY(110%) skewY(3deg);
+  transform: translateY(110%) skewY(3deg) rotateX(12deg);
   transition: none; /* driven by GSAP, not CSS */
+  transform-origin: 50% 50% -100px;
 }
 /* Reduced motion fallback */
 @media (prefers-reduced-motion: reduce) {
@@ -2943,6 +2944,66 @@ section > * { position: relative; z-index: 1; }
 @media (max-width: 640px) {
   .manifesto-stats { grid-template-columns: 1fr; gap: 2rem; }
 }
+
+/* ── 3D card hover with perspective ─────────────────────────────── */
+.coffee-grid, .grade-cards, .process-section { perspective: 1200px; }
+
+.coffee-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease, clip-path 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.coffee-card:hover {
+  transform: translateY(-8px) rotateX(2deg) scale(1.01);
+  box-shadow: 0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(212,152,58,0.2);
+}
+
+/* ── Gold glow on focused / active interactive elements ──────────── */
+:focus-visible {
+  outline: 2px solid rgba(212,152,58,0.6);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* ── Manifesto statement large gradient text ─────────────────────── */
+.manifesto-statement em {
+  background: linear-gradient(135deg, var(--gold) 0%, #f5c866 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer-text 3s linear infinite;
+  background-size: 200% 100%;
+}
+@keyframes gold-shimmer-text {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Altitude viz container glow ────────────────────────────────── */
+#altiviz-canvas {
+  border-radius: 4px;
+  box-shadow: 0 0 60px rgba(212,152,58,0.06), inset 0 0 30px rgba(0,0,0,0.3);
+}
+
+/* ── Footer CTA mega hover ───────────────────────────────────────── */
+.footer-cta-big {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease, letter-spacing 0.4s ease;
+}
+.footer-cta-big::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0; right: 0;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.footer-cta-big:hover { color: var(--gold); letter-spacing: 0.02em; }
+.footer-cta-big:hover::before { transform: scaleX(1); }
 
 </style>
 <!-- GSAP + ScrollTrigger -->
@@ -4433,21 +4494,32 @@ section > * { position: relative; z-index: 1; }
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
-    // ── 1. HERO — split-line word reveal on load ──
-    const heroTl = gsap.timeline({ delay: 0.3 });
+    // ── 1. HERO — 3D perspective word reveal on load ──
+    gsap.set('.split-line-inner', { transformPerspective: 1200, transformOrigin: '50% 50% -100px' });
+    const heroTl = gsap.timeline({ delay: 1.6, defaults: { ease: 'power4.out' } });
     heroTl
-      .from('.hero-eyebrow', { opacity: 0, y: 20, duration: 0.8, ease: 'power3.out' })
+      .from('.hero-eyebrow', { opacity: 0, y: 18, duration: 0.8 })
       .to('.split-line-inner', {
-        y: '0%', skewY: 0,
-        duration: 1.1, ease: 'power4.out',
-        stagger: 0.12
+        y: '0%', rotateX: 0, skewY: 0,
+        duration: 1.2, stagger: { amount: 0.35 }
       }, '-=0.4')
-      .from('.hero-sub', { opacity: 0, y: 25, duration: 0.9, ease: 'power2.out' }, '-=0.6')
-      .from('.hero-actions', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' }, '-=0.5')
-      .from('.hero-scroll-hint', { opacity: 0, duration: 0.6, ease: 'power1.out' }, '-=0.4')
-      .from('.hero-stats .hero-stat-item', {
-        opacity: 0, y: 15, duration: 0.6, ease: 'power2.out', stagger: 0.1
-      }, '-=0.5');
+      .from('.hero-sub', { opacity: 0, y: 22, duration: 0.9, ease: 'power2.out' }, '-=0.7')
+      .from('.hero-actions > *', { opacity: 0, y: 18, duration: 0.6, stagger: 0.12, ease: 'power2.out' }, '-=0.5')
+      .from('.hero-stats .hero-stat-item', { opacity: 0, y: 14, duration: 0.55, stagger: 0.09 }, '-=0.4');
+
+    // ── HERO — rotating accent word (cycles through origin attributes) ──
+    const accentWords = ['Began.', 'Bloomed.', 'Flourished.', 'Endures.'];
+    const accentEl = document.querySelector('.split-line:last-child .split-line-inner');
+    if (accentEl) {
+      let ai = 0;
+      setInterval(() => {
+        ai = (ai + 1) % accentWords.length;
+        gsap.to(accentEl, { opacity: 0, y: -20, duration: 0.35, ease: 'power2.in', onComplete: () => {
+          accentEl.textContent = accentWords[ai];
+          gsap.fromTo(accentEl, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out' });
+        }});
+      }, 3800);
+    }
 
     // ── 2. ORIGIN — horizontal text slide-in ──
     gsap.from('.origin-label', {
