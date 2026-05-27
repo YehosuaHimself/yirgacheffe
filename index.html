@@ -4,6 +4,29 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YCFCU — Yirgacheffe Coffee Farmers Cooperative Union</title>
+<link rel="canonical" href="https://yirgacheffe.love/">
+<meta name="theme-color" content="#1a120a">
+<meta name="color-scheme" content="dark">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Yirgacheffe Coffee Farmers Cooperative Union",
+  "alternateName": "YCFCU",
+  "url": "https://yirgacheffe.love",
+  "logo": "https://yirgacheffe.love/images/photo-hero.webp",
+  "foundingDate": "2002",
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Yirgacheffe, Gedeo Zone, Southern Ethiopia",
+    "geo": { "@type": "GeoCoordinates", "latitude": 6.2613, "longitude": 38.2098 }
+  },
+  "description": "Ethiopia's premier coffee cooperative union, representing 46,094 smallholder farmers across 28 cooperatives in the Gedeo Highlands. Producing the world's finest organic, Fairtrade-certified Arabica since 2002.",
+  "numberOfEmployees": { "@type": "QuantitativeValue", "value": 46094 },
+  "award": ["Fairtrade Certified", "Organic Certified", "Rainforest Alliance", "UNESCO Heritage Landscape"],
+  "sameAs": ["https://yirgacheffeunion.com"]
+}
+</script>
 <meta name="description" content="From the highlands of Southern Ethiopia, where coffee was born — the world's finest Arabica, grown by 46,094 farmers, certified organic and Fairtrade.">
 <link rel="canonical" href="https://yirgacheffe.love/">
 
@@ -2650,6 +2673,32 @@
 #page-intro.bar-go .pi-bar { width: 120px; }
 
 
+
+/* ── Footer world map strip ─────────────────────────────────────── */
+.footer-map-strip {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(240,232,216,0.08);
+}
+.footer-world-map {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.footer-map-label {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.6;
+}
 /* ── Altitude data viz section ───────────────────────────────────── */
 .altiviz-section {
   background: var(--soil);
@@ -3865,6 +3914,43 @@ section > * { position: relative; z-index: 1; }
 
 <!-- FOOTER -->
 <footer class="footer-editorial">
+
+  <!-- World map ping strip -->
+  <div class="footer-map-strip" aria-hidden="true">
+    <svg class="footer-world-map" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Simplified world continents outline -->
+      <path d="M 60 80 Q 110 60 160 70 Q 200 75 240 65 Q 280 55 300 70 L 310 120 Q 290 135 260 130 Q 220 125 180 135 Q 140 145 100 130 Z" fill="rgba(240,232,216,0.06)" stroke="rgba(240,232,216,0.08)" stroke-width="0.5"/>
+      <path d="M 340 50 Q 400 40 450 55 Q 490 65 510 80 Q 520 110 510 140 Q 490 160 460 155 Q 430 150 400 160 Q 370 170 350 155 Q 335 135 340 100 Z" fill="rgba(240,232,216,0.06)" stroke="rgba(240,232,216,0.08)" stroke-width="0.5"/>
+      <!-- Africa outline (simplified) -->
+      <path d="M 690 55 Q 730 45 760 60 Q 790 75 800 110 Q 810 150 800 190 Q 785 225 760 245 Q 730 260 700 250 Q 670 235 660 200 Q 650 165 660 130 Q 670 90 690 55 Z" fill="rgba(212,152,58,0.08)" stroke="rgba(212,152,58,0.15)" stroke-width="0.8"/>
+      <!-- Ethiopia region highlight -->
+      <ellipse cx="740" cy="140" rx="22" ry="18" fill="rgba(212,152,58,0.2)" stroke="rgba(212,152,58,0.4)" stroke-width="1"/>
+      <!-- Ping animation -->
+      <circle cx="740" cy="140" r="4" fill="var(--gold, #d4983a)"/>
+      <circle cx="740" cy="140" r="4" fill="none" stroke="rgba(212,152,58,0.6)" stroke-width="1">
+        <animate attributeName="r" values="4;22;4" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="740" cy="140" r="4" fill="none" stroke="rgba(212,152,58,0.3)" stroke-width="1">
+        <animate attributeName="r" values="4;30;4" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0;0.5" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
+      </circle>
+      <!-- Asia -->
+      <path d="M 850 40 Q 960 30 1050 55 Q 1100 70 1120 100 Q 1130 130 1110 155 Q 1080 175 1040 165 Q 990 150 950 160 Q 910 170 880 155 Q 850 135 845 100 Q 842 70 850 40 Z" fill="rgba(240,232,216,0.05)" stroke="rgba(240,232,216,0.07)" stroke-width="0.5"/>
+      <!-- Oceania -->
+      <ellipse cx="1200" cy="200" rx="60" ry="35" fill="rgba(240,232,216,0.04)" stroke="rgba(240,232,216,0.07)" stroke-width="0.5"/>
+      <!-- Americas -->
+      <path d="M 160 180 Q 190 170 210 185 Q 225 200 215 230 Q 200 255 180 260 Q 162 258 158 238 Q 152 212 160 180 Z" fill="rgba(240,232,216,0.04)" stroke="rgba(240,232,216,0.06)" stroke-width="0.5"/>
+      <!-- Coordinate label -->
+      <text x="748" y="138" fill="rgba(212,152,58,0.9)" font-size="6" font-family="monospace" letter-spacing="0.5">6.26°N · 38.20°E</text>
+      <!-- Connecting lines to edges (trade routes) -->
+      <line x1="740" y1="140" x2="400" y2="120" stroke="rgba(212,152,58,0.06)" stroke-width="0.5" stroke-dasharray="4,6"/>
+      <line x1="740" y1="140" x2="980" y2="100" stroke="rgba(212,152,58,0.06)" stroke-width="0.5" stroke-dasharray="4,6"/>
+      <line x1="740" y1="140" x2="1200" y2="180" stroke="rgba(212,152,58,0.05)" stroke-width="0.5" stroke-dasharray="4,6"/>
+    </svg>
+    <div class="footer-map-label">Origin · Yirgacheffe, Ethiopia</div>
+  </div>
+
   <div class="footer-top">
     <div class="footer-brand">
       <span class="footer-wordmark">YCFCU</span>
