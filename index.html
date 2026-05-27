@@ -2195,6 +2195,9 @@
 .reveal.delay-4 { transition-delay: 0.4s; }
 
 </style>
+<!-- GSAP + ScrollTrigger -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 <!-- PAGE LOADER -->
@@ -3420,6 +3423,139 @@
       parallaxBg.style.transform = `translateY(${offset}px)`;
     }, { passive: true });
   }
+
+  // ── GSAP SCROLL CHOREOGRAPHY ──────────────────────────────────────
+  function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Respect reduced-motion preference
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    // ── 1. HERO — staggered reveal on load ──
+    const heroTl = gsap.timeline({ delay: 1.1 });
+    heroTl
+      .from('.hero-eyebrow', { opacity: 0, y: 30, duration: 0.9, ease: 'power3.out' })
+      .from('.hero-title', { opacity: 0, y: 50, duration: 1.1, ease: 'power3.out' }, '-=0.5')
+      .from('.hero-subtitle', { opacity: 0, y: 30, duration: 0.9, ease: 'power3.out' }, '-=0.6')
+      .from('.hero-cta', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' }, '-=0.5')
+      .from('.hero-scroll-hint', { opacity: 0, duration: 0.6, ease: 'power1.out' }, '-=0.3');
+
+    // ── 2. ORIGIN — horizontal text slide-in ──
+    gsap.from('.origin-label', {
+      scrollTrigger: { trigger: '.origin', start: 'top 80%' },
+      opacity: 0, x: -60, duration: 1, ease: 'power3.out'
+    });
+    gsap.from('.origin-headline', {
+      scrollTrigger: { trigger: '.origin', start: 'top 75%' },
+      opacity: 0, y: 50, duration: 1.1, ease: 'power3.out', delay: 0.15
+    });
+    gsap.from('.origin-body', {
+      scrollTrigger: { trigger: '.origin', start: 'top 70%' },
+      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out', delay: 0.3
+    });
+    gsap.from('.origin-image-wrap, .origin-img', {
+      scrollTrigger: { trigger: '.origin', start: 'top 75%' },
+      opacity: 0, scale: 0.94, duration: 1.2, ease: 'power3.out', delay: 0.2
+    });
+
+    // ── 3. COFFEE CARDS — staggered cascade ──
+    gsap.from('.coffee-card', {
+      scrollTrigger: { trigger: '.coffee-section', start: 'top 75%' },
+      opacity: 0, y: 60, duration: 0.85, ease: 'power3.out',
+      stagger: 0.12
+    });
+
+    // ── 4. HERITAGE — image + text split reveal ──
+    gsap.from('.heritage-image, .heritage-img', {
+      scrollTrigger: { trigger: '.heritage-section', start: 'top 75%' },
+      opacity: 0, x: -80, duration: 1.2, ease: 'power3.out'
+    });
+    gsap.from('.heritage-content, .heritage-text', {
+      scrollTrigger: { trigger: '.heritage-section', start: 'top 70%' },
+      opacity: 0, x: 60, duration: 1.1, ease: 'power3.out', delay: 0.15
+    });
+
+    // ── 5. MISSION stats count-up reveal ──
+    gsap.from('.stat-block, .mission-stat', {
+      scrollTrigger: { trigger: '.mission-section', start: 'top 75%' },
+      opacity: 0, y: 40, duration: 0.8, ease: 'back.out(1.4)',
+      stagger: 0.15
+    });
+
+    // ── 6. COMMUNITY — fade up stagger ──
+    gsap.from('.community-card, .member-card', {
+      scrollTrigger: { trigger: '.community-section', start: 'top 75%' },
+      opacity: 0, y: 50, duration: 0.9, ease: 'power3.out',
+      stagger: 0.13
+    });
+
+    // ── 7. MANDATES — slide in from left ──
+    gsap.from('.mandate-item, .mandate-row', {
+      scrollTrigger: { trigger: '.mandates-section', start: 'top 80%' },
+      opacity: 0, x: -40, duration: 0.8, ease: 'power2.out',
+      stagger: 0.1
+    });
+
+    // ── 8. GALLERY IMAGES — scale-up reveal ──
+    gsap.from('.gallery-item, .gallery-img, .gallery-slot', {
+      scrollTrigger: {
+        trigger: 'section[style*="overflow: hidden"], .gallery-section',
+        start: 'top 80%'
+      },
+      opacity: 0, scale: 0.9, duration: 0.9, ease: 'power3.out',
+      stagger: 0.1
+    });
+
+    // ── 9. PROCESS STEPS — staggered line-by-line ──
+    gsap.from('.process-step', {
+      scrollTrigger: { trigger: '.process-section', start: 'top 75%' },
+      opacity: 0, y: 40, duration: 0.75, ease: 'power2.out',
+      stagger: 0.1
+    });
+
+    // ── 10. CONTACT — slide up ──
+    gsap.from('.contact-form-wrap, .contact-info, .contact-col', {
+      scrollTrigger: { trigger: '.contact-section', start: 'top 80%' },
+      opacity: 0, y: 50, duration: 1, ease: 'power3.out',
+      stagger: 0.2
+    });
+
+    // ── 11. SECTION HEADINGS — universal clip reveal ──
+    document.querySelectorAll('.section-label, .section-eyebrow').forEach(el => {
+      gsap.from(el, {
+        scrollTrigger: { trigger: el, start: 'top 88%' },
+        opacity: 0, x: -30, duration: 0.7, ease: 'power2.out'
+      });
+    });
+
+    // ── 12. PARALLAX on heritage / origin images via GSAP ──
+    gsap.utils.toArray('.heritage-image img, .origin-image-wrap img').forEach(img => {
+      gsap.to(img, {
+        yPercent: -10,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: img.closest('section') || img,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5
+        }
+      });
+    });
+
+    // ── 13. FOOTER — fade up ──
+    gsap.from('.footer-editorial', {
+      scrollTrigger: { trigger: '.footer-editorial', start: 'top 90%' },
+      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out'
+    });
+
+    ScrollTrigger.refresh();
+  }
+
+  // Init GSAP after scripts load (they are defer'd)
+  window.addEventListener('load', initGSAP);
 
 </script>
 </body>
