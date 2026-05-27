@@ -2258,20 +2258,20 @@
     <h3>Send an enquiry</h3>
     <form onsubmit="handleForm(event)">
       <div class="form-group">
-        <label>Your Name</label>
-        <input type="text" placeholder="Full name" required>
+        <label for="f-name">Your Name</label>
+        <input id="f-name" type="text" name="name" placeholder="Full name" required>
       </div>
       <div class="form-group">
-        <label>Organisation</label>
-        <input type="text" placeholder="Company or cooperative">
+        <label for="f-org">Organisation</label>
+        <input id="f-org" type="text" name="organisation" placeholder="Company or cooperative">
       </div>
       <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" placeholder="you@example.com" required>
+        <label for="f-email">Email Address</label>
+        <input id="f-email" type="email" name="email" placeholder="you@example.com" required>
       </div>
       <div class="form-group">
-        <label>I am interested in</label>
-        <select>
+        <label for="f-interest">I am interested in</label>
+        <select id="f-interest" name="interest">
           <option value="">Select...</option>
           <option>Sourcing Green Coffee (Washed)</option>
           <option>Sourcing Green Coffee (Natural)</option>
@@ -2282,13 +2282,16 @@
         </select>
       </div>
       <div class="form-group">
-        <label>Message</label>
-        <textarea placeholder="Tell us about your needs — volume, grade, delivery timeline, certifications required…"></textarea>
+        <label for="f-message">Message</label>
+        <textarea id="f-message" name="message" placeholder="Tell us about your needs — volume, grade, delivery timeline, certifications required…"></textarea>
       </div>
       <button type="submit" class="form-submit">Send Enquiry</button>
     </form>
     <div id="form-success" style="display:none; margin-top: 1.5rem; padding: 1.5rem; border: 1px solid rgba(106,128,80,0.3); background: rgba(106,128,80,0.08);">
-      <p style="font-size: 0.88rem; color: var(--leaf); font-weight: 400; letter-spacing: 0.05em;">Your message has been received. We will respond within two working days.</p>
+      <p style="font-size: 0.88rem; color: var(--leaf); font-weight: 400; letter-spacing: 0.05em;">✓ &nbsp;Enquiry sent. We will respond within two working days.</p>
+    </div>
+    <div id="form-error" style="display:none; margin-top: 1rem; padding: 1.2rem 1.5rem; border: 1px solid rgba(139,32,32,0.4); background: rgba(139,32,32,0.08);">
+      <p style="font-size: 0.85rem; color: #c06060; font-weight: 400;">Something went wrong — please email us directly at <a href="mailto:hello@yirgacheffe.love" style="color:var(--gold);">hello@yirgacheffe.love</a></p>
     </div>
   </div>
 </section>
@@ -2401,15 +2404,45 @@
     });
   });
 
-  // Form handler
-  function handleForm(e) {
+  // Form handler — Formspree
+  async function handleForm(e) {
     e.preventDefault();
-    e.target.style.opacity = '0.4';
-    e.target.style.pointerEvents = 'none';
-    setTimeout(() => {
-      e.target.style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    }, 600);
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const successEl = document.getElementById('form-success');
+    const errorEl = document.getElementById('form-error');
+
+    // Loading state
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('https://formspree.io/f/FORMSPREE_ID', {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        form.style.transition = 'opacity 0.4s';
+        form.style.opacity = '0';
+        setTimeout(() => {
+          form.style.display = 'none';
+          successEl.style.display = 'block';
+        }, 400);
+      } else {
+        throw new Error('Server error');
+      }
+    } catch (err) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.textContent = 'Send Enquiry';
+      if (errorEl) {
+        errorEl.style.display = 'block';
+        setTimeout(() => { errorEl.style.display = 'none'; }, 5000);
+      }
+    }
   }
 
   // Parallax hero text
