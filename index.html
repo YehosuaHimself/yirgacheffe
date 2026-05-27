@@ -112,7 +112,8 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+  a { color: inherit; text-decoration: none; }
+  a:visited { color: inherit; }
   /* Skip nav for accessibility */
   .skip-nav {
     position: absolute;
@@ -4498,19 +4499,42 @@ section > * { position: relative; z-index: 1; }
 
 
 
-  // ── REVEAL SAFETY NET: force-show anything still hidden after 2.5s ──
-  setTimeout(() => {
+  // ── REVEAL SAFETY NET: force-show anything still hidden after 2s ──
+  function forceShowAll() {
+    // CSS-class-based reveals
     document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
       el.classList.add('visible');
     });
     document.querySelectorAll('.clip-reveal:not(.in-view)').forEach(el => {
       el.classList.add('in-view');
     });
+    // GSAP-animated elements: clear inline style traps
+    const gsapTargets = [
+      '.origin-label','.origin-headline','.origin-body','.origin-image-wrap','.origin-img',
+      '.coffee-card','.heritage-image','.heritage-img','.heritage-content','.heritage-text',
+      '.stat-block','.mission-stat','.community-card','.member-card',
+      '.mandate-item','.mandate-row','.gallery-slot','.gallery-text-slot',
+      '.process-step','.contact-form-wrap','.contact-info','.contact-col',
+      '.section-label','.section-eyebrow','.footer-editorial',
+      '.manifesto-statement','.mstat-item','.quotes-header','.quote-card',
+      '.hscroll-label','.hscroll-heading','.hscroll-body','.hscroll-stat','.hscroll-cta'
+    ].join(',');
+    document.querySelectorAll(gsapTargets).forEach(el => {
+      if (getComputedStyle(el).opacity === '0' || el.style.opacity === '0') {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+        el.style.visibility = 'visible';
+      }
+    });
+    // Text split elements
     document.querySelectorAll('.split-line-inner').forEach(el => {
       el.style.transform = 'none';
       el.style.opacity = '1';
     });
-  }, 2500);
+  }
+  setTimeout(forceShowAll, 2000);
+  // Second pass for slow connections
+  setTimeout(forceShowAll, 4000);
 
   // ── ACTIVE NAV HIGHLIGHTING ──
   const navSections = document.querySelectorAll('section[id], div[id="contact"]');
@@ -4774,57 +4798,57 @@ section > * { position: relative; z-index: 1; }
     // ── 2. ORIGIN — horizontal text slide-in ──
     gsap.from('.origin-label', {
       scrollTrigger: { trigger: '.origin', start: 'top 80%' },
-      opacity: 0, x: -60, duration: 1, ease: 'power3.out'
+      opacity: 0, x: -60, duration: 1, ease: 'power3.out', clearProps: 'opacity,transform'
     });
     gsap.from('.origin-headline', {
       scrollTrigger: { trigger: '.origin', start: 'top 75%' },
-      opacity: 0, y: 50, duration: 1.1, ease: 'power3.out', delay: 0.15
+      opacity: 0, y: 50, duration: 1.1, ease: 'power3.out', delay: 0.15, clearProps: 'opacity,transform'
     });
     gsap.from('.origin-body', {
       scrollTrigger: { trigger: '.origin', start: 'top 70%' },
-      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out', delay: 0.3
+      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out', delay: 0.3, clearProps: 'opacity,transform'
     });
     gsap.from('.origin-image-wrap, .origin-img', {
       scrollTrigger: { trigger: '.origin', start: 'top 75%' },
-      opacity: 0, scale: 0.94, duration: 1.2, ease: 'power3.out', delay: 0.2
+      opacity: 0, scale: 0.94, duration: 1.2, ease: 'power3.out', delay: 0.2, clearProps: 'opacity,transform'
     });
 
     // ── 3. COFFEE CARDS — staggered cascade ──
     gsap.from('.coffee-card', {
       scrollTrigger: { trigger: '.coffee-section', start: 'top 75%' },
       opacity: 0, y: 60, duration: 0.85, ease: 'power3.out',
-      stagger: 0.12
+      stagger: 0.12, clearProps: 'opacity,transform'
     });
 
     // ── 4. HERITAGE — image + text split reveal ──
     gsap.from('.heritage-image, .heritage-img', {
       scrollTrigger: { trigger: '.heritage-section', start: 'top 75%' },
-      opacity: 0, x: -80, duration: 1.2, ease: 'power3.out'
+      opacity: 0, x: -80, duration: 1.2, ease: 'power3.out', clearProps: 'opacity,transform'
     });
     gsap.from('.heritage-content, .heritage-text', {
       scrollTrigger: { trigger: '.heritage-section', start: 'top 70%' },
-      opacity: 0, x: 60, duration: 1.1, ease: 'power3.out', delay: 0.15
+      opacity: 0, x: 60, duration: 1.1, ease: 'power3.out', delay: 0.15, clearProps: 'opacity,transform'
     });
 
     // ── 5. MISSION stats count-up reveal ──
     gsap.from('.stat-block, .mission-stat', {
       scrollTrigger: { trigger: '.mission-section', start: 'top 75%' },
       opacity: 0, y: 40, duration: 0.8, ease: 'back.out(1.4)',
-      stagger: 0.15
+      stagger: 0.15, clearProps: 'opacity,transform'
     });
 
     // ── 6. COMMUNITY — fade up stagger ──
     gsap.from('.community-card, .member-card', {
       scrollTrigger: { trigger: '.community-section', start: 'top 75%' },
       opacity: 0, y: 50, duration: 0.9, ease: 'power3.out',
-      stagger: 0.13
+      stagger: 0.13, clearProps: 'opacity,transform'
     });
 
     // ── 7. MANDATES — slide in from left ──
     gsap.from('.mandate-item, .mandate-row', {
       scrollTrigger: { trigger: '.mandates-section', start: 'top 80%' },
       opacity: 0, x: -40, duration: 0.8, ease: 'power2.out',
-      stagger: 0.1
+      stagger: 0.1, clearProps: 'opacity,transform'
     });
 
     // ── 8. GALLERY STRIP — scale-up reveal ──
@@ -4834,28 +4858,28 @@ section > * { position: relative; z-index: 1; }
         start: 'top 85%'
       },
       opacity: 0, scale: 0.92, duration: 1, ease: 'power3.out',
-      stagger: 0.12
+      stagger: 0.12, clearProps: 'opacity,transform'
     });
 
     // ── 9. PROCESS STEPS — staggered line-by-line ──
     gsap.from('.process-step', {
       scrollTrigger: { trigger: '.process-section', start: 'top 75%' },
       opacity: 0, y: 40, duration: 0.75, ease: 'power2.out',
-      stagger: 0.1
+      stagger: 0.1, clearProps: 'opacity,transform'
     });
 
     // ── 10. CONTACT — slide up ──
     gsap.from('.contact-form-wrap, .contact-info, .contact-col', {
       scrollTrigger: { trigger: '.contact-section', start: 'top 80%' },
       opacity: 0, y: 50, duration: 1, ease: 'power3.out',
-      stagger: 0.2
+      stagger: 0.2, clearProps: 'opacity,transform'
     });
 
     // ── 11. SECTION HEADINGS — universal clip reveal ──
     document.querySelectorAll('.section-label, .section-eyebrow').forEach(el => {
       gsap.from(el, {
         scrollTrigger: { trigger: el, start: 'top 88%' },
-        opacity: 0, x: -30, duration: 0.7, ease: 'power2.out'
+        opacity: 0, x: -30, duration: 0.7, ease: 'power2.out', clearProps: 'opacity,transform'
       });
     });
 
@@ -4876,7 +4900,7 @@ section > * { position: relative; z-index: 1; }
     // ── 13. FOOTER — fade up ──
     gsap.from('.footer-editorial', {
       scrollTrigger: { trigger: '.footer-editorial', start: 'top 90%' },
-      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out'
+      opacity: 0, y: 30, duration: 0.9, ease: 'power2.out', clearProps: 'opacity,transform'
     });
 
     // ── 14. HORIZONTAL SCROLL — THE JOURNEY ──
@@ -4938,18 +4962,18 @@ section > * { position: relative; z-index: 1; }
     if (document.querySelector('.manifesto-section')) {
       gsap.from('.manifesto-statement', {
         scrollTrigger: { trigger: '.manifesto-section', start: 'top 70%' },
-        opacity: 0, y: 60, duration: 1.4, ease: 'power4.out'
+        opacity: 0, y: 60, duration: 1.4, ease: 'power4.out', clearProps: 'opacity,transform'
       });
       gsap.from('.mstat-item', {
         scrollTrigger: { trigger: '.manifesto-section', start: 'top 60%' },
-        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15, delay: 0.3
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15, delay: 0.3, clearProps: 'opacity,transform'
       });
     }
 
     // ── QUOTES SECTION — entrance ──
     gsap.from('.quotes-header', {
       scrollTrigger: { trigger: '.quotes-section', start: 'top 80%' },
-      opacity: 0, x: -40, duration: 1, ease: 'power3.out'
+      opacity: 0, x: -40, duration: 1, ease: 'power3.out', clearProps: 'opacity,transform'
     });
 
     ScrollTrigger.refresh();
