@@ -1319,10 +1319,22 @@
   /* Vision bold statement */
   .vision-strip {
     background: var(--bark);
+    background-image: url('https://yirgacheffeunion.com/wp-content/uploads/2022/03/IMG_0399-scaled.jpg');
+    background-size: cover;
+    background-position: center 40%;
     padding: 5rem 3rem;
     text-align: center;
+    position: relative;
+  }
+  .vision-strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(58,35,18,0.80);
   }
   .vision-strip p {
+    position: relative;
+    z-index: 1;
     font-family: var(--font-serif);
     font-size: clamp(1.5rem, 3.5vw, 2.5rem);
     font-weight: 300;
