@@ -1757,6 +1757,11 @@
     animation: marquee 40s linear infinite;
     will-change: transform;
   }
+  /* alternating filled words in the marquee */
+  .big-text .bw-fill {
+    color: rgba(212,152,58,0.08);
+    -webkit-text-stroke: 0;
+  }
   .big-text-row:hover .big-text { animation-play-state: paused; }
 
   /* Tooltip on cert */
@@ -2378,7 +2383,7 @@
 
 <!-- BIG TEXT ROW -->
 <div class="big-text-row" style="background: var(--earth);">
-  <span class="big-text">&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;&nbsp;&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;</span>
+  <span class="big-text">&nbsp;&nbsp;<span class="bw-fill">ORGANIC</span> BY TRADITION · <span class="bw-fill">SUSTAINABLE</span> BY CHOICE · <span class="bw-fill">FAIRTRADE</span> BY CONVICTION&nbsp;&nbsp;&nbsp;&nbsp;<span class="bw-fill">ORGANIC</span> BY TRADITION · <span class="bw-fill">SUSTAINABLE</span> BY CHOICE · <span class="bw-fill">FAIRTRADE</span> BY CONVICTION&nbsp;</span>
 </div>
 
 <!-- PARALLAX BREAK -->
