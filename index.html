@@ -1482,10 +1482,28 @@
     -webkit-text-stroke: 1px rgba(212,152,58,0.2);
     white-space: nowrap;
     display: block;
+    animation: marquee 40s linear infinite;
+    will-change: transform;
   }
+  .big-text-row:hover .big-text { animation-play-state: paused; }
 
   /* Tooltip on cert */
-  .cert-link {
+  .coffee-card-img {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(212,152,58,0.15);
+  }
+  .coffee-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .coffee-card:hover .coffee-card-img img { transform: scale(1.08); }
     font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -2092,8 +2110,8 @@
 
   <div class="coffee-grid reveal">
     <div class="coffee-card">
-      <div style="width:100%;height:200px;overflow:hidden;margin-bottom:1.5rem;border:1px solid rgba(212,152,58,0.15);">
-        <img width="800" height="600" loading="lazy" src="images/hero.webp" referrerpolicy="no-referrer" alt="Natural sun-dried Yirgacheffe coffee beans on raised drying beds" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.parentElement.style.display='none'"/>
+      <div class="coffee-card-img">
+        <img width="800" height="600" loading="lazy" src="images/hero.webp" referrerpolicy="no-referrer" alt="Natural sun-dried Yirgacheffe coffee beans on raised drying beds" onerror="this.parentElement.style.display='none'"/>
       </div>
       <div class="coffee-card-num">01</div>
       <div class="coffee-card-type">Sun Dried · Natural</div>
@@ -2114,8 +2132,8 @@
     </div>
 
     <div class="coffee-card">
-      <div style="width:100%;height:200px;overflow:hidden;margin-bottom:1.5rem;border:1px solid rgba(212,152,58,0.15);">
-        <img width="900" height="600" loading="lazy" src="images/beans-green.webp" referrerpolicy="no-referrer" alt="Washed green coffee beans being sorted and processed" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.parentElement.style.display='none'"/>
+      <div class="coffee-card-img">
+        <img width="900" height="600" loading="lazy" src="images/beans-green.webp" referrerpolicy="no-referrer" alt="Washed green coffee beans being sorted and processed" onerror="this.parentElement.style.display='none'"/>
       </div>
       <div class="coffee-card-num">02</div>
       <div class="coffee-card-type">Wet Processed · Washed</div>
@@ -2136,8 +2154,8 @@
     </div>
 
     <div class="coffee-card">
-      <div style="width:100%;height:200px;overflow:hidden;margin-bottom:1.5rem;border:1px solid rgba(212,152,58,0.15);">
-        <img width="900" height="600" loading="lazy" src="images/beans-roasted.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans" style="width:100%;height:100%;object-fit:cover;object-position:center;" onerror="this.parentElement.style.display='none'"/>
+      <div class="coffee-card-img">
+        <img width="900" height="600" loading="lazy" src="images/beans-roasted.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans" onerror="this.parentElement.style.display='none'"/>
       </div>
       <div class="coffee-card-num">03</div>
       <div class="coffee-card-type">Roasted · Light · Medium · Dark</div>
