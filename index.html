@@ -3644,6 +3644,137 @@ section > * { position: relative; z-index: 1; }
 .footer-cta-big:hover { color: var(--gold); letter-spacing: 0.02em; }
 .footer-cta-big:hover::before { transform: scaleX(1); }
 
+/* ═══════════════════════════════════════════════════════════════════
+   WORLD-CLASS HOVER EFFECTS — SS1 gallery strip, SS2 altiviz, SS3 footer
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── SS1: GALLERY STRIP — magnetic reveal panels ──────────────────── */
+.gallery-text-slot {
+  cursor: default;
+  transition: background 0.5s cubic-bezier(0.16,1,0.3,1);
+  overflow: hidden;
+}
+.gallery-text-slot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,152,58,0.12) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.gallery-text-slot:hover::before { opacity: 1; }
+.gallery-text-slot:hover .gallery-text-body {
+  color: var(--gold);
+  transition: color 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.gallery-text-slot:hover .gallery-text-rule {
+  width: 60px;
+  background: rgba(212,152,58,0.7);
+  transition: width 0.5s cubic-bezier(0.16,1,0.3,1), background 0.4s;
+}
+.gallery-text-slot:hover .gallery-text-label {
+  letter-spacing: 0.45em;
+  opacity: 1;
+  transition: letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+}
+.gallery-text-slot:hover .gallery-caption-gold {
+  color: rgba(212,152,58,0.9);
+  letter-spacing: 0.35em;
+  transition: color 0.4s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.gallery-text-inner { position: relative; z-index: 1; }
+
+/* ── SS2: ALTIVIZ — chart line glow + legend items pulse on hover ── */
+.altiviz-legend-item {
+  cursor: default;
+  padding: 0.4rem 0.6rem;
+  border-radius: 2px;
+  transition: background 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+.altiviz-legend-item::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  width: 0; height: 1px;
+  background: var(--gold);
+  transform: translateY(-50%);
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.altiviz-legend-item:hover {
+  background: rgba(212,152,58,0.07);
+  transform: translateX(6px);
+}
+.altiviz-legend-item:hover::after { width: 4px; }
+.altiviz-legend-item:first-child:hover { background: rgba(212,152,58,0.1); }
+
+#altiviz-canvas {
+  transition: filter 0.5s ease;
+  cursor: crosshair;
+}
+.altiviz-right:hover #altiviz-canvas {
+  filter: brightness(1.15) drop-shadow(0 0 18px rgba(212,152,58,0.2));
+}
+
+/* ── SS3: FOOTER MAP — trade routes light up, ping pulses faster ── */
+.footer-map-strip {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s;
+}
+.footer-map-strip::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 51% 50%, rgba(212,152,58,0.06) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+.footer-map-strip:hover::after { opacity: 1; }
+.footer-map-strip:hover .trade-line {
+  stroke: rgba(212,152,58,0.55);
+  stroke-dasharray: 4 3;
+  transition: stroke 0.4s, stroke-dasharray 0.4s;
+}
+.footer-map-strip:hover .africa {
+  fill: rgba(212,152,58,0.11);
+  stroke: rgba(212,152,58,0.45);
+  transition: fill 0.5s, stroke 0.5s;
+}
+.footer-map-strip:hover .continent {
+  stroke: rgba(240,232,216,0.22);
+  transition: stroke 0.5s;
+}
+.footer-map-label {
+  transition: color 0.4s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.footer-map-strip:hover .footer-map-label {
+  color: var(--gold);
+  letter-spacing: 0.4em;
+}
+
+/* footer brand + email — magnetic lift */
+.footer-brand {
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.footer-brand:hover { transform: translateY(-3px); }
+.footer-wordmark {
+  transition: letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1), color 0.3s;
+}
+.footer-brand:hover .footer-wordmark {
+  letter-spacing: 0.28em;
+  color: var(--gold);
+}
+.footer-cta-big {
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.footer-cta-big:hover { transform: translateY(-2px); letter-spacing: 0.03em; }
+
 </style>
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -6060,6 +6191,91 @@ section > * { position: relative; z-index: 1; }
     // Scroll-to-top button
     const stb = document.getElementById('scrollTop');
     if (stb) stb.addEventListener('click', () => lenis.scrollTo(0, { duration: 1.6 }));
+  })();
+
+  // ── GALLERY STRIP: magnetic radial spotlight per slot ───────────
+  (function initGalleryMagnet() {
+    document.querySelectorAll('.gallery-text-slot').forEach(slot => {
+      slot.addEventListener('mousemove', e => {
+        const r = slot.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
+        const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%';
+        slot.style.setProperty('--mx', x);
+        slot.style.setProperty('--my', y);
+      });
+    });
+  })();
+
+  // ── ALTIVIZ: crosshair tooltip on canvas hover ───────────────────
+  (function initAltivizTooltip() {
+    const canvas = document.getElementById('altiviz-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Store original draw so we can overlay the crosshair
+    let tooltip = null;
+    const tip = document.createElement('div');
+    tip.style.cssText = 'position:absolute;pointer-events:none;background:rgba(13,9,5,0.92);border:1px solid rgba(212,152,58,0.3);color:var(--cream);font-family:"Courier New",monospace;font-size:0.62rem;letter-spacing:0.1em;padding:0.5rem 0.8rem;opacity:0;transition:opacity 0.2s;white-space:nowrap;z-index:10;';
+    canvas.parentElement.style.position = 'relative';
+    canvas.parentElement.appendChild(tip);
+
+    // Altitude zones: y=30 → 2500m, y=400 → 0m (canvas h=440, plotArea top=30 h=370)
+    const yToAlt = y => Math.round(2500 - ((y - 30) / 370) * 2500);
+    // Month labels mapped to x
+    const months = ['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
+    const xToMonth = x => {
+      const pct = (x - 60) / (canvas.width - 80);
+      const i = Math.round(pct * (months.length - 1));
+      return months[Math.max(0, Math.min(months.length-1, i))] || '';
+    };
+
+    canvas.addEventListener('mousemove', e => {
+      const r = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / r.width;
+      const scaleY = canvas.height / r.height;
+      const cx2 = (e.clientX - r.left) * scaleX;
+      const cy2 = (e.clientY - r.top)  * scaleY;
+      const alt = yToAlt(cy2);
+      const mon = xToMonth(cx2);
+      tip.textContent = mon + ' · ' + Math.max(0, alt) + 'm';
+      tip.style.left = (e.clientX - r.left + 14) + 'px';
+      tip.style.top  = (e.clientY - r.top  - 18) + 'px';
+      tip.style.opacity = '1';
+    });
+    canvas.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
+  })();
+
+  // ── FOOTER MAP: trade route dash animation on hover ──────────────
+  (function initFooterMapHover() {
+    const strip = document.querySelector('.footer-map-strip');
+    if (!strip) return;
+    const lines = strip.querySelectorAll('.trade-line');
+    strip.addEventListener('mouseenter', () => {
+      lines.forEach((l, i) => {
+        l.style.transition = 'stroke 0.4s ' + (i * 0.08) + 's, stroke-opacity 0.4s';
+        l.style.strokeOpacity = '0.8';
+        // Animate dashoffset for a "flowing" trade route effect
+        l.style.strokeDashoffset = '0';
+        l.setAttribute('stroke-dasharray', '5 3');
+      });
+    });
+    strip.addEventListener('mouseleave', () => {
+      lines.forEach(l => {
+        l.style.strokeOpacity = '';
+        l.setAttribute('stroke-dasharray', '3 4');
+      });
+    });
+
+    // Ping on Ethiopia dot speeds up on hover
+    const ping = strip.querySelector('circle[r="8"]');
+    if (ping) {
+      strip.addEventListener('mouseenter', () => {
+        ping.querySelectorAll('animate').forEach(a => { a.setAttribute('dur','1.2s'); });
+      });
+      strip.addEventListener('mouseleave', () => {
+        ping.querySelectorAll('animate').forEach(a => { a.setAttribute('dur','2.5s'); });
+      });
+    }
   })();
 
 </script>
