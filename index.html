@@ -2121,37 +2121,43 @@
 
   #cursor-dot {
     position: fixed;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 0;
     background: var(--gold);
     pointer-events: none;
     z-index: 99999;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, opacity 0.2s;
-    mix-blend-mode: difference;
+    transition: background 0.25s ease, opacity 0.2s;
   }
 
   #cursor-ring {
     position: fixed;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    border-radius: 0;
     border: 1.5px solid var(--gold);
     pointer-events: none;
     z-index: 99998;
     transform: translate(-50%, -50%);
-    transition: transform 0.18s cubic-bezier(0.25,0.46,0.45,0.94),
-                width 0.2s ease, height 0.2s ease, opacity 0.2s;
-    opacity: 0.6;
+    transition: border-color 0.25s ease, width 0.2s ease,
+                height 0.2s ease, opacity 0.2s;
+    opacity: 0.75;
   }
 
   #cursor-ring.hovering {
-    width: 60px;
-    height: 60px;
-    opacity: 0.9;
-    border-color: var(--green);
+    width: 54px;
+    height: 54px;
+    opacity: 1;
   }
+
+  /* On dark/brown surfaces → gold cursor */
+  body.cursor-on-dark #cursor-dot { background: var(--gold); }
+  body.cursor-on-dark #cursor-ring { border-color: var(--gold); }
+
+  /* On bright/gold surfaces → brown cursor */
+  body.cursor-on-light #cursor-dot { background: var(--bark); }
+  body.cursor-on-light #cursor-ring { border-color: var(--bark); }
 }
 
 /* ── SECTION FADE-IN REVEAL ── */
@@ -3230,18 +3236,58 @@
   const ring = document.getElementById('cursor-ring');
   if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
     let mx = -100, my = -100, rx = -100, ry = -100;
+
+    // Surface brightness detection: sample element under cursor
+    function detectSurface(x, y) {
+      const el = document.elementFromPoint(x, y);
+      if (!el) return 'dark';
+      // Walk up to find a section or meaningful container
+      let node = el;
+      for (let i = 0; i < 8; i++) {
+        if (!node || node === document.body) break;
+        const bg = getComputedStyle(node).backgroundColor;
+        if (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') {
+          // Parse RGB
+          const m = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+          if (m) {
+            const r = +m[1], g = +m[2], b = +m[3];
+            // Relative luminance
+            const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+            return lum > 0.45 ? 'light' : 'dark';
+          }
+        }
+        node = node.parentElement;
+      }
+      return 'dark';
+    }
+
+    let lastSurface = '';
     document.addEventListener('mousemove', e => {
       mx = e.clientX; my = e.clientY;
       dot.style.left = mx + 'px';
       dot.style.top = my + 'px';
+
+      const surface = detectSurface(mx, my);
+      if (surface !== lastSurface) {
+        lastSurface = surface;
+        if (surface === 'light') {
+          document.body.classList.add('cursor-on-light');
+          document.body.classList.remove('cursor-on-dark');
+        } else {
+          document.body.classList.add('cursor-on-dark');
+          document.body.classList.remove('cursor-on-light');
+        }
+      }
     });
+
     (function lerp() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
+      rx += (mx - rx) * 0.10;
+      ry += (my - ry) * 0.10;
       ring.style.left = rx + 'px';
       ring.style.top = ry + 'px';
       requestAnimationFrame(lerp);
     })();
+
     document.querySelectorAll('a, button, [role="button"], .intent-btn, .nav-links a').forEach(el => {
       el.addEventListener('mouseenter', () => ring.classList.add('hovering'));
       el.addEventListener('mouseleave', () => ring.classList.remove('hovering'));
@@ -3252,7 +3298,7 @@
     });
     document.addEventListener('mouseenter', () => {
       dot.style.opacity = '1';
-      ring.style.opacity = '0.6';
+      ring.style.opacity = '0.75';
     });
   }
 
