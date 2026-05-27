@@ -2511,6 +2511,80 @@
   .split-line-inner { transform: none; opacity: 1; }
 }
 
+/* ── HORIZONTAL SCROLL — THE JOURNEY ────────────────────────────── */
+.hscroll-pin {
+  overflow: hidden;
+  background: var(--ink);
+}
+.hscroll-track {
+  display: flex;
+  width: 500vw;
+  will-change: transform;
+}
+.hscroll-panel {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 10vw 6rem;
+  border-right: 1px solid rgba(212,152,58,0.08);
+  position: relative;
+  box-sizing: border-box;
+}
+.hscroll-panel--intro { background: var(--bark); }
+.hscroll-panel--last  { background: var(--soil); }
+.hscroll-label {
+  font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--gold); font-weight: 400; margin-bottom: 1.5rem;
+}
+.hscroll-counter {
+  position: absolute; top: 4rem; right: 6vw;
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem; color: rgba(212,152,58,0.35);
+  letter-spacing: 0.2em;
+}
+.hscroll-heading {
+  font-family: var(--font-serif);
+  font-size: clamp(4rem, 8vw, 8rem);
+  font-weight: 300; line-height: 1.0;
+  color: var(--cream); margin: 0 0 2rem;
+}
+.hscroll-heading em { font-style: italic; color: var(--gold); }
+.hscroll-stat {
+  font-family: var(--font-serif);
+  font-size: clamp(5rem, 10vw, 10rem);
+  font-weight: 300; line-height: 0.9;
+  color: rgba(212,152,58,0.12);
+  margin-bottom: 0.5rem;
+  pointer-events: none;
+}
+.hscroll-stat span { font-size: 0.4em; vertical-align: super; color: rgba(212,152,58,0.3); }
+.hscroll-step-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300; color: var(--cream); margin: 0 0 1.5rem;
+}
+.hscroll-body {
+  font-size: 0.95rem; line-height: 1.9;
+  color: var(--fog); font-weight: 300; max-width: 38ch;
+}
+.hscroll-hint {
+  margin-top: 3rem;
+  font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+  color: rgba(212,152,58,0.5);
+  animation: hscroll-blink 2s ease-in-out infinite;
+}
+.hscroll-cta { display: inline-flex; margin-top: 2.5rem; }
+@keyframes hscroll-blink { 0%,100% { opacity:0.5; } 50% { opacity:1; } }
+@media (max-width: 768px) {
+  .hscroll-pin { overflow: visible; }
+  .hscroll-track { flex-direction: column; width: 100%; }
+  .hscroll-panel { width: 100%; min-height: auto; padding: 5rem 2rem 4rem; border-right: none; border-bottom: 1px solid rgba(212,152,58,0.08); }
+  .hscroll-counter { position: static; margin-bottom: 1rem; }
+  .hscroll-stat { font-size: clamp(3rem, 12vw, 5rem); }
+}
+
 </style>
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <!-- GSAP + ScrollTrigger -->
@@ -2669,6 +2743,48 @@
     <div class="marquee-item">Traceable to Farm <span class="marquee-dot"></span></div>
     <div class="marquee-item">Washed · Natural · Roasted <span class="marquee-dot"></span></div>
     <div class="marquee-item">Est. June 2002 <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- HORIZONTAL SCROLL — THE JOURNEY ──────────────────────────── -->
+<div class="hscroll-pin" id="journey">
+  <div class="hscroll-track">
+    <div class="hscroll-panel hscroll-panel--intro">
+      <div class="hscroll-label">The Journey</div>
+      <div class="hscroll-counter">01 / 05</div>
+      <h2 class="hscroll-heading">From<br><em>Seed</em><br>to Cup</h2>
+      <p class="hscroll-body">Follow a single coffee cherry from the ancient forests of Gedeo to a roaster's hands on the other side of the world.</p>
+      <div class="hscroll-hint">scroll →</div>
+    </div>
+    <div class="hscroll-panel">
+      <div class="hscroll-label">Step 01</div>
+      <div class="hscroll-counter">02 / 05</div>
+      <div class="hscroll-stat">1,900<span>m</span></div>
+      <h3 class="hscroll-step-title">Grown in Forest</h3>
+      <p class="hscroll-body">Our coffee grows beneath a canopy of indigenous trees — shade-grown, organic by default. No chemicals, no monoculture. Just the Gedeo agroforest as it has always been.</p>
+    </div>
+    <div class="hscroll-panel">
+      <div class="hscroll-label">Step 02</div>
+      <div class="hscroll-counter">03 / 05</div>
+      <div class="hscroll-stat">72<span>hrs</span></div>
+      <h3 class="hscroll-step-title">Picked & Processed</h3>
+      <p class="hscroll-body">Cherries are hand-selected at peak ripeness — each one checked individually. Washed lots go to raised beds for three days. Natural lots dry whole under open sky, developing their wild complexity.</p>
+    </div>
+    <div class="hscroll-panel">
+      <div class="hscroll-label">Step 03</div>
+      <div class="hscroll-counter">04 / 05</div>
+      <div class="hscroll-stat">46K<span>+</span></div>
+      <h3 class="hscroll-step-title">Cooperative Graded</h3>
+      <p class="hscroll-body">Every lot passes through the union's quality system: cupped, graded, and traced back to its cooperative. Grade 1 means zero defects per 300 grams. We don't compromise.</p>
+    </div>
+    <div class="hscroll-panel hscroll-panel--last">
+      <div class="hscroll-label">Step 04</div>
+      <div class="hscroll-counter">05 / 05</div>
+      <div class="hscroll-stat">60<span>+</span></div>
+      <h3 class="hscroll-step-title">Exported Direct</h3>
+      <p class="hscroll-body">From Addis Ababa to roasters in Tokyo, Seoul, Berlin, and beyond — direct trade, fair price, full traceability. The farmer's name travels with the bean.</p>
+      <a href="#contact" class="hscroll-cta btn-ghost">Work with us →</a>
+    </div>
   </div>
 </div>
 
@@ -3875,6 +3991,41 @@
       scrollTrigger: { trigger: '.footer-editorial', start: 'top 90%' },
       opacity: 0, y: 30, duration: 0.9, ease: 'power2.out'
     });
+
+    // ── 14. HORIZONTAL SCROLL — THE JOURNEY ──
+    const htrack = document.querySelector('.hscroll-track');
+    const hpin   = document.querySelector('.hscroll-pin');
+    if (htrack && hpin && window.innerWidth > 768) {
+      const panels = htrack.querySelectorAll('.hscroll-panel');
+      const totalScroll = htrack.scrollWidth - window.innerWidth;
+
+      gsap.to(htrack, {
+        x: () => -totalScroll,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: hpin,
+          start: 'top top',
+          end: () => '+=' + (htrack.scrollWidth - window.innerWidth) * 1.2,
+          scrub: 1.2,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        }
+      });
+
+      // Stagger-reveal each panel's content as it enters
+      panels.forEach((panel, i) => {
+        gsap.from(panel.querySelectorAll('.hscroll-label, .hscroll-heading, .hscroll-step-title, .hscroll-body, .hscroll-stat, .hscroll-cta'), {
+          opacity: 0, y: 40, duration: 0.8, ease: 'power3.out', stagger: 0.1,
+          scrollTrigger: {
+            trigger: hpin,
+            start: () => `top+=${i * (htrack.scrollWidth / panels.length) * 0.7} top`,
+            containerAnimation: gsap.getById ? undefined : undefined,
+            toggleActions: 'play none none reverse',
+          }
+        });
+      });
+    }
 
     ScrollTrigger.refresh();
   }
