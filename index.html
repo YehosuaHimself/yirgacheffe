@@ -291,8 +291,8 @@
     line-height: 0.88;
     letter-spacing: 0.01em;
     color: var(--cream);
-    opacity: 0;
-    animation: fadeUp 1.2s 0.5s forwards;
+    opacity: 1;
+    animation: none;
     margin-bottom: 1.5rem;
   }
   .hero-headline em {
@@ -2882,6 +2882,244 @@ img.loaded {
   opacity: 1;
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   ITERATION 3 — UNFORGETTABLE TOUCHES
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Intent buttons: dramatic reveal hover ───────────────────────── */
+.intent-btn {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s, transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+}
+.intent-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212,152,58,0.08) 0%, rgba(212,152,58,0.02) 100%);
+  transform: translateX(-100%) skewX(-8deg);
+  transition: transform 0.5s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+}
+.intent-btn::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+.intent-btn:hover {
+  background: rgba(26,18,10,0.8) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+}
+.intent-btn:hover::before { transform: translateX(0) skewX(-8deg); }
+.intent-btn:hover::after { width: 100%; }
+.intent-btn:hover .intent-num { color: var(--gold); }
+.intent-btn:hover .intent-title { color: var(--cream); }
+
+/* ── Contact mailto: scan line on hover ─────────────────────────── */
+.contact-mailto-main {
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s, border-color 0.5s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.contact-mailto-main::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,152,58,0.06), transparent);
+  transition: left 0.7s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+}
+.contact-mailto-main:hover {
+  transform: translateX(3px);
+}
+.contact-mailto-main:hover::after { left: 150%; }
+
+/* ── Hero stat numbers: gold glow on hover ─────────────────────── */
+.hero-stat-number {
+  transition: color 0.3s, text-shadow 0.3s;
+  cursor: default;
+}
+.hero-stat-item:hover .hero-stat-number {
+  text-shadow: 0 0 30px rgba(212,152,58,0.5), 0 0 60px rgba(212,152,58,0.2);
+}
+.hero-stat-item:hover .hero-stat-label {
+  color: var(--gold);
+}
+.hero-stat-label {
+  transition: color 0.3s;
+}
+
+/* ── Gallery slot overlay reveal ─────────────────────────────────── */
+.gallery-slot {
+  overflow: hidden;
+  position: relative;
+}
+.gallery-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 2rem 1.5rem 1.2rem;
+  background: linear-gradient(to top, rgba(13,9,5,0.85), transparent);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fog);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.35s, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+  pointer-events: none;
+}
+.gallery-slot:hover .gallery-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Numbers strip: dramatic hover ──────────────────────────────── */
+.number-item {
+  position: relative;
+  transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+}
+.number-item:hover { transform: translateY(-4px); }
+.number-big {
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.number-item:hover .number-big {
+  color: var(--gold) !important;
+  text-shadow: 0 0 40px rgba(212,152,58,0.3);
+}
+
+/* ── hscroll panel: gold accent left border on active ───────────── */
+.hscroll-panel {
+  border-left: 3px solid transparent;
+  transition: border-color 0.5s;
+}
+.hscroll-panel--intro { border-left-color: var(--gold) !important; }
+
+/* ── Heritage section: UNESCO watermark enhancement ─────────────── */
+.heritage-section::before {
+  font-size: clamp(6rem, 14vw, 16rem) !important;
+  opacity: 0.025 !important;
+  letter-spacing: -0.04em;
+}
+
+/* ── Manifesto: coordinates watermark ───────────────────────────── */
+.manifesto-section::after {
+  content: '6.2613° N  38.2098° E';
+  position: absolute;
+  bottom: 3rem;
+  right: clamp(1.5rem, 6vw, 6rem);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  color: var(--gold);
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+/* ── Footer: gradient fade at top ───────────────────────────────── */
+footer {
+  position: relative;
+}
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), rgba(106,128,80,0.6), transparent);
+  opacity: 0.4;
+}
+
+/* ── Marquee: hover slow + gold on hover ────────────────────────── */
+.marquee-section:hover .marquee-track {
+  animation-duration: 60s;
+}
+.marquee-section:hover .marquee-item {
+  color: var(--soil);
+}
+
+/* ── Process section: step numbers pulse ────────────────────────── */
+.process-step:hover .process-num {
+  animation: numPulse 0.6s ease forwards;
+}
+@keyframes numPulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 0.22; }
+}
+
+/* ── Coffee card: tasting score badge on hover ──────────────────── */
+.coffee-card::after {
+  content: attr(data-score);
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  opacity: 0;
+  transition: opacity 0.4s 0.1s;
+  pointer-events: none;
+}
+.coffee-card:hover::after { opacity: 0.8; }
+
+/* ── Split line inner: ink-bleed reveal ─────────────────────────── */
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+.split-line-inner {
+  display: block;
+  animation: splitReveal 1.2s cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation-play-state: paused;
+}
+.hero-headline.animate .split-line-inner {
+  animation-play-state: running;
+}
+.split-line:nth-child(1) .split-line-inner { animation-delay: 0.5s; }
+.split-line:nth-child(2) .split-line-inner { animation-delay: 0.65s; }
+.split-line:nth-child(3) .split-line-inner { animation-delay: 0.8s; }
+
+@keyframes splitReveal {
+  from { transform: translateY(110%); }
+  to { transform: translateY(0); }
+}
+
+/* ── Section hairline top dividers (gold) ───────────────────────── */
+.heritage-section,
+.mission-section,
+.community-section,
+.mandates-section,
+.quotes-section,
+.altiviz-section {
+  position: relative;
+}
+.heritage-section::after,
+.mission-section::after,
+.community-section::after,
+.mandates-section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: clamp(1.5rem, 6vw, 6rem); right: clamp(1.5rem, 6vw, 6rem);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,152,58,0.2) 20%, rgba(212,152,58,0.2) 80%, transparent);
+  pointer-events: none;
+}
+
+/* ── Scrollbar: brand colors ────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--earth); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+
 </style>
 <style>
 #page-intro {
@@ -3714,7 +3952,7 @@ section > * { position: relative; z-index: 1; }
   </div>
 
   <div class="coffee-grid reveal">
-    <div class="coffee-card">
+    <div class="coffee-card" data-score="SCA 88–92">
       <div class="coffee-card-img">
         <img width="800" height="600" loading="lazy" src="images/hero.webp" referrerpolicy="no-referrer" alt="Natural sun-dried Yirgacheffe coffee beans on raised drying beds" onerror="this.parentElement.style.display='none'"/>
       </div>
@@ -3736,7 +3974,7 @@ section > * { position: relative; z-index: 1; }
       </div>
     </div>
 
-    <div class="coffee-card">
+    <div class="coffee-card" data-score="SCA 86–90">
       <div class="coffee-card-img">
         <img width="900" height="600" loading="lazy" src="images/beans-green.webp" referrerpolicy="no-referrer" alt="Washed green coffee beans being sorted and processed" onerror="this.parentElement.style.display='none'"/>
       </div>
@@ -3758,7 +3996,7 @@ section > * { position: relative; z-index: 1; }
       </div>
     </div>
 
-    <div class="coffee-card">
+    <div class="coffee-card" data-score="3 ROAST PROFILES">
       <div class="coffee-card-img">
         <img width="900" height="600" loading="lazy" src="images/photo-roasted-bag.webp" referrerpolicy="no-referrer" alt="Roasted Yirgacheffe coffee beans in a burlap bag" onerror="this.parentElement.style.display='none'"/>
       </div>
@@ -4503,7 +4741,12 @@ section > * { position: relative; z-index: 1; }
   // ── PAGE LOAD TRANSITION ─────────────────────────────────────────
   (function() {
     const intro = document.getElementById('page-intro');
-    if (!intro) return;
+    if (!intro) {
+      // No intro — animate headline immediately
+      const hl = document.querySelector('.hero-headline');
+      if (hl) hl.classList.add('animate');
+      return;
+    }
     const logo = intro.querySelector('.pi-logo');
     const bg   = intro.querySelector('.pi-bg');
 
@@ -4532,6 +4775,9 @@ section > * { position: relative; z-index: 1; }
     setTimeout(() => {
       intro.remove();
       document.documentElement.style.overflow = '';
+      // Trigger hero headline split animation
+      const hl = document.querySelector('.hero-headline');
+      if (hl) hl.classList.add('animate');
     }, 2500);
   })();
 
