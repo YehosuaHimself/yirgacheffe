@@ -163,8 +163,9 @@
     justify-content: space-between;
     padding: 1.5rem 3rem;
     mix-blend-mode: normal;
+    isolation: isolate;
     transition: background 0.4s;
-    background: rgba(13,9,5,0.97);
+    background: rgb(13,9,5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
   }
@@ -1616,7 +1617,7 @@
     inset: -20%;
     background-image: url('images/photo-highlands.webp');
     background-size: cover;
-    background-position: center;
+    background-position: center 30%;
     will-change: transform;
   }
   .parallax-break-overlay {
@@ -4039,7 +4040,7 @@ section > * { position: relative; z-index: 1; }
         src="images/photo-highlands.webp"
         referrerpolicy="no-referrer"
         width="800" height="600"
-        alt="Winding road through the Gedeo Highlands of Ethiopia, the coffee-farming region of Yirgacheffe"
+        alt="Coffee cherries on the branch at sunset — Gedeo Highlands, Yirgacheffe"
         class="photo-card-img"
         onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(170deg,#0a1a06,#1f3812)'"
       />
