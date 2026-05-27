@@ -2585,13 +2585,59 @@
   .hscroll-stat { font-size: clamp(3rem, 12vw, 5rem); }
 }
 
+/* ── PAGE LOAD TRANSITION ────────────────────────────────────────── */
+#page-intro {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.pi-bg {
+  position: absolute; inset: 0;
+  background: var(--ink);
+  transform-origin: top;
+  will-change: transform;
+}
+.pi-logo {
+  position: relative; z-index: 1;
+  text-align: center;
+  opacity: 0;
+}
+.pi-wordmark {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 300; letter-spacing: 0.35em;
+  color: var(--cream); text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.pi-sub {
+  font-size: 0.6rem; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold);
+  opacity: 0.7; margin-bottom: 1.8rem;
+}
+.pi-bar {
+  width: 0; height: 1px;
+  background: var(--gold);
+  margin: 0 auto;
+  transition: width 0.9s cubic-bezier(.16,1,.3,1);
+}
+#page-intro.bar-go .pi-bar { width: 120px; }
+
 </style>
-<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
+
+<!-- PAGE LOAD TRANSITION ─────────────────────────────────────────── -->
+<div id="page-intro" aria-hidden="true">
+  <div class="pi-bg"></div>
+  <div class="pi-logo">
+    <div class="pi-wordmark">YCFCU</div>
+    <div class="pi-sub">Yirgacheffe Coffee Farmers Cooperative Union</div>
+    <div class="pi-bar"></div>
+  </div>
+</div>
 <!-- PAGE LOADER -->
 <div id="page-loader" aria-hidden="true">
   <div class="loader-logo">YCFCU</div>
@@ -3511,6 +3557,41 @@
 <!-- SCROLL TO TOP -->
 <button id="scrollTop" aria-label="Back to top" title="Back to top">↑</button>
 <script>
+  // ── PAGE LOAD TRANSITION ─────────────────────────────────────────
+  (function() {
+    const intro = document.getElementById('page-intro');
+    if (!intro) return;
+    const logo = intro.querySelector('.pi-logo');
+    const bg   = intro.querySelector('.pi-bg');
+
+    // Prevent scroll while intro runs
+    document.documentElement.style.overflow = 'hidden';
+
+    // Step 1: fade in logo (100ms delay so paint settles)
+    setTimeout(() => {
+      logo.style.transition = 'opacity 0.5s ease';
+      logo.style.opacity = '1';
+      intro.classList.add('bar-go');
+    }, 100);
+
+    // Step 2: at 1.2s, slide bg up to reveal page
+    setTimeout(() => {
+      logo.style.transition = 'opacity 0.35s ease';
+      logo.style.opacity = '0';
+    }, 1300);
+
+    setTimeout(() => {
+      bg.style.transition = 'transform 0.9s cubic-bezier(.76,0,.24,1)';
+      bg.style.transform = 'scaleY(0)';
+    }, 1550);
+
+    // Step 3: remove element entirely
+    setTimeout(() => {
+      intro.remove();
+      document.documentElement.style.overflow = '';
+    }, 2500);
+  })();
+
   // SCROLL TO TOP
   const scrollTopBtn = document.getElementById('scrollTop');
   window.addEventListener('scroll', () => {
