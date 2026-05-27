@@ -7381,13 +7381,14 @@ section > * { position: relative; z-index: 1; }
 }
 #cursor-label.visible { opacity: 1; }
 
-/* ── Clip-path scroll reveals ──────────────────────────────────── */
-.clip-reveal {
-  clip-path: inset(100% 0 0 0) !important;
-  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1) !important;
+/* ── Clip-path wipe reveals on images ──────────────────────────── */
+.img-wipe {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: clip-path;
 }
-.clip-reveal.clip-in {
-  clip-path: inset(0% 0 0 0) !important;
+.img-wipe.wipe-in {
+  clip-path: inset(0% 0 0 0);
 }
 
 /* ── Self-drawing origin map ───────────────────────────────────── */
@@ -7606,10 +7607,10 @@ section > * { position: relative; z-index: 1; }
   if ('IntersectionObserver' in window) {
     var imgs = document.querySelectorAll('.coffee-img img, .heritage-img img, .process-img img, .gallery-slot img');
     imgs.forEach(function(img) {
-      img.classList.add('clip-reveal');
+      img.classList.add('img-wipe');
       new IntersectionObserver(function(entries, obs) {
         entries.forEach(function(e) {
-          if (e.isIntersecting) { e.target.classList.add('clip-in'); obs.unobserve(e.target); }
+          if (e.isIntersecting) { e.target.classList.add('wipe-in'); obs.unobserve(e.target); }
         });
       }, { threshold: 0.12 }).observe(img);
     });
@@ -7683,19 +7684,20 @@ section > * { position: relative; z-index: 1; }
     setTimeout(function() { scramble(tagline, orig, 1500); }, 1000);
   }
 
-  // ── 6. Scroll-velocity skew on section headers ───────────────
-  var lastSY2 = window.scrollY, vel2 = 0;
-  var skewTargets = document.querySelectorAll('.section-header');
+  // ── 6. Scroll-velocity skew on section eyebrows only (safe — no conflict with reveal transforms) ─
+  var lastSY2 = window.scrollY;
+  var skewEls = document.querySelectorAll('.section-label, .section-eyebrow, .origin-map-eyebrow');
   window.addEventListener('scroll', function() {
-    vel2 = (window.scrollY - lastSY2) * 0.012;
+    var vel = (window.scrollY - lastSY2) * 0.018;
     lastSY2 = window.scrollY;
-    skewTargets.forEach(function(el) {
-      el.style.transform = 'skewY(' + Math.max(-1.5, Math.min(1.5, vel2)) + 'deg)';
+    var skew = Math.max(-2, Math.min(2, vel));
+    skewEls.forEach(function(el) {
+      el.style.transform = 'skewX(' + skew + 'deg)';
     });
     clearTimeout(window._skewReset);
     window._skewReset = setTimeout(function() {
-      skewTargets.forEach(function(el) { el.style.transform = 'skewY(0deg)'; });
-    }, 300);
+      skewEls.forEach(function(el) { el.style.transform = ''; });
+    }, 350);
   }, { passive: true });
 
 })();
@@ -7704,8 +7706,8 @@ section > * { position: relative; z-index: 1; }
 <style>
 /* ── Ensure new elements respect reduced motion ───────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .clip-reveal { clip-path: none !important; transition: none !important; }
-  .clip-reveal.clip-in { clip-path: none !important; }
+  .img-wipe { clip-path: none !important; transition: none !important; }
+  .img-wipe.wipe-in { clip-path: none !important; }
   .word-reveal-wrap .wr-inner { transform: none !important; transition: none !important; }
   .mdraw { transition: none !important; }
   .kinetic-track { animation: none !important; }
