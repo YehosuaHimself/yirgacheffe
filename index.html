@@ -2496,6 +2496,8 @@
 }
 
 </style>
+<!-- Lenis smooth scroll -->
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
@@ -3857,6 +3859,48 @@
 
   // Init GSAP after scripts load (they are defer'd)
   window.addEventListener('load', initGSAP);
+
+  // ── LENIS SMOOTH SCROLL ──────────────────────────────────────────
+  // Runs unconditionally so the page glides on desktop/tablet;
+  // degrade gracefully on touch (Lenis is still fine there).
+  (function initLenis() {
+    if (typeof Lenis === 'undefined') return;
+    const lenis = new Lenis({
+      duration: 1.25,
+      easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.5,
+    });
+
+    // Wire Lenis RAF to GSAP ticker (if GSAP loaded) or native RAF
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Keep GSAP ScrollTrigger in sync
+    if (typeof ScrollTrigger !== 'undefined') {
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(time => lenis.raf(time * 1000));
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    // Smooth anchor clicks (override default)
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); lenis.scrollTo(target, { offset: -80, duration: 1.4 }); }
+      });
+    });
+
+    // Scroll-to-top button
+    const stb = document.getElementById('scrollTop');
+    if (stb) stb.addEventListener('click', () => lenis.scrollTo(0, { duration: 1.6 }));
+  })();
 
 </script>
 </body>
