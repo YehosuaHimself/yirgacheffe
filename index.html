@@ -469,6 +469,25 @@
     background: var(--gold);
   }
 
+  /* On gold/amber backgrounds, eyebrow uses dark color */
+  .origin .section-eyebrow,
+  .coffee-section .section-eyebrow,
+  .grades-section .section-eyebrow,
+  .mission-section .section-eyebrow,
+  .community-section .section-eyebrow,
+  .process-section .section-eyebrow,
+  .process-section + * .section-eyebrow {
+    color: var(--bark);
+  }
+  .origin .section-eyebrow::before,
+  .coffee-section .section-eyebrow::before,
+  .grades-section .section-eyebrow::before,
+  .mission-section .section-eyebrow::before,
+  .community-section .section-eyebrow::before,
+  .process-section .section-eyebrow::before {
+    background: var(--bark);
+  }
+
   /* ORIGIN STORY */
   .origin {
     padding: 8rem 3rem;
