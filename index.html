@@ -2495,8 +2495,23 @@
   .photo-break { height: 220px; }
 }
 
+/* ── HERO SPLIT-LINE REVEAL ──────────────────────────────────────── */
+.split-line {
+  display: block;
+  overflow: hidden;
+  line-height: 0.95;
+}
+.split-line-inner {
+  display: block;
+  transform: translateY(110%) skewY(3deg);
+  transition: none; /* driven by GSAP, not CSS */
+}
+/* Reduced motion fallback */
+@media (prefers-reduced-motion: reduce) {
+  .split-line-inner { transform: none; opacity: 1; }
+}
+
 </style>
-<!-- Lenis smooth scroll -->
 <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
@@ -2588,10 +2603,10 @@
 
   <div class="hero-content">
     <div class="hero-eyebrow">Birthplace of Coffee · Gedeo Highlands · 1,600–2,400m</div>
-    <h1 class="hero-headline">
-      WHERE<br>
-      COFFEE<br>
-      Began.
+    <h1 class="hero-headline" aria-label="Where Coffee Began.">
+      <span class="split-line"><span class="split-line-inner">WHERE</span></span>
+      <span class="split-line"><span class="split-line-inner">COFFEE</span></span>
+      <span class="split-line"><span class="split-line-inner">Began.</span></span>
     </h1>
     <p class="hero-sub">
       Forty-six thousand farmers. Sixty-two thousand hectares of ancient agroforest.
@@ -3737,14 +3752,21 @@
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
-    // ── 1. HERO — staggered reveal on load ──
-    const heroTl = gsap.timeline({ delay: 1.1 });
+    // ── 1. HERO — split-line word reveal on load ──
+    const heroTl = gsap.timeline({ delay: 0.3 });
     heroTl
-      .from('.hero-eyebrow', { opacity: 0, y: 30, duration: 0.9, ease: 'power3.out' })
-      .from('.hero-title', { opacity: 0, y: 50, duration: 1.1, ease: 'power3.out' }, '-=0.5')
-      .from('.hero-subtitle', { opacity: 0, y: 30, duration: 0.9, ease: 'power3.out' }, '-=0.6')
-      .from('.hero-cta', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' }, '-=0.5')
-      .from('.hero-scroll-hint', { opacity: 0, duration: 0.6, ease: 'power1.out' }, '-=0.3');
+      .from('.hero-eyebrow', { opacity: 0, y: 20, duration: 0.8, ease: 'power3.out' })
+      .to('.split-line-inner', {
+        y: '0%', skewY: 0,
+        duration: 1.1, ease: 'power4.out',
+        stagger: 0.12
+      }, '-=0.4')
+      .from('.hero-sub', { opacity: 0, y: 25, duration: 0.9, ease: 'power2.out' }, '-=0.6')
+      .from('.hero-actions', { opacity: 0, y: 20, duration: 0.7, ease: 'power2.out' }, '-=0.5')
+      .from('.hero-scroll-hint', { opacity: 0, duration: 0.6, ease: 'power1.out' }, '-=0.4')
+      .from('.hero-stats .hero-stat-item', {
+        opacity: 0, y: 15, duration: 0.6, ease: 'power2.out', stagger: 0.1
+      }, '-=0.5');
 
     // ── 2. ORIGIN — horizontal text slide-in ──
     gsap.from('.origin-label', {
