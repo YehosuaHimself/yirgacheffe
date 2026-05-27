@@ -3702,51 +3702,104 @@ section > * { position: relative; z-index: 1; }
    WORLD-CLASS HOVER EFFECTS — SS1 gallery strip, SS2 altiviz, SS3 footer
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── SS1: GALLERY STRIP — magnetic reveal panels ──────────────────── */
+/* ── SS1: GALLERY STRIP — cinematic split-reveal panels ─────────── */
 .gallery-text-slot {
-  cursor: default;
-  transition: background 0.5s cubic-bezier(0.16,1,0.3,1);
+  cursor: crosshair;
   overflow: hidden;
+  position: relative;
+  transition: flex 0.7s cubic-bezier(0.16,1,0.3,1);
 }
+/* Magnetic glow follows cursor via JS --mx/--my */
 .gallery-text-slot::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,152,58,0.12) 0%, transparent 65%);
+  background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(212,152,58,0.18) 0%, rgba(212,152,58,0.05) 40%, transparent 70%);
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.35s ease;
   pointer-events: none;
   z-index: 0;
 }
+/* Scan line that sweeps up on hover */
+.gallery-text-slot::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,152,58,0.6), transparent);
+  bottom: -2px;
+  transition: bottom 0.55s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
 .gallery-text-slot:hover::before { opacity: 1; }
+.gallery-text-slot:hover::after { bottom: calc(100% - 2px); opacity: 1; }
+
+/* Body text: reveals gold with a slight upward drift */
+.gallery-text-body {
+  transition: color 0.45s cubic-bezier(0.16,1,0.3,1), transform 0.45s cubic-bezier(0.16,1,0.3,1);
+}
 .gallery-text-slot:hover .gallery-text-body {
   color: var(--gold);
-  transition: color 0.4s cubic-bezier(0.16,1,0.3,1);
+  transform: translateY(-3px);
+}
+/* Rule: extends and brightens */
+.gallery-text-rule {
+  transition: width 0.6s cubic-bezier(0.16,1,0.3,1), background 0.4s, opacity 0.4s;
 }
 .gallery-text-slot:hover .gallery-text-rule {
-  width: 60px;
-  background: rgba(212,152,58,0.7);
-  transition: width 0.5s cubic-bezier(0.16,1,0.3,1), background 0.4s;
+  width: 80px;
+  background: var(--gold);
+  opacity: 0.9;
+}
+/* Label: expands letter-spacing dramatically */
+.gallery-text-label {
+  transition: letter-spacing 0.6s cubic-bezier(0.16,1,0.3,1), opacity 0.4s, color 0.4s;
 }
 .gallery-text-slot:hover .gallery-text-label {
-  letter-spacing: 0.45em;
+  letter-spacing: 0.5em;
   opacity: 1;
-  transition: letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+  color: rgba(212,152,58,0.8);
+}
+/* Footer caption: breathes wider */
+.gallery-caption-gold {
+  transition: color 0.4s, letter-spacing 0.55s cubic-bezier(0.16,1,0.3,1);
 }
 .gallery-text-slot:hover .gallery-caption-gold {
-  color: rgba(212,152,58,0.9);
-  letter-spacing: 0.35em;
-  transition: color 0.4s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1);
+  color: rgba(212,152,58,0.95);
+  letter-spacing: 0.4em;
 }
 .gallery-text-inner { position: relative; z-index: 1; }
 
-/* ── SS2: ALTIVIZ — chart line glow + legend items pulse on hover ── */
+/* ── SS2: ALTIVIZ — full-section cinematic response ──────────────── */
+/* Section itself pulses inward on hover */
+.altiviz-section {
+  transition: box-shadow 0.6s ease;
+}
+.altiviz-section:hover {
+  box-shadow: inset 0 0 120px rgba(212,152,58,0.04);
+}
+/* Canvas: gold aura intensifies */
+#altiviz-canvas {
+  transition: box-shadow 0.5s ease, filter 0.4s ease;
+}
+.altiviz-section:hover #altiviz-canvas {
+  box-shadow: 0 0 80px rgba(212,152,58,0.15), 0 0 200px rgba(212,152,58,0.06), inset 0 0 40px rgba(0,0,0,0.4);
+  filter: brightness(1.06) saturate(1.1);
+}
+/* Legend items: magnetic slide-right with gold bar */
 .altiviz-legend-item {
   cursor: default;
-  padding: 0.4rem 0.6rem;
-  border-radius: 2px;
-  transition: background 0.3s, transform 0.35s cubic-bezier(0.16,1,0.3,1);
+  padding: 0.5rem 0.8rem 0.5rem 0;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), padding 0.4s cubic-bezier(0.16,1,0.3,1);
   position: relative;
+  border-left: 2px solid transparent;
+}
+.altiviz-legend-item:hover {
+  transform: translateX(6px);
+  padding-left: 0.8rem;
+  border-left-color: var(--gold);
 }
 .altiviz-legend-item::after {
   content: '';
@@ -3757,64 +3810,108 @@ section > * { position: relative; z-index: 1; }
   transform: translateY(-50%);
   transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
 }
-.altiviz-legend-item:hover {
-  background: rgba(212,152,58,0.07);
-  transform: translateX(6px);
-}
-.altiviz-legend-item:hover::after { width: 4px; }
-.altiviz-legend-item:first-child:hover { background: rgba(212,152,58,0.1); }
+.altiviz-legend-item:hover::after { width: 0; } /* handled by border-left now */
 
-#altiviz-canvas {
-  transition: filter 0.5s ease;
-  cursor: crosshair;
+/* Heading lifts on section hover */
+.altiviz-left h2 {
+  transition: letter-spacing 0.6s cubic-bezier(0.16,1,0.3,1), color 0.4s;
 }
-.altiviz-right:hover #altiviz-canvas {
-  filter: brightness(1.15) drop-shadow(0 0 18px rgba(212,152,58,0.2));
+.altiviz-section:hover .altiviz-left h2 {
+  letter-spacing: 0.01em;
+  color: var(--cream);
 }
 
-/* ── SS3: FOOTER MAP — trade routes light up, ping pulses faster ── */
+/* ── SS3: FOOTER MAP — deep cinematic reveal ────────────────────── */
 .footer-map-strip {
   position: relative;
   overflow: hidden;
-  transition: background 0.5s;
+  transition: background 0.6s;
+  cursor: crosshair;
+}
+/* Full-bleed gold aura blooms from Ethiopia's position */
+.footer-map-strip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 40% 120% at 51% 50%, rgba(212,152,58,0.12) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+  z-index: 1;
 }
 .footer-map-strip::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 51% 50%, rgba(212,152,58,0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse 80% 60% at 51% 50%, rgba(212,152,58,0.04) 0%, transparent 70%);
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.9s ease 0.1s;
   pointer-events: none;
+  z-index: 0;
 }
+.footer-map-strip:hover::before { opacity: 1; }
 .footer-map-strip:hover::after { opacity: 1; }
+
+/* Trade lines: animate dash offset and brighten */
+.footer-map-strip .trade-line {
+  stroke-dasharray: 5 4;
+  stroke-dashoffset: 0;
+  transition: stroke 0.5s ease, opacity 0.5s ease;
+}
 .footer-map-strip:hover .trade-line {
-  stroke: rgba(212,152,58,0.55);
-  stroke-dasharray: 4 3;
-  transition: stroke 0.4s, stroke-dasharray 0.4s;
+  stroke: rgba(212,152,58,0.65);
+  opacity: 1;
+  animation: tradeDash 3s linear infinite;
+}
+@keyframes tradeDash {
+  to { stroke-dashoffset: -50; }
+}
+
+/* Africa: fills gold, stroke sharpens */
+.footer-map-strip .africa {
+  transition: fill 0.6s cubic-bezier(0.16,1,0.3,1), stroke 0.6s, stroke-width 0.4s;
 }
 .footer-map-strip:hover .africa {
-  fill: rgba(212,152,58,0.11);
-  stroke: rgba(212,152,58,0.45);
-  transition: fill 0.5s, stroke 0.5s;
+  fill: rgba(212,152,58,0.14);
+  stroke: rgba(212,152,58,0.55);
+  stroke-width: 1.5px;
+}
+
+/* Other continents: subtle brightening */
+.footer-map-strip .continent {
+  transition: stroke 0.6s ease, fill 0.6s ease;
 }
 .footer-map-strip:hover .continent {
-  stroke: rgba(240,232,216,0.22);
-  transition: stroke 0.5s;
+  stroke: rgba(240,232,216,0.28);
+  fill: rgba(240,232,216,0.03);
 }
+
+/* Ping: accelerates and glows on hover */
+.footer-map-strip .ping-ring {
+  transition: animation-duration 0.1s;
+}
+.footer-map-strip:hover .ping-ring {
+  animation-duration: 1s !important;
+}
+
+/* Label: dramatic letter-spacing expansion */
 .footer-map-label {
-  transition: color 0.4s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1);
+  transition: color 0.4s, letter-spacing 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+  z-index: 2;
 }
 .footer-map-strip:hover .footer-map-label {
   color: var(--gold);
-  letter-spacing: 0.4em;
+  letter-spacing: 0.45em;
+  transform: translateY(-2px);
 }
 
-/* footer brand + email — magnetic lift */
+/* Footer brand: magnetic float */
 .footer-brand {
-  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
 }
-.footer-brand:hover { transform: translateY(-3px); }
+.footer-brand:hover { transform: translateY(-4px); }
+
 .footer-wordmark {
   transition: letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1), color 0.3s;
 }
