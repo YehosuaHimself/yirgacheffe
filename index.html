@@ -907,10 +907,20 @@
   /* D4A */
   .d4a-banner {
     background: var(--moss);
+    background-image: url('https://yirgacheffeunion.com/wp-content/uploads/2023/03/0H0A9696.jpg');
+    background-size: cover;
+    background-position: center;
     padding: 5rem 3rem;
     text-align: center;
     position: relative;
     overflow: hidden;
+  }
+  .d4a-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(34,51,34,0.82);
+    z-index: 1;
   }
   .d4a-banner::before {
     content: 'D4A';
@@ -920,6 +930,7 @@
     transform: translate(-50%, -50%);
     font-family: var(--font-display);
     font-size: 20rem;
+    z-index: 2;
     color: rgba(0,0,0,0.15);
     letter-spacing: 0.05em;
     pointer-events: none;
