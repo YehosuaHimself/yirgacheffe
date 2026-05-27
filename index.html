@@ -2582,6 +2582,8 @@
 /* ── GALLERY STRIP ───────────────────────────────────────────────── */
 .gallery-strip { padding: 0; overflow: hidden; }
 .gallery-strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); height: 420px; }
+/* JS switches to flex for panel expansion — ensure height carries over */
+.gallery-strip-grid[style*="flex"] { height: 420px; }
 .gallery-slot { overflow:hidden; position:relative; }
 .gallery-slot-img { width:100%;height:100%;object-fit:cover;object-position:center;transition:transform 0.6s ease; }
 .gallery-slot-img:hover { transform:scale(1.07); }
@@ -6346,8 +6348,44 @@ section > * { position: relative; z-index: 1; }
   })();
 
   // ── GALLERY STRIP: magnetic radial spotlight per slot ───────────
+  // ── GALLERY STRIP: panel expansion + magnetic glow + stagger ─────
   (function initGalleryMagnet() {
-    document.querySelectorAll('.gallery-text-slot').forEach(slot => {
+    const grid = document.querySelector('.gallery-strip-grid');
+    const slots = document.querySelectorAll('.gallery-text-slot');
+    if (!grid || !slots.length) return;
+
+    // Switch grid to flex so panels can expand/compress
+    grid.style.display = 'flex';
+    slots.forEach(s => {
+      s.style.flex = '1';
+      s.style.minWidth = '0';
+      s.style.transition = 'flex 0.65s cubic-bezier(0.16,1,0.3,1)';
+    });
+
+    slots.forEach(slot => {
+      // Panel expansion: hovered slot grows, siblings shrink
+      slot.addEventListener('mouseenter', () => {
+        slots.forEach(s => s.style.flex = s === slot ? '2.4' : '0.55');
+        // Staggered text delays
+        const label = slot.querySelector('.gallery-text-label');
+        const rule  = slot.querySelector('.gallery-text-rule');
+        const body  = slot.querySelector('.gallery-text-body');
+        if (label) label.style.transitionDelay = '0ms';
+        if (rule)  rule.style.transitionDelay  = '60ms';
+        if (body)  body.style.transitionDelay  = '120ms';
+      });
+
+      slot.addEventListener('mouseleave', () => {
+        slots.forEach(s => s.style.flex = '1');
+        const label = slot.querySelector('.gallery-text-label');
+        const rule  = slot.querySelector('.gallery-text-rule');
+        const body  = slot.querySelector('.gallery-text-body');
+        if (label) label.style.transitionDelay = '0ms';
+        if (rule)  rule.style.transitionDelay  = '0ms';
+        if (body)  body.style.transitionDelay  = '0ms';
+      });
+
+      // Magnetic cursor spotlight
       slot.addEventListener('mousemove', e => {
         const r = slot.getBoundingClientRect();
         const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%';
@@ -6358,77 +6396,119 @@ section > * { position: relative; z-index: 1; }
     });
   })();
 
-  // ── ALTIVIZ: crosshair tooltip on canvas hover ───────────────────
+  // ── ALTIVIZ: live crosshair overlay + tooltip ───────────────────
   (function initAltivizTooltip() {
     const canvas = document.getElementById('altiviz-canvas');
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
 
-    // Store original draw so we can overlay the crosshair
-    let tooltip = null;
+    // Tooltip
     const tip = document.createElement('div');
-    tip.style.cssText = 'position:absolute;pointer-events:none;background:rgba(13,9,5,0.92);border:1px solid rgba(212,152,58,0.3);color:var(--cream);font-family:"Courier New",monospace;font-size:0.82rem;letter-spacing:0.1em;padding:0.5rem 0.8rem;opacity:0;transition:opacity 0.2s;white-space:nowrap;z-index:10;';
+    tip.style.cssText = 'position:absolute;pointer-events:none;background:rgba(13,9,5,0.95);border:1px solid rgba(212,152,58,0.5);color:var(--cream);font-family:"Courier New",monospace;font-size:0.82rem;letter-spacing:0.12em;padding:0.35rem 0.7rem;opacity:0;transition:opacity 0.12s;white-space:nowrap;z-index:10;';
     canvas.parentElement.style.position = 'relative';
     canvas.parentElement.appendChild(tip);
 
-    // Altitude zones: y=30 → 2500m, y=400 → 0m (canvas h=440, plotArea top=30 h=370)
-    const yToAlt = y => Math.round(2500 - ((y - 30) / 370) * 2500);
-    // Month labels mapped to x
-    const months = ['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
-    const xToMonth = x => {
-      const pct = (x - 60) / (canvas.width - 80);
-      const i = Math.round(pct * (months.length - 1));
-      return months[Math.max(0, Math.min(months.length-1, i))] || '';
-    };
+    // Separate overlay canvas for crosshair (doesn't repaint main chart)
+    const ov = document.createElement('canvas');
+    ov.width = canvas.width; ov.height = canvas.height;
+    ov.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;';
+    canvas.parentElement.appendChild(ov);
+    const oc = ov.getContext('2d');
 
+    const months = ['Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'];
+    const xToMonth = x => months[Math.max(0, Math.min(months.length-1, Math.round((x-60)/(canvas.width-80)*(months.length-1))))];
+    const yToAlt   = y => Math.round(2500 - ((y-30)/370)*2500);
+
+    let raf;
     canvas.addEventListener('mousemove', e => {
       const r = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / r.width;
-      const scaleY = canvas.height / r.height;
-      const cx2 = (e.clientX - r.left) * scaleX;
-      const cy2 = (e.clientY - r.top)  * scaleY;
-      const alt = yToAlt(cy2);
-      const mon = xToMonth(cx2);
-      tip.textContent = mon + ' · ' + Math.max(0, alt) + 'm';
+      const cx = (e.clientX - r.left) * (canvas.width  / r.width);
+      const cy = (e.clientY - r.top)  * (canvas.height / r.height);
+      const alt = Math.max(0, yToAlt(cy));
+      const mon = xToMonth(cx);
+
+      tip.textContent = mon + ' · ' + alt + 'm';
       tip.style.left = (e.clientX - r.left + 14) + 'px';
-      tip.style.top  = (e.clientY - r.top  - 18) + 'px';
+      tip.style.top  = (e.clientY - r.top  - 20) + 'px';
       tip.style.opacity = '1';
+
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        oc.clearRect(0, 0, ov.width, ov.height);
+        oc.save();
+        oc.strokeStyle = 'rgba(212,152,58,0.3)';
+        oc.lineWidth = 1;
+        oc.setLineDash([3,4]);
+        // vertical
+        oc.beginPath(); oc.moveTo(cx, 30); oc.lineTo(cx, 400); oc.stroke();
+        // horizontal
+        oc.beginPath(); oc.moveTo(60, cy); oc.lineTo(canvas.width - 20, cy); oc.stroke();
+        oc.setLineDash([]);
+        // intersection dot
+        oc.beginPath();
+        oc.arc(cx, cy, 3.5, 0, Math.PI*2);
+        oc.fillStyle = 'rgba(212,152,58,0.95)';
+        oc.fill();
+        // outer ring
+        oc.beginPath();
+        oc.arc(cx, cy, 7, 0, Math.PI*2);
+        oc.strokeStyle = 'rgba(212,152,58,0.35)';
+        oc.lineWidth = 1;
+        oc.setLineDash([]);
+        oc.stroke();
+        oc.restore();
+      });
     });
-    canvas.addEventListener('mouseleave', () => { tip.style.opacity = '0'; });
+
+    canvas.addEventListener('mouseleave', () => {
+      tip.style.opacity = '0';
+      cancelAnimationFrame(raf);
+      oc.clearRect(0, 0, ov.width, ov.height);
+    });
+
+    // Individual legend item hover glow
+    document.querySelectorAll('.altiviz-legend-item').forEach(item => {
+      item.addEventListener('mouseenter', () => item.style.background = 'rgba(212,152,58,0.07)');
+      item.addEventListener('mouseleave', () => item.style.background = '');
+    });
   })();
 
-  // ── FOOTER MAP: trade route dash animation on hover ──────────────
+  // ── FOOTER MAP: rAF-driven flowing trade routes ──────────────────
   (function initFooterMapHover() {
     const strip = document.querySelector('.footer-map-strip');
     if (!strip) return;
     const lines = strip.querySelectorAll('.trade-line');
+    let dashAnim, offset = 0;
+
+    function animateDash() {
+      offset -= 0.5;
+      lines.forEach(l => l.setAttribute('stroke-dashoffset', offset.toFixed(1)));
+      dashAnim = requestAnimationFrame(animateDash);
+    }
+
     strip.addEventListener('mouseenter', () => {
       lines.forEach((l, i) => {
-        l.style.transition = 'stroke 0.4s ' + (i * 0.08) + 's, stroke-opacity 0.4s';
-        l.style.strokeOpacity = '0.8';
-        // Animate dashoffset for a "flowing" trade route effect
-        l.style.strokeDashoffset = '0';
+        l.style.stroke = 'rgba(212,152,58,0.65)';
+        l.style.strokeOpacity = '1';
         l.setAttribute('stroke-dasharray', '5 3');
       });
+      animateDash();
     });
+
     strip.addEventListener('mouseleave', () => {
+      cancelAnimationFrame(dashAnim);
       lines.forEach(l => {
+        l.style.stroke = '';
         l.style.strokeOpacity = '';
         l.setAttribute('stroke-dasharray', '3 4');
       });
     });
 
-    // Ping on Ethiopia dot speeds up on hover
+    // Ping acceleration
     const ping = strip.querySelector('circle[r="8"]');
     if (ping) {
-      strip.addEventListener('mouseenter', () => {
-        ping.querySelectorAll('animate').forEach(a => { a.setAttribute('dur','1.2s'); });
-      });
-      strip.addEventListener('mouseleave', () => {
-        ping.querySelectorAll('animate').forEach(a => { a.setAttribute('dur','2.5s'); });
-      });
+      strip.addEventListener('mouseenter', () => ping.querySelectorAll('animate').forEach(a => a.setAttribute('dur','1.1s')));
+      strip.addEventListener('mouseleave', () => ping.querySelectorAll('animate').forEach(a => a.setAttribute('dur','2.5s')));
     }
-  })();
 
 </script>
 </body>
