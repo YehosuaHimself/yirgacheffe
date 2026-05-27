@@ -1078,86 +1078,233 @@
 
   /* CONTACT */
   .contact-section {
-    padding: 8rem 3rem;
     background: var(--soil);
+    display: block;
+  }
+
+  /* Hero headline row */
+  .contact-hero {
+    padding: 8rem 3rem 5rem;
+    border-bottom: 1px solid rgba(212,152,58,0.1);
+  }
+  .contact-hero .section-eyebrow { margin-bottom: 2rem; }
+  .contact-hero-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: start;
+    gap: 4rem;
+    align-items: end;
   }
-
-  .contact-text h2 {
-    font-family: var(--font-serif);
-    font-size: clamp(2.8rem, 5vw, 4rem);
-    font-weight: 300;
-    line-height: 1.1;
+  .contact-hero-h2 {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    letter-spacing: 0.02em;
     color: var(--cream);
-    margin-bottom: 1.5rem;
-  }
-  .contact-text h2 em {
-    
-    color: var(--gold);
-  }
-  .contact-text > p {
-    font-size: 0.92rem;
-    line-height: 1.85;
-    color: var(--fog);
-    font-weight: 300;
-    margin-bottom: 3rem;
-  }
-
-  .contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: 1.2rem;
-  }
-  .contact-row {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-  }
-  .contact-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
+    line-height: 0.9;
+    margin: 0;
     font-weight: 400;
-    min-width: 80px;
-    padding-top: 0.15rem;
   }
-  .contact-value {
-    font-size: 0.88rem;
-    color: var(--fog);
-    font-weight: 300;
-    line-height: 1.5;
+  .contact-hero-h2 em {
+    font-style: normal;
+    color: var(--gold);
   }
-  .contact-value a {
-    color: var(--fog);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .contact-value a:hover { color: var(--gold); }
-
-  .contact-form-side {}
-  .contact-form-side h3 {
+  .contact-hero-p {
     font-family: var(--font-serif);
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     font-weight: 300;
-    color: var(--cream);
-    margin-bottom: 2rem;
+    color: var(--fog);
+    line-height: 1.85;
+    max-width: 480px;
+    margin: 0;
   }
-  .form-group {
-    margin-bottom: 1.2rem;
+
+  /* Big mailto CTA */
+  .contact-cta-row {
+    padding: 3.5rem 3rem;
+    border-bottom: 1px solid rgba(212,152,58,0.1);
   }
-  .form-group label {
-    display: block;
+  .contact-mailto-main {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    text-decoration: none;
+    padding: 2.5rem 3rem;
+    border: 1px solid rgba(212,152,58,0.2);
+    background: rgba(212,152,58,0.03);
+    transition: background 0.4s, border-color 0.4s;
+  }
+  .contact-mailto-main:hover {
+    background: rgba(212,152,58,0.07);
+    border-color: rgba(212,152,58,0.5);
+  }
+  .contact-mailto-label {
+    font-family: 'Courier New', monospace;
     font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--clay);
+    flex-shrink: 0;
+  }
+  .contact-mailto-address {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3.5rem);
+    letter-spacing: 0.04em;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .contact-mailto-arrow {
+    margin-left: auto;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.5;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .contact-mailto-main:hover .contact-mailto-arrow {
+    opacity: 1;
+    transform: translate(4px, -4px);
+  }
+
+  /* Intent buttons */
+  .contact-intent-section {
+    padding: 3rem;
+    border-bottom: 1px solid rgba(212,152,58,0.1);
+  }
+  .contact-intent-eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--clay);
-    font-weight: 400;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.8rem;
   }
+  .contact-intent-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(212,152,58,0.1);
+    border: 1px solid rgba(212,152,58,0.1);
+  }
+  .intent-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2rem 1.5rem;
+    background: var(--soil);
+    text-decoration: none;
+    transition: background 0.3s;
+  }
+  .intent-btn:hover { background: rgba(212,152,58,0.06); }
+  .intent-num {
+    font-family: 'Courier New', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--clay);
+  }
+  .intent-title {
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--cream);
+    letter-spacing: 0.03em;
+    line-height: 1.3;
+  }
+  .intent-sub {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--clay);
+  }
+
+  /* Details row */
+  .contact-details-row {
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+    border-bottom: 1px solid rgba(212,152,58,0.1);
+  }
+  .contact-detail-label {
+    font-family: 'Courier New', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .contact-detail-val {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--fog);
+    line-height: 1.8;
+  }
+  .contact-gps {
+    font-family: 'Courier New', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--clay);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(122,74,40,0.3);
+    padding-bottom: 2px;
+    display: inline-block;
+    margin-top: 0.4rem;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .contact-gps:hover { color: var(--gold); border-color: var(--gold); }
+  .contact-phone {
+    color: var(--fog);
+    text-decoration: none;
+    display: block;
+    transition: color 0.3s;
+  }
+  .contact-phone:hover { color: var(--gold); }
+  .contact-phone-mobile { color: var(--clay); font-size: 0.85rem; margin-top: 0.2rem; }
+
+  /* Ticker bar */
+  .contact-ticker {
+    padding: 1.5rem 3rem;
+    background: rgba(26,18,10,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .contact-ticker-left {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .ticker-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--leaf);
+    box-shadow: 0 0 8px rgba(106,128,80,0.8);
+    flex-shrink: 0;
+    animation: pulse-green 2s ease-in-out infinite;
+  }
+  @keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 8px rgba(106,128,80,0.8); }
+    50% { box-shadow: 0 0 16px rgba(106,128,80,1); }
+  }
+  .ticker-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: var(--fog);
+  }
+  .ticker-cta {
+    font-family: 'Courier New', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(212,152,58,0.3);
+    padding-bottom: 2px;
+    white-space: nowrap;
+    transition: border-color 0.3s;
+  }
+  .ticker-cta:hover { border-color: var(--gold); }
   .form-group input,
   .form-group textarea,
   .form-group select {
@@ -1487,7 +1634,9 @@
     .origin-visual { height: 350px; }
     .heritage-section { grid-template-columns: 1fr; gap: 3rem; }
     .community-section { grid-template-columns: 1fr; gap: 3rem; }
-    .contact-section { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-intent-grid { grid-template-columns: repeat(2, 1fr); }
+    .contact-details-row { grid-template-columns: 1fr; gap: 2rem; }
     .mission-pillars { grid-template-columns: repeat(2, 1fr); }
     .numbers-strip { grid-template-columns: repeat(3, 1fr); }
     .mandates-grid { grid-template-columns: 1fr; }
@@ -1509,6 +1658,16 @@
     .footer-right { text-align: center; }
     body { cursor: auto; }
     .cursor, .cursor-ring { display: none; }
+    .contact-hero { padding: 5rem 1.5rem 3rem; }
+    .contact-hero-h2 { font-size: clamp(3rem,12vw,5rem); }
+    .contact-cta-row { padding: 2rem 1.5rem; }
+    .contact-mailto-main { flex-wrap: wrap; padding: 1.5rem; }
+    .contact-mailto-address { font-size: clamp(1.3rem, 5vw, 2rem); }
+    .contact-intent-section { padding: 2rem 1.5rem; }
+    .contact-intent-grid { grid-template-columns: 1fr 1fr; }
+    .contact-details-row { padding: 2rem 1.5rem; grid-template-columns: 1fr; }
+    .contact-ticker { padding: 1.2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+    .ticker-text { font-size: 0.58rem; }
   }
 
   /* ---- FONT OVERRIDE: Courier New on all small tracking labels ---- */
@@ -2193,107 +2352,95 @@
   </div>
 </section>
 
-<!-- CONTACT PHOTO BANNER -->
-<div style="width:100%;height:340px;overflow:hidden;position:relative;">
-  <picture>
-    <img
-      src="images/beans-dried.webp"
-      referrerpolicy="no-referrer"
-      alt="Gedeo highlands — Yirgacheffe coffee landscape at golden hour"
-      loading="lazy"
-      width="1600" height="340"
-      style="width:100%;height:100%;object-fit:cover;object-position:center 35%;display:block;"
-      onerror="this.closest('div').style.display='none'"
-    />
-  </picture>
-  <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(10,7,4,0.25) 0%, rgba(10,7,4,0.65) 100%);display:flex;align-items:flex-end;padding:0 3rem 3rem;">
-    <div style="font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);font-weight:400;">Contact & Enquiries · Yirgacheffe, Ethiopia</div>
-  </div>
-</div>
-
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
-  <div class="contact-text">
-    <div class="section-eyebrow reveal">Get In Touch</div>
-    <h2 class="reveal reveal-delay-1">
-      Let's build<br>
-      something<br>
-      lasting.
-    </h2>
-    <p class="reveal reveal-delay-2">
-      Whether you are an importer, a roaster, a researcher, or someone who simply believes in the people behind exceptional coffee — we welcome your conversation. We are honest, traceable, and not a briefcase company. When this is all considered, there is truly none who can compare.
-    </p>
 
-    <div class="contact-details reveal reveal-delay-3">
-      <div class="contact-row">
-        <div class="contact-label">Head Office</div>
-        <div class="contact-value">Maselitegna Woreda 05,<br>Akaki Kaliti, Addis Ababa, Ethiopia</div>
-      </div>
-      <div class="contact-row">
-        <div class="contact-label">Phone</div>
-        <div class="contact-value">
-          <a href="tel:+251011471701">(+251) 011-471-7017 / 18 / 19</a><br>
-          <a href="tel:+251949393939">(+251) 949-393939</a>
-        </div>
-      </div>
-      <div class="contact-row">
-        <div class="contact-label">Email</div>
-        <div class="contact-value"><a href="mailto:info@yirgacheffeunion.com">info@yirgacheffeunion.com</a></div>
-      </div>
-      <div class="contact-row">
-        <div class="contact-label">GPS</div>
-        <div class="contact-value">8.931094°N, 38.763543°E</div>
-      </div>
-    </div>
-
-    <div class="socials reveal">
-      <a href="https://www.facebook.com/yirgachffecoffee" target="_blank" class="social-link">Facebook</a>
-      <a href="https://twitter.com/YCFCU" target="_blank" class="social-link">Twitter</a>
-      <a href="https://www.instagram.com/yirgacheffeunion/" target="_blank" class="social-link">Instagram</a>
-      <a href="https://www.youtube.com/channel/UCjg1pdLrmX6eEtOormNLHHA" target="_blank" class="social-link">YouTube</a>
+  <!-- Full-bleed headline -->
+  <div class="contact-hero reveal">
+    <div class="section-eyebrow">Get In Touch</div>
+    <div class="contact-hero-grid">
+      <h2 class="contact-hero-h2">LET'S<br>BUILD<br><em>TOGETHER.</em></h2>
+      <p class="contact-hero-p">We are honest, traceable, and not a briefcase company. Whether you are an importer, a roaster, a researcher, or someone who simply believes in the people behind exceptional coffee — reach out. We respond within two working days.</p>
     </div>
   </div>
 
-  <div class="contact-form-side reveal reveal-delay-2">
-    <h3>Send an enquiry</h3>
-    <form onsubmit="handleForm(event)">
-      <div class="form-group">
-        <label for="f-name">Your Name</label>
-        <input id="f-name" type="text" name="name" placeholder="Full name" required>
-      </div>
-      <div class="form-group">
-        <label for="f-org">Organisation</label>
-        <input id="f-org" type="text" name="organisation" placeholder="Company or cooperative">
-      </div>
-      <div class="form-group">
-        <label for="f-email">Email Address</label>
-        <input id="f-email" type="email" name="email" placeholder="you@example.com" required>
-      </div>
-      <div class="form-group">
-        <label for="f-interest">I am interested in</label>
-        <select id="f-interest" name="interest">
-          <option value="">Select...</option>
-          <option>Sourcing Green Coffee (Washed)</option>
-          <option>Sourcing Green Coffee (Natural)</option>
-          <option>Sourcing Roasted Coffee</option>
-          <option>Partnership / Trade Programme</option>
-          <option>Research / Media Enquiry</option>
-          <option>Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="f-message">Message</label>
-        <textarea id="f-message" name="message" placeholder="Tell us about your needs — volume, grade, delivery timeline, certifications required…"></textarea>
-      </div>
-      <button type="submit" class="form-submit">Send Enquiry</button>
-    </form>
-    <div id="form-success" style="display:none; margin-top: 1.5rem; padding: 1.5rem; border: 1px solid rgba(106,128,80,0.3); background: rgba(106,128,80,0.08);">
-      <p style="font-size: 0.88rem; color: var(--leaf); font-weight: 400; letter-spacing: 0.05em;">✓ &nbsp;Enquiry sent. We will respond within two working days.</p>
-    </div>
-    <div id="form-error" style="display:none; margin-top: 1rem; padding: 1.2rem 1.5rem; border: 1px solid rgba(139,32,32,0.4); background: rgba(139,32,32,0.08);">
-      <p style="font-size: 0.85rem; color: #c06060; font-weight: 400;">Something went wrong — please email us directly at <a href="mailto:hello@yirgacheffe.love" style="color:var(--gold);">hello@yirgacheffe.love</a></p>
+  <!-- Big mailto CTA -->
+  <div class="contact-cta-row reveal">
+    <a href="mailto:hello@yirgacheffe.love?subject=Sourcing%20Enquiry%20%E2%80%94%20YCFCU&body=Hello%20YCFCU%20team%2C%0A%0AI%20am%20writing%20to%20enquire%20about%20sourcing%20your%20coffee.%0A%0AOrganisation%3A%20%0AInterest%3A%20%5BWashed%20%2F%20Natural%20%2F%20Roasted%5D%0AVolume%3A%20%0AMessage%3A%20"
+       class="contact-mailto-main">
+      <span class="contact-mailto-label">Write to us</span>
+      <span class="contact-mailto-address">hello@yirgacheffe.love</span>
+      <span class="contact-mailto-arrow">↗</span>
+    </a>
+  </div>
+
+  <!-- Pre-filled intent buttons -->
+  <div class="contact-intent-section reveal">
+    <div class="contact-intent-eyebrow">Or choose your topic — opens your mail app pre-filled</div>
+    <div class="contact-intent-grid">
+      <a href="mailto:hello@yirgacheffe.love?subject=Green%20Coffee%20Sourcing%20%E2%80%94%20Washed&body=Hello%20YCFCU%20team%2C%0A%0AI%20am%20interested%20in%20sourcing%20Washed%20green%20coffee.%0A%0AOrganisation%3A%20%0AVolume%20(bags%20%2F%20MT)%3A%20%0AGrade%20preference%3A%20Washed%20G1%20%2F%20G2%0ARequired%20certifications%3A%20%0ADelivery%20timeline%3A%20%0AAdditional%20notes%3A%20" class="intent-btn">
+        <span class="intent-num">01</span>
+        <span class="intent-title">Source Washed Green</span>
+        <span class="intent-sub">G1 · G2 · Specialty</span>
+      </a>
+      <a href="mailto:hello@yirgacheffe.love?subject=Green%20Coffee%20Sourcing%20%E2%80%94%20Natural&body=Hello%20YCFCU%20team%2C%0A%0AI%20am%20interested%20in%20sourcing%20Natural%20process%20green%20coffee.%0A%0AOrganisation%3A%20%0AVolume%20(bags%20%2F%20MT)%3A%20%0AGrade%20preference%3A%20Natural%20G1%20%2F%20G3%0ARequired%20certifications%3A%20%0ADelivery%20timeline%3A%20%0AAdditional%20notes%3A%20" class="intent-btn">
+        <span class="intent-num">02</span>
+        <span class="intent-title">Source Natural Green</span>
+        <span class="intent-sub">G1 · G3 · Sun-Dried</span>
+      </a>
+      <a href="mailto:hello@yirgacheffe.love?subject=Roasted%20Coffee%20Enquiry&body=Hello%20YCFCU%20team%2C%0A%0AI%20am%20interested%20in%20sourcing%20roasted%20coffee.%0A%0AOrganisation%3A%20%0AVolume%3A%20%0ARoast%20profile%20preference%3A%20Light%20%2F%20Medium%20%2F%20Dark%0APackaging%3A%20Retail%20%2F%20Foodservice%0AMarket%3A%20%0AAdditional%20notes%3A%20" class="intent-btn">
+        <span class="intent-num">03</span>
+        <span class="intent-title">Source Roasted Coffee</span>
+        <span class="intent-sub">Light · Medium · Dark</span>
+      </a>
+      <a href="mailto:hello@yirgacheffe.love?subject=Partnership%20%2F%20Trade%20Programme%20Enquiry&body=Hello%20YCFCU%20team%2C%0A%0AI%20am%20writing%20about%20a%20potential%20partnership%20or%20trade%20programme.%0A%0AOrganisation%3A%20%0ANature%20of%20partnership%3A%20%0AMessage%3A%20" class="intent-btn">
+        <span class="intent-num">04</span>
+        <span class="intent-title">Partnership / Programme</span>
+        <span class="intent-sub">Trade · Research · Media</span>
+      </a>
     </div>
   </div>
+
+  <!-- Details + socials -->
+  <div class="contact-details-row reveal">
+    <div class="contact-detail-col">
+      <div class="contact-detail-label">Head Office</div>
+      <div class="contact-detail-val">
+        Maselitegna Woreda 05<br>
+        Akaki Kaliti<br>
+        Addis Ababa, Ethiopia<br>
+        <a href="https://maps.google.com/?q=8.931094,38.763543" target="_blank" class="contact-gps">8.931094°N, 38.763543°E ↗</a>
+      </div>
+    </div>
+    <div class="contact-detail-col">
+      <div class="contact-detail-label">Phone</div>
+      <div class="contact-detail-val">
+        <a href="tel:+251114717017" class="contact-phone">(+251) 011-471-7017</a>
+        <a href="tel:+251114717018" class="contact-phone">(+251) 011-471-7018</a>
+        <a href="tel:+251114717019" class="contact-phone">(+251) 011-471-7019</a>
+        <a href="tel:+251949393939" class="contact-phone contact-phone-mobile">(+251) 949-393939</a>
+      </div>
+    </div>
+    <div class="contact-detail-col">
+      <div class="contact-detail-label">Follow</div>
+      <div class="socials" style="flex-direction:column; gap:0.6rem;">
+        <a href="https://www.facebook.com/yirgachffecoffee" target="_blank" class="social-link">Facebook</a>
+        <a href="https://twitter.com/YCFCU" target="_blank" class="social-link">Twitter / X</a>
+        <a href="https://www.instagram.com/yirgacheffeunion/" target="_blank" class="social-link">Instagram</a>
+        <a href="https://www.youtube.com/channel/UCjg1pdLrmX6eEtOormNLHHA" target="_blank" class="social-link">YouTube</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Availability ticker -->
+  <div class="contact-ticker reveal">
+    <div class="contact-ticker-left">
+      <span class="ticker-dot"></span>
+      <span class="ticker-text">2024/25 CROP &nbsp;·&nbsp; WASHED G1 IN STOCK &nbsp;·&nbsp; NATURAL G3 LIMITED &nbsp;·&nbsp; NEW SEASON ALLOCATIONS OPEN</span>
+    </div>
+    <a href="mailto:hello@yirgacheffe.love?subject=2024%2F25%20Crop%20Allocation%20Request&body=Hello%20YCFCU%20team%2C%0A%0AI%20would%20like%20to%20reserve%20an%20allocation%20from%20the%202024%2F25%20crop.%0A%0AOrganisation%3A%20%0AGrade%3A%20%0AVolume%3A%20%0A" class="ticker-cta">Reserve Allocation →</a>
+  </div>
+
 </section>
 
 <!-- FOOTER -->
