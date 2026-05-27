@@ -188,6 +188,7 @@
     right: 0;
     z-index: 100;
     display: flex;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 3rem;
@@ -197,6 +198,7 @@
     background: rgb(13,9,5);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    height: 72px;
   }
   nav.scrolled {
     background: rgba(26,18,10,0.92);
@@ -211,13 +213,7 @@
     text-decoration: none;
   }
   .nav-logo span {
-    color: var(--fog);
-    font-size: 1.05rem;
-    font-family: var(--font-sans);
-    font-weight: 300;
-    letter-spacing: 0.25em;
-    display: block;
-    margin-top: -4px;
+    display: none;
   }
   .nav-links {
     display: flex;
