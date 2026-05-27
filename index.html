@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YCFCU — Yirgacheffe Coffee Farmers Cooperative Union</title>
 <meta name="description" content="From the highlands of Southern Ethiopia, where coffee was born — the world's finest Arabica, grown by 46,094 farmers, certified organic and Fairtrade.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
 <style>
   :root {
     --earth: #1a120a;
@@ -23,9 +21,10 @@
     --leaf: #6a8050;
     --cherry: #8b2020;
     --white: #faf8f4;
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-serif: 'Cormorant Garamond', serif;
-    --font-sans: 'DM Sans', sans-serif;
+    --font-display: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+    --font-serif: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+    --font-sans: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -212,7 +211,7 @@
   }
   .hero-headline em {
     font-family: var(--font-serif);
-    font-style: italic;
+    
     color: var(--gold);
     font-size: 0.8em;
     font-weight: 300;
@@ -222,7 +221,7 @@
     font-family: var(--font-serif);
     font-size: clamp(1.1rem, 2.2vw, 1.45rem);
     font-weight: 300;
-    font-style: italic;
+    
     color: var(--fog);
     max-width: 520px;
     line-height: 1.65;
@@ -483,7 +482,7 @@
     margin-bottom: 2rem;
   }
   .origin-text h2 em {
-    font-style: italic;
+    
     color: var(--gold);
   }
 
@@ -501,7 +500,7 @@
     margin: 2.5rem 0;
     font-family: var(--font-serif);
     font-size: 1.3rem;
-    font-style: italic;
+    
     color: var(--cream);
     font-weight: 300;
     line-height: 1.6;
@@ -558,7 +557,7 @@
   .coffee-header p {
     font-family: var(--font-serif);
     font-size: 1.15rem;
-    font-style: italic;
+    
     color: var(--fog);
     font-weight: 300;
     line-height: 1.7;
@@ -708,7 +707,7 @@
     margin-bottom: 2rem;
   }
   .heritage-text h2 em {
-    font-style: italic;
+    
     color: var(--leaf);
   }
   .heritage-text p {
@@ -770,7 +769,7 @@
   }
   .mission-section h2 em {
     font-family: var(--font-serif);
-    font-style: italic;
+    
     color: var(--gold);
     font-weight: 300;
     font-size: 0.85em;
@@ -779,7 +778,7 @@
     font-family: var(--font-serif);
     font-size: clamp(1.1rem, 2vw, 1.35rem);
     font-weight: 300;
-    font-style: italic;
+    
     color: var(--fog);
     max-width: 620px;
     margin: 0 auto 4rem;
@@ -844,7 +843,7 @@
     margin-bottom: 2rem;
   }
   .community-text h2 em {
-    font-style: italic;
+    
     color: var(--gold);
   }
   .community-text p {
@@ -921,7 +920,7 @@
     font-family: var(--font-serif);
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 300;
-    font-style: italic;
+    
     color: var(--cream);
     max-width: 700px;
     margin: 0 auto 1.5rem;
@@ -1035,7 +1034,7 @@
     margin-bottom: 1.5rem;
   }
   .contact-text h2 em {
-    font-style: italic;
+    
     color: var(--gold);
   }
   .contact-text > p {
@@ -1308,7 +1307,7 @@
     font-family: var(--font-serif);
     font-size: clamp(1.5rem, 3.5vw, 2.5rem);
     font-weight: 300;
-    font-style: italic;
+    
     color: var(--cream);
     max-width: 800px;
     margin: 0 auto;
@@ -1317,7 +1316,7 @@
   .vision-strip strong {
     font-weight: 500;
     color: var(--gold);
-    font-style: normal;
+    
   }
 
   /* Mobile menu toggle */
@@ -1363,6 +1362,38 @@
     .footer-right { text-align: center; }
     body { cursor: auto; }
     .cursor, .cursor-ring { display: none; }
+  }
+
+  /* ---- FONT OVERRIDE: Courier New on all small tracking labels ---- */
+  .hero-eyebrow,
+  .section-eyebrow,
+  .nav-logo-sub,
+  .hero-stat-label,
+  .marquee-item,
+  .timeline-year,
+  .flavor-tag,
+  .cert-item-label,
+  .cert-item-check,
+  .number-label,
+  .contact-label,
+  .social-link,
+  .form-group label,
+  .pillar-num,
+  .coffee-card-type,
+  .gallery-cell-label,
+  .footer-right,
+  .vision-strip-tag,
+  .grade-badge,
+  .quality-step-label,
+  .traceability-box-label,
+  .d4a-label,
+  .project-marker,
+  .mandate-num,
+  [class*="-tag"]:not(.flavor-tag),
+  [class*="-label"],
+  [class*="-eyebrow"],
+  [class*="-mono"] {
+    font-family: 'Courier New', Courier, monospace !important;
   }
 </style>
 </head>
@@ -1421,7 +1452,7 @@
     <h1 class="hero-headline">
       WHERE<br>
       COFFEE<br>
-      <em>Began.</em>
+      Began.
     </h1>
     <p class="hero-sub">
       Forty-six thousand farmers. Sixty-two thousand hectares of ancient agroforest.
@@ -1547,10 +1578,10 @@
           <!-- Morning mist -->
           <path d="M0 400 Q150 385 300 395 Q400 400 460 390 L460 430 Q400 435 300 428 Q150 420 0 440 Z" fill="rgba(240,232,216,0.03)"/>
           <!-- Altitude label -->
-          <text x="340" y="120" font-family="'Bebas Neue', sans-serif" font-size="52" fill="rgba(212,152,58,0.12)" letter-spacing="3">2400</text>
-          <text x="360" y="140" font-family="'DM Sans', sans-serif" font-size="9" fill="rgba(212,152,58,0.25)" letter-spacing="3">METRES ASL</text>
+          <text x="340" y="120" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="52" fill="rgba(212,152,58,0.12)" letter-spacing="3">2400</text>
+          <text x="360" y="140" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="9" fill="rgba(212,152,58,0.25)" letter-spacing="3">METRES ASL</text>
           <!-- Coordinates -->
-          <text x="20" y="560" font-family="'DM Sans', sans-serif" font-size="8" fill="rgba(212,152,58,0.25)" letter-spacing="2">6.2613°N · 38.2098°E</text>
+          <text x="20" y="560" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="8" fill="rgba(212,152,58,0.25)" letter-spacing="2">6.2613°N · 38.2098°E</text>
         </svg>
       </div>
     </div>
@@ -1560,7 +1591,7 @@
     <div class="section-eyebrow reveal">Our Origin</div>
     <h2 class="reveal reveal-delay-1">
       Born from<br>
-      <em>necessity,</em><br>
+      necessity,<br>
       built on trust.
     </h2>
 
@@ -1712,7 +1743,7 @@
   <div class="heritage-text">
     <div class="section-eyebrow reveal">Living Heritage</div>
     <h2 class="reveal reveal-delay-1">
-      Organic by <em>nature.</em><br>
+      Organic by nature.<br>
       Certified by<br>
       the world.
     </h2>
@@ -1761,7 +1792,7 @@
 <section class="mission-section" id="about">
   <div class="section-eyebrow reveal" style="justify-content: center;">Mission & Mandate</div>
   <h2 class="reveal reveal-delay-1">
-    Not a<br><em>briefcase company.</em>
+    Not a<br>briefcase company.
   </h2>
   <p class="mission-body reveal reveal-delay-2">
     Our mission is to promote and support the continuous development of sustainable coffee supply — maximising financial returns to member cooperatives, and through them, elevating the livelihoods of every farmer and every family in our community.
@@ -1821,7 +1852,7 @@
     <div class="section-eyebrow reveal">Community Service</div>
     <h2 class="reveal reveal-delay-1">
       Coffee that<br>
-      <em>builds bridges.</em><br>
+      builds bridges.<br>
       Literally.
     </h2>
     <p class="reveal reveal-delay-2">
@@ -1837,35 +1868,35 @@
 
   <div class="community-projects">
     <div class="project-item reveal">
-      <div class="project-icon">⚡</div>
+      
       <div class="project-content">
         <h4>Electricity Infrastructure</h4>
         <p>Fairtrade premiums have funded improvements to electricity transmission in Gedeo communities, bringing light and economic opportunity to remote highland villages.</p>
       </div>
     </div>
     <div class="project-item reveal reveal-delay-1">
-      <div class="project-icon">🌉</div>
+      
       <div class="project-content">
         <h4>Bridge Construction</h4>
         <p>Physical connections that were once absent — bridges linking farming communities to roads, markets, and schools — built with coffee money, maintained with community pride.</p>
       </div>
     </div>
     <div class="project-item reveal reveal-delay-2">
-      <div class="project-icon">📚</div>
+      
       <div class="project-content">
         <h4>School Classrooms</h4>
         <p>Additional classroom construction and school improvements funded through Fairtrade premium programs across member cooperative communities.</p>
       </div>
     </div>
     <div class="project-item reveal reveal-delay-3">
-      <div class="project-icon">🤝</div>
+      
       <div class="project-content">
         <h4>SECAEC Capacity Program</h4>
         <p>Partnership with Solidaridad Eastern and Center African Expertise Center — practical training, demonstration, and on-job support for sustainable market access.</p>
       </div>
     </div>
     <div class="project-item reveal">
-      <div class="project-icon">♀</div>
+      
       <div class="project-content">
         <h4>Women's School of Leadership</h4>
         <p>Within the Dignity for All program, YCFCU supports gender inclusion and disability rights through the Women's School of Leadership initiative across Ethiopia.</p>
@@ -1916,7 +1947,7 @@
     <div>
       <div class="section-eyebrow reveal">Quality Management</div>
       <h2 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 2rem;">
-        Managing quality at<br><em style="color: var(--gold); font-style: italic;">every single step.</em>
+        Managing quality at<br>every single step.
       </h2>
       <p class="reveal reveal-delay-2" style="font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 1.5rem;">
         YCFCU operates a comprehensive quality management system from farm gate to export. Our union provides training and direct support across every stage of the supply chain — not as a formality, but as a commitment to excellence that protects both farmer income and buyer trust.
@@ -1940,7 +1971,7 @@
     <div>
       <div class="section-eyebrow reveal">Traceability</div>
       <h2 class="reveal reveal-delay-1" style="font-family: var(--font-serif); font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 2rem;">
-        We know exactly<br><em style="color: var(--leaf); font-style: italic;">where it was born.</em>
+        We know exactly<br>where it was born.
       </h2>
       <p class="reveal reveal-delay-2" style="font-size: 0.95rem; line-height: 1.9; color: var(--fog); font-weight: 300; margin-bottom: 2rem;">
         We prioritise traceability without exception. Across a sourcing base of over 43,000 farmers on 62,000 hectares, we maintain an effective traceability system capable of pinpointing the exact micro-region of origin — and in many cases, the individual farm. This is not a marketing claim. It is a structural requirement for the buyers we serve and the farmers we represent.
@@ -1965,7 +1996,7 @@
     <h2 class="reveal reveal-delay-1">
       Let's build<br>
       something<br>
-      <em>lasting.</em>
+      lasting.
     </h2>
     <p class="reveal reveal-delay-2">
       Whether you are an importer, a roaster, a researcher, or someone who simply believes in the people behind exceptional coffee — we welcome your conversation. We are honest, traceable, and not a briefcase company. When this is all considered, there is truly none who can compare.
@@ -2019,7 +2050,7 @@
       <div class="form-group">
         <label>I am interested in</label>
         <select>
-          <option value="">Select…</option>
+          <option value="">Select...</option>
           <option>Sourcing Green Coffee (Washed)</option>
           <option>Sourcing Green Coffee (Natural)</option>
           <option>Sourcing Roasted Coffee</option>
@@ -2032,7 +2063,7 @@
         <label>Message</label>
         <textarea placeholder="Tell us about your needs — volume, grade, delivery timeline, certifications required…"></textarea>
       </div>
-      <button type="submit" class="form-submit">Send Enquiry →</button>
+      <button type="submit" class="form-submit">Send Enquiry</button>
     </form>
     <div id="form-success" style="display:none; margin-top: 1.5rem; padding: 1.5rem; border: 1px solid rgba(106,128,80,0.3); background: rgba(106,128,80,0.08);">
       <p style="font-size: 0.88rem; color: var(--leaf); font-weight: 400; letter-spacing: 0.05em;">Your message has been received. We will respond within two working days.</p>
@@ -2049,7 +2080,7 @@
   <div class="footer-right">
     Organic · Fairtrade · Rainforest Alliance<br>
     UNESCO World Heritage Region
-    <a href="https://whc.unesco.org/en/list/1641/" target="_blank">The Gedeo Cultural Landscape ↗</a>
+    <a href="https://whc.unesco.org/en/list/1641/" target="_blank">The Gedeo Cultural Landscape</a>
   </div>
 </footer>
 
