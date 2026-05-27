@@ -1412,6 +1412,155 @@
   }
   .footer-right a:hover { color: var(--gold); }
 
+  /* PAGE LOADER */
+  #page-loader {
+    position: fixed;
+    inset: 0;
+    background: #0d0905;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #page-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .loader-logo {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 4rem);
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    opacity: 0;
+    animation: loaderFadeUp 0.6s 0.2s forwards;
+  }
+  .loader-bar-wrap {
+    width: 200px;
+    height: 1px;
+    background: rgba(212,152,58,0.15);
+    overflow: hidden;
+    opacity: 0;
+    animation: loaderFadeUp 0.4s 0.5s forwards;
+  }
+  .loader-bar {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+  .loader-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--clay);
+    opacity: 0;
+    animation: loaderFadeUp 0.4s 0.8s forwards;
+  }
+  @keyframes loaderFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(10px); }
+  }
+
+  /* PARALLAX BREAK */
+  .parallax-break {
+    position: relative;
+    height: 60vh;
+    min-height: 320px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .parallax-break-bg {
+    position: absolute;
+    inset: -20%;
+    background-image: url('images/beans-green.webp');
+    background-size: cover;
+    background-position: center;
+    will-change: transform;
+  }
+  .parallax-break-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(13,9,5,0.72) 0%, rgba(30,18,8,0.5) 100%);
+  }
+  .parallax-break-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 2rem;
+  }
+  .parallax-break-text em {
+    display: block;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    color: var(--gold);
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+  }
+  .parallax-break-text span {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-top: 1rem;
+  }
+
+  /* PROCESS / JOURNEY SECTION */
+  .process-section {
+    background: var(--obsidian);
+    padding: clamp(5rem, 10vw, 9rem) clamp(1.5rem, 6vw, 6rem);
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 3rem 4rem;
+    margin-top: 4rem;
+  }
+  .process-step {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(212,152,58,0.2);
+    transition: border-color 0.4s;
+  }
+  .process-step:hover { border-color: var(--gold); }
+  .process-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: rgba(212,152,58,0.12);
+    line-height: 1;
+    position: absolute;
+    top: -0.5rem;
+    right: 0;
+    transition: color 0.4s;
+  }
+  .process-step:hover .process-num { color: rgba(212,152,58,0.3); }
+  .process-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+  .process-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--cream);
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+  .process-desc {
+    font-size: 0.82rem;
+    color: var(--clay);
+    line-height: 1.75;
+  }
+
   /* SCROLL ANIMATIONS */
   .reveal {
     opacity: 0;
@@ -1888,6 +2037,12 @@
 </style>
 </head>
 <body>
+<!-- PAGE LOADER -->
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-logo">YCFCU</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  <div class="loader-sub">Yirgacheffe · Ethiopia</div>
+</div>
 <a href="#main-content" class="skip-nav">Skip to main content</a>
 <!-- CUSTOM CURSOR -->
 <div id="cursor-dot"></div>
@@ -1900,6 +2055,7 @@
   <a href="#coffee" class="mobile-nav-link">The Coffee</a>
   <a href="#heritage" class="mobile-nav-link">Heritage</a>
   <a href="#community" class="mobile-nav-link">Community</a>
+  <a href="#process" class="mobile-nav-link">Journey</a>
   <a href="#contact" class="mobile-nav-link">Contact</a>
   <a href="#contact" class="mobile-nav-cta mobile-nav-link">Source Our Coffee</a>
 </div>
@@ -1926,6 +2082,7 @@
     <li><a href="#coffee">The Coffee</a></li>
     <li><a href="#heritage">Heritage</a></li>
     <li><a href="#community">Community</a></li>
+    <li><a href="#process">Journey</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Source Our Coffee</a>
@@ -2093,6 +2250,16 @@
 <!-- BIG TEXT ROW -->
 <div class="big-text-row" style="background: var(--earth);">
   <span class="big-text">&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;&nbsp;&nbsp;&nbsp;ORGANIC BY TRADITION · SUSTAINABLE BY CHOICE · FAIRTRADE BY CONVICTION&nbsp;</span>
+</div>
+
+<!-- PARALLAX BREAK -->
+<div class="parallax-break" aria-hidden="true">
+  <div class="parallax-break-bg" id="parallaxBg"></div>
+  <div class="parallax-break-overlay"></div>
+  <div class="parallax-break-text">
+    <em>"Where coffee was born,<br>it is still grown best."</em>
+    <span>Gedeo Highland · 1,700–2,200 m · Southern Ethiopia</span>
+  </div>
 </div>
 
 <!-- COFFEE TYPES -->
@@ -2550,6 +2717,69 @@
   </div>
 </section>
 
+<!-- PROCESS / JOURNEY SECTION -->
+<section class="process-section" id="process">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">
+      <div class="eyebrow-line"></div>
+      From Seedling to Cup
+      <div class="eyebrow-line"></div>
+    </div>
+    <h2>The Journey</h2>
+    <p class="section-lead">Eight deliberate steps. Thousands of hands. One unwavering standard.</p>
+  </div>
+  <div class="process-grid">
+    <div class="process-step reveal">
+      <div class="process-num">01</div>
+      <div class="process-label">Origin</div>
+      <div class="process-title">Forest Garden Cultivation</div>
+      <p class="process-desc">Coffee grows in the shade of indigenous agroforests — a UNESCO-recognised system unchanged for 3,000 years. No monoculture. No deforestation. Each tree is part of a living ecosystem.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">02</div>
+      <div class="process-label">Harvest</div>
+      <div class="process-title">Selective Hand-Picking</div>
+      <p class="process-desc">Only ripe red cherries are selected. Farmers pick each cherry individually — a practice that takes 3–4 times longer than strip-picking but guarantees consistent cup quality.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">03</div>
+      <div class="process-label">Processing</div>
+      <div class="process-title">Washed or Natural Method</div>
+      <p class="process-desc">Washed lots are pulped same-day and fermented 36–72 hours in clean water. Natural lots dry whole on raised African beds for 3–6 weeks. Both methods are meticulously controlled.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">04</div>
+      <div class="process-label">Milling</div>
+      <div class="process-title">Cooperative Dry Mill</div>
+      <p class="process-desc">Parchment is hulled, sorted by density and screen size, and hand-sorted for defects. Our 46,094 member-farmers share access to certified facilities — quality without compromise.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">05</div>
+      <div class="process-label">Grading</div>
+      <div class="process-title">Grade 1 &amp; Grade 3</div>
+      <p class="process-desc">Ethiopian grading protocol: Grade 1 (specialty, ≤3 defects/300g) and Grade 3 (commercial, ≤12 defects). Every lot is cupped and scored before shipment approval.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">06</div>
+      <div class="process-label">Certification</div>
+      <div class="process-title">Collective Certification</div>
+      <p class="process-desc">Organic, Fairtrade, and Rainforest Alliance certifications are held collectively. What a single smallholder cannot afford alone, 46,094 achieve together. Solidarity as quality infrastructure.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">07</div>
+      <div class="process-label">Export</div>
+      <div class="process-title">Direct Trade Shipping</div>
+      <p class="process-desc">Green coffee is exported in GrainPro-lined jute or polypropylene bags. We work directly with importers — no middlemen, traceable lot numbers, and full documentation for every container.</p>
+    </div>
+    <div class="process-step reveal">
+      <div class="process-num">08</div>
+      <div class="process-label">Partnership</div>
+      <div class="process-title">Transparent Relationship</div>
+      <p class="process-desc">Every purchase returns a Fairtrade premium directly to cooperatives. Farmers see the price you pay. We see the difference it makes. This is what ethical sourcing actually looks like.</p>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
 
@@ -2873,6 +3103,38 @@
       });
     }, { threshold: 0.12 });
     revealEls.forEach(el => revealObserver.observe(el));
+  }
+
+  // PAGE LOADER
+  const loader = document.getElementById('page-loader');
+  const loaderBar = document.getElementById('loaderBar');
+  if (loader && loaderBar) {
+    setTimeout(() => { loaderBar.style.width = '60%'; }, 100);
+    setTimeout(() => { loaderBar.style.width = '90%'; }, 600);
+    const dismiss = () => {
+      loaderBar.style.width = '100%';
+      setTimeout(() => { loader.classList.add('loaded'); }, 300);
+    };
+    if (document.readyState === 'complete') {
+      dismiss();
+    } else {
+      window.addEventListener('load', dismiss);
+      setTimeout(dismiss, 2500); // safety fallback
+    }
+  }
+
+  // PARALLAX BREAK
+  const parallaxBg = document.getElementById('parallaxBg');
+  if (parallaxBg) {
+    const parallaxSection = parallaxBg.closest('.parallax-break');
+    window.addEventListener('scroll', () => {
+      const rect = parallaxSection.getBoundingClientRect();
+      const viewH = window.innerHeight;
+      if (rect.bottom < 0 || rect.top > viewH) return;
+      const progress = (viewH - rect.top) / (viewH + rect.height);
+      const offset = (progress - 0.5) * 120;
+      parallaxBg.style.transform = `translateY(${offset}px)`;
+    }, { passive: true });
   }
 
 </script>
