@@ -2561,6 +2561,7 @@
 }
 .hscroll-panel--intro { background: var(--bark); }
 .hscroll-panel--last  { background: var(--soil); }
+.hscroll-panel > * { position: relative; z-index: 1; }
 .hscroll-label {
   font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
   color: var(--gold); font-weight: 400; margin-bottom: 1.5rem;
@@ -4381,7 +4382,7 @@ section > * { position: relative; z-index: 1; }
         });
       }
     });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  }, { threshold: 0.06, rootMargin: '0px 0px -20px 0px' });
 
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
@@ -4465,6 +4466,20 @@ section > * { position: relative; z-index: 1; }
 
 
 
+
+  // ── REVEAL SAFETY NET: force-show anything still hidden after 2.5s ──
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      el.classList.add('visible');
+    });
+    document.querySelectorAll('.clip-reveal:not(.in-view)').forEach(el => {
+      el.classList.add('in-view');
+    });
+    document.querySelectorAll('.split-line-inner').forEach(el => {
+      el.style.transform = 'none';
+      el.style.opacity = '1';
+    });
+  }, 2500);
 
   // ── ACTIVE NAV HIGHLIGHTING ──
   const navSections = document.querySelectorAll('section[id], div[id="contact"]');
@@ -4622,7 +4637,7 @@ section > * { position: relative; z-index: 1; }
       entries.forEach(e => {
         if (e.isIntersecting) { h2.classList.add('in-view'); obs.unobserve(h2); }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
     obs.observe(h2);
   });
 
@@ -4840,7 +4855,7 @@ section > * { position: relative; z-index: 1; }
       const panels = htrack.querySelectorAll('.hscroll-panel');
       const totalScroll = htrack.scrollWidth - window.innerWidth;
 
-      gsap.to(htrack, {
+      const htrackTween = gsap.to(htrack, {
         x: () => -totalScroll,
         ease: 'none',
         scrollTrigger: {
@@ -4854,17 +4869,23 @@ section > * { position: relative; z-index: 1; }
         }
       });
 
-      // Stagger-reveal each panel's content as it enters
+      // Reveal each panel's content as it scrolls into view
       panels.forEach((panel, i) => {
-        gsap.from(panel.querySelectorAll('.hscroll-label, .hscroll-heading, .hscroll-step-title, .hscroll-body, .hscroll-stat, .hscroll-cta'), {
-          opacity: 0, y: 40, duration: 0.8, ease: 'power3.out', stagger: 0.1,
-          scrollTrigger: {
-            trigger: hpin,
-            start: () => `top+=${i * (htrack.scrollWidth / panels.length) * 0.7} top`,
-            containerAnimation: gsap.getById ? undefined : undefined,
-            toggleActions: 'play none none reverse',
-          }
-        });
+        const els = panel.querySelectorAll('.hscroll-label, .hscroll-heading, .hscroll-step-title, .hscroll-body, .hscroll-stat, .hscroll-cta, .hscroll-hint, .hscroll-counter');
+        // Make all content visible immediately — no opacity:0 traps
+        gsap.set(els, { opacity: 1, y: 0 });
+        // Then animate in with a simple entrance when each panel reaches center
+        if (i > 0) {
+          gsap.from(els, {
+            opacity: 0, y: 30, duration: 0.7, ease: 'power2.out', stagger: 0.08,
+            scrollTrigger: {
+              containerAnimation: htrackTween,
+              trigger: panel,
+              start: 'left center',
+              toggleActions: 'play none none reverse',
+            }
+          });
+        }
       });
     }
 
