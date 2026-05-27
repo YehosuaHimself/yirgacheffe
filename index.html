@@ -1465,6 +1465,42 @@
     font-weight: 300;
   }
 
+  /* SCROLL TO TOP */
+  #scrollTop {
+    position: fixed;
+    bottom: 2.5rem;
+    left: 2.5rem;
+    z-index: 9989;
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: 1px solid rgba(212,152,58,0.3);
+    background: rgba(13,9,5,0.85);
+    color: var(--gold);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.4s, transform 0.4s, border-color 0.3s, background 0.3s;
+    pointer-events: none;
+    backdrop-filter: blur(8px);
+  }
+  #scrollTop.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  #scrollTop:hover {
+    border-color: var(--gold);
+    background: rgba(212,152,58,0.1);
+  }
+  @media (max-width: 600px) {
+    #scrollTop { bottom: 1.2rem; left: 1.2rem; width: 2.4rem; height: 2.4rem; }
+  }
+
   /* PAGE LOADER */
   #page-loader {
     position: fixed;
@@ -1922,6 +1958,12 @@
     .grades-grid { grid-template-columns: 1fr; }
     footer { flex-direction: column; gap: 1.5rem; text-align: center; }
     .footer-right { text-align: center; }
+    /* new footer mobile */
+    .footer-top { grid-template-columns: 1fr; text-align: center; gap: 1.5rem; }
+    .footer-cta-big { text-align: center; }
+    .footer-nav { justify-content: center; flex-wrap: wrap; gap: 1rem; }
+    .footer-bottom { flex-direction: column; align-items: center; text-align: center; gap: 0.8rem; }
+    .footer-meta, .footer-certs { justify-content: center; }
     body { cursor: auto; }
     .cursor, .cursor-ring { display: none; }
     .contact-hero { padding: 5rem 1.5rem 3rem; }
@@ -2998,7 +3040,16 @@
   </div>
 </footer>
 
+<!-- SCROLL TO TOP -->
+<button id="scrollTop" aria-label="Back to top" title="Back to top">↑</button>
 <script>
+  // SCROLL TO TOP
+  const scrollTopBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+  scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   // Mobile menu
   const menuToggle = document.getElementById('menuToggle');
   const mobileNav = document.getElementById('mobileNav');
