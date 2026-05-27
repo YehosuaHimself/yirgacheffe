@@ -5019,6 +5019,104 @@ section > * { position: relative; z-index: 1; }
     }, { passive: true });
   })();
 
+  // ── HERO MOUSE PARALLAX ─────────────────────────────────────────
+  (function initHeroParallax() {
+    const heroBg = document.querySelector('.hero-bg-photo');
+    const heroDeco = document.querySelector('.hero-deco');
+    const heroContent = document.querySelector('.hero-content');
+    if (!heroBg || window.matchMedia('(pointer: coarse)').matches) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    document.addEventListener('mousemove', e => {
+      const nx = (e.clientX / window.innerWidth  - 0.5);
+      const ny = (e.clientY / window.innerHeight - 0.5);
+      tx = nx * 18; ty = ny * 10;
+    }, { passive: true });
+    (function tick() {
+      cx += (tx - cx) * 0.06;
+      cy += (ty - cy) * 0.06;
+      heroBg.style.transform = 'scale(1.08) translate(' + (cx * 0.6) + 'px,' + (cy * 0.6) + 'px)';
+      if (heroDeco) heroDeco.style.transform = 'translate(' + (cx * 1.2) + 'px,' + (cy * 1.0) + 'px)';
+      if (heroContent) heroContent.style.transform = 'translate(' + (cx * -0.15) + 'px,' + (cy * -0.1) + 'px)';
+      requestAnimationFrame(tick);
+    })();
+  })();
+
+  // ── COFFEE BEAN PARTICLE SYSTEM (Canvas) on manifesto ───────────
+  (function initBeanParticles() {
+    const section = document.querySelector('.manifesto-section');
+    if (!section) return;
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35';
+    section.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    function resize() { canvas.width = section.offsetWidth; canvas.height = section.offsetHeight; }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    function drawBean(ctx2d, x, y, rx, ry, angle, alpha) {
+      ctx2d.save();
+      ctx2d.globalAlpha = alpha;
+      ctx2d.translate(x, y);
+      ctx2d.rotate(angle);
+      ctx2d.strokeStyle = 'rgba(212,152,58,0.8)';
+      ctx2d.lineWidth = 0.8;
+      ctx2d.beginPath();
+      ctx2d.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+      ctx2d.stroke();
+      ctx2d.beginPath();
+      ctx2d.moveTo(0, -ry);
+      ctx2d.bezierCurveTo(rx * 0.4, -ry * 0.3, rx * 0.4, ry * 0.3, 0, ry);
+      ctx2d.stroke();
+      ctx2d.restore();
+    }
+
+    const beans = Array.from({ length: 28 }, () => ({
+      x: Math.random() * 1200,
+      y: Math.random() * 600,
+      rx: 6 + Math.random() * 12,
+      angle: Math.random() * Math.PI,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: -0.15 - Math.random() * 0.25,
+      va: (Math.random() - 0.5) * 0.008,
+      alpha: 0.1 + Math.random() * 0.5,
+    }));
+    beans.forEach(b => { b.ry = b.rx * 0.62; });
+
+    let running = false;
+    const io = new IntersectionObserver(entries => { running = entries[0].isIntersecting; }, { threshold: 0 });
+    io.observe(section);
+
+    (function tick() {
+      if (running) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        beans.forEach(b => {
+          b.x += b.vx; b.y += b.vy; b.angle += b.va;
+          if (b.y + b.rx < 0) { b.y = canvas.height + b.rx; b.x = Math.random() * canvas.width; }
+          if (b.x < -b.rx) b.x = canvas.width + b.rx;
+          if (b.x > canvas.width + b.rx) b.x = -b.rx;
+          drawBean(ctx, b.x, b.y, b.rx, b.ry, b.angle, b.alpha);
+        });
+      }
+      requestAnimationFrame(tick);
+    })();
+  })();
+
+  // ── VARIABLE FONT WEIGHT on hero headline (mouse proximity) ──────
+  (function initVarFontHero() {
+    const lines = document.querySelectorAll('.split-line-inner');
+    if (!lines.length || window.matchMedia('(pointer: coarse)').matches) return;
+    document.addEventListener('mousemove', e => {
+      lines.forEach(line => {
+        const rect = line.getBoundingClientRect();
+        const distX = e.clientX - (rect.left + rect.width / 2);
+        const distY = e.clientY - (rect.top + rect.height / 2);
+        const dist = Math.sqrt(distX * distX + distY * distY);
+        const proximity = Math.max(0, 1 - dist / 400);
+        line.style.fontWeight = Math.round(700 + proximity * 200);
+      });
+    }, { passive: true });
+  })();
+
   // ── ADD reveal-scroll CLASS to key elements ───────────────────────
   // (native CSS animation-timeline: scroll() — no JS needed once class applied)
   document.querySelectorAll('.mstat-item, .manifesto-overline, .manifesto-statement').forEach(el => {
