@@ -154,9 +154,17 @@
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(61,36,16,0.7) 0%, transparent 70%),
-      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(106,128,80,0.15) 0%, transparent 60%),
-      linear-gradient(165deg, #0d0905 0%, #1a120a 35%, #2c1a0e 70%, #1a0f07 100%);
+      radial-gradient(ellipse 80% 60% at 60% 40%, rgba(61,36,16,0.72) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 80% at 20% 80%, rgba(106,128,80,0.18) 0%, transparent 60%),
+      linear-gradient(165deg, rgba(13,9,5,0.85) 0%, rgba(26,18,10,0.8) 35%, rgba(44,26,14,0.75) 70%, rgba(26,15,7,0.85) 100%);
+  }
+  .hero-bg-photo {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://yirgacheffeunion.com/wp-content/uploads/2023/03/0H0A9696.jpg');
+    background-size: cover;
+    background-position: center 30%;
+    z-index: -1;
   }
 
   /* SVG coffee bean decorations */
@@ -1423,7 +1431,9 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
+  <div class="hero-bg">
+    <div class="hero-bg-photo"></div>
+  </div>
 
   <!-- Floating coffee beans SVG -->
   <div class="hero-deco">
