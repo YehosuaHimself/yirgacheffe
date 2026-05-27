@@ -90,6 +90,7 @@
 
 <style>
   :root {
+  --ink: #0d0b08;
     --earth: #1a120a;
     --soil: #2c1a0e;
     --bark: #3d2410;
@@ -2538,7 +2539,7 @@
 /* ── HORIZONTAL SCROLL — THE JOURNEY ────────────────────────────── */
 .hscroll-pin {
   overflow: hidden;
-  background: var(--ink);
+  background: #0d0b08;
 }
 .hscroll-track {
   display: flex;
@@ -2553,6 +2554,8 @@
   justify-content: center;
   padding: 8rem 10vw 6rem;
   border-right: 1px solid rgba(212,152,58,0.08);
+  position: relative;
+  background: #0d0b08;
   position: relative;
   box-sizing: border-box;
 }
@@ -2899,7 +2902,10 @@
 }
 
 /* ── Global noise texture on all sections ────────────────────────── */
-section::before, .hero::before {
+.hero::before,
+.hscroll-panel::before,
+.manifesto-section::before,
+.altiviz-section::before {
   content: '';
   position: absolute;
   inset: 0;
@@ -4166,36 +4172,45 @@ section > * { position: relative; z-index: 1; }
 
   <!-- World map ping strip -->
   <div class="footer-map-strip" aria-hidden="true">
-    <svg class="footer-world-map" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <!-- Simplified world continents outline -->
-      <path d="M 60 80 Q 110 60 160 70 Q 200 75 240 65 Q 280 55 300 70 L 310 120 Q 290 135 260 130 Q 220 125 180 135 Q 140 145 100 130 Z" fill="rgba(240,232,216,0.06)" stroke="rgba(240,232,216,0.08)" stroke-width="0.5"/>
-      <path d="M 340 50 Q 400 40 450 55 Q 490 65 510 80 Q 520 110 510 140 Q 490 160 460 155 Q 430 150 400 160 Q 370 170 350 155 Q 335 135 340 100 Z" fill="rgba(240,232,216,0.06)" stroke="rgba(240,232,216,0.08)" stroke-width="0.5"/>
-      <!-- Africa outline (simplified) -->
-      <path d="M 690 55 Q 730 45 760 60 Q 790 75 800 110 Q 810 150 800 190 Q 785 225 760 245 Q 730 260 700 250 Q 670 235 660 200 Q 650 165 660 130 Q 670 90 690 55 Z" fill="rgba(212,152,58,0.08)" stroke="rgba(212,152,58,0.15)" stroke-width="0.8"/>
-      <!-- Ethiopia region highlight -->
-      <ellipse cx="740" cy="140" rx="22" ry="18" fill="rgba(212,152,58,0.2)" stroke="rgba(212,152,58,0.4)" stroke-width="1"/>
-      <!-- Ping animation -->
-      <circle cx="740" cy="140" r="4" fill="var(--gold, #d4983a)"/>
-      <circle cx="740" cy="140" r="4" fill="none" stroke="rgba(212,152,58,0.6)" stroke-width="1">
-        <animate attributeName="r" values="4;22;4" dur="2.5s" repeatCount="indefinite"/>
+    <svg class="footer-world-map" viewBox="0 0 1440 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <style>
+          .continent { fill: none; stroke: rgba(240,232,216,0.12); stroke-width: 0.8; }
+          .africa { fill: rgba(212,152,58,0.06); stroke: rgba(212,152,58,0.2); stroke-width: 1; }
+          .ethiopia-dot { fill: rgba(212,152,58,0.9); }
+          .trade-line { fill: none; stroke: rgba(212,152,58,0.25); stroke-width: 0.6; stroke-dasharray: 3 4; }
+        </style>
+        <radialGradient id="ping-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#d4983a" stop-opacity="0.9"/>
+          <stop offset="100%" stop-color="#d4983a" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- North America -->
+      <path class="continent" d="M 120 55 Q 160 42 200 48 Q 240 52 260 68 Q 275 82 270 105 Q 262 125 248 138 Q 230 150 210 155 Q 185 158 165 148 Q 145 137 132 118 Q 118 96 120 75 Z"/>
+      <!-- South America -->
+      <path class="continent" d="M 235 165 Q 265 158 285 172 Q 300 185 302 210 Q 304 238 295 258 Q 282 274 265 278 Q 248 280 236 265 Q 224 248 222 225 Q 220 200 228 180 Z"/>
+      <!-- Europe -->
+      <path class="continent" d="M 620 42 Q 650 38 672 48 Q 688 56 690 72 Q 688 88 675 95 Q 658 102 640 98 Q 622 92 615 78 Q 610 62 620 48 Z"/>
+      <!-- Africa -->
+      <path class="africa" d="M 660 100 Q 700 88 735 95 Q 768 104 782 128 Q 795 155 792 188 Q 786 220 768 242 Q 748 260 722 262 Q 696 262 678 244 Q 660 224 656 195 Q 650 162 658 135 Z"/>
+      <!-- Asia -->
+      <path class="continent" d="M 820 45 Q 880 38 940 50 Q 990 60 1030 80 Q 1055 95 1048 118 Q 1038 138 1010 145 Q 970 152 930 145 Q 890 138 860 120 Q 835 102 828 80 Z"/>
+      <!-- Australia -->
+      <path class="continent" d="M 1080 175 Q 1115 165 1145 175 Q 1168 184 1172 202 Q 1175 220 1160 232 Q 1142 242 1118 238 Q 1095 232 1086 216 Q 1078 198 1080 180 Z"/>
+      <!-- Ethiopia highlight -->
+      <ellipse cx="738" cy="155" rx="14" ry="10" fill="rgba(212,152,58,0.15)" stroke="rgba(212,152,58,0.4)" stroke-width="0.8"/>
+      <!-- Trade routes from Ethiopia -->
+      <path class="trade-line" d="M 738 150 Q 780 120 840 100 Q 920 78 980 70"/>
+      <path class="trade-line" d="M 738 150 Q 700 130 660 118 Q 600 100 540 95 Q 480 90 420 98"/>
+      <path class="trade-line" d="M 738 150 Q 740 180 742 200 Q 745 230 748 255"/>
+      <!-- Ethiopia ping dot -->
+      <circle cx="738" cy="152" r="8" fill="url(#ping-grad)" opacity="0.6">
+        <animate attributeName="r" values="5;16;5" dur="2.5s" repeatCount="indefinite"/>
         <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite"/>
       </circle>
-      <circle cx="740" cy="140" r="4" fill="none" stroke="rgba(212,152,58,0.3)" stroke-width="1">
-        <animate attributeName="r" values="4;30;4" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.5;0;0.5" dur="2.5s" begin="0.5s" repeatCount="indefinite"/>
-      </circle>
-      <!-- Asia -->
-      <path d="M 850 40 Q 960 30 1050 55 Q 1100 70 1120 100 Q 1130 130 1110 155 Q 1080 175 1040 165 Q 990 150 950 160 Q 910 170 880 155 Q 850 135 845 100 Q 842 70 850 40 Z" fill="rgba(240,232,216,0.05)" stroke="rgba(240,232,216,0.07)" stroke-width="0.5"/>
-      <!-- Oceania -->
-      <ellipse cx="1200" cy="200" rx="60" ry="35" fill="rgba(240,232,216,0.04)" stroke="rgba(240,232,216,0.07)" stroke-width="0.5"/>
-      <!-- Americas -->
-      <path d="M 160 180 Q 190 170 210 185 Q 225 200 215 230 Q 200 255 180 260 Q 162 258 158 238 Q 152 212 160 180 Z" fill="rgba(240,232,216,0.04)" stroke="rgba(240,232,216,0.06)" stroke-width="0.5"/>
+      <circle cx="738" cy="152" r="3.5" class="ethiopia-dot"/>
       <!-- Coordinate label -->
-      <text x="748" y="138" fill="rgba(212,152,58,0.9)" font-size="6" font-family="monospace" letter-spacing="0.5">6.26°N · 38.20°E</text>
-      <!-- Connecting lines to edges (trade routes) -->
-      <line x1="740" y1="140" x2="400" y2="120" stroke="rgba(212,152,58,0.06)" stroke-width="0.5" stroke-dasharray="4,6"/>
-      <line x1="740" y1="140" x2="980" y2="100" stroke="rgba(212,152,58,0.06)" stroke-width="0.5" stroke-dasharray="4,6"/>
-      <line x1="740" y1="140" x2="1200" y2="180" stroke="rgba(212,152,58,0.05)" stroke-width="0.5" stroke-dasharray="4,6"/>
+      <text x="752" y="149" font-family="Helvetica Neue, sans-serif" font-size="7" fill="rgba(212,152,58,0.7)" letter-spacing="0.5">6.26°N 38.20°E</text>
     </svg>
     <div class="footer-map-label">Origin · Yirgacheffe, Ethiopia</div>
   </div>
