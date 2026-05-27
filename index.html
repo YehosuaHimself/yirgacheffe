@@ -1702,6 +1702,90 @@
     font-family: 'Courier New', Courier, monospace !important;
   }
 
+
+/* ── FLOATING SAMPLE CTA ── */
+#floatingCta {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  background: var(--gold);
+  color: var(--dark);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 2rem;
+  box-shadow: 0 4px 24px rgba(196,160,64,0.35);
+  opacity: 0;
+  transform: translateY(20px) scale(0.92);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1),
+              background 0.25s, box-shadow 0.25s;
+  pointer-events: none;
+}
+#floatingCta.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+#floatingCta:hover {
+  background: var(--cream);
+  box-shadow: 0 8px 32px rgba(196,160,64,0.5);
+  transform: translateY(-2px) scale(1.03);
+}
+.fcta-icon {
+  font-size: 1rem;
+  line-height: 1;
+  animation: fcta-pulse 2s ease-in-out infinite;
+}
+@keyframes fcta-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(0.85); }
+}
+@media (max-width: 600px) {
+  #floatingCta {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    padding: 0.75rem 1.1rem;
+    gap: 0.4rem;
+  }
+  .fcta-text { display: none; }
+  #floatingCta { padding: 0.9rem; border-radius: 50%; }
+  .fcta-icon { font-size: 1.2rem; animation: none; }
+}
+
+/* ── PREFERS-REDUCED-MOTION ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .hero-headline, .hero-sub, .hero-actions { opacity: 1; animation: none; }
+  #floatingCta { transition: none; }
+  .fcta-icon { animation: none; }
+}
+
+/* ── HERO HEADLINE — tighter fluid scale on very wide screens ── */
+@media (min-width: 1600px) {
+  .hero-headline { font-size: clamp(9rem, 9vw, 14rem); }
+}
+
+/* ── NAV scroll-shadow refinement ── */
+#mainNav.scrolled {
+  box-shadow: 0 2px 40px rgba(0,0,0,0.45);
+  border-bottom: 1px solid rgba(196,160,64,0.12);
+}
+
 /* ── SCROLL PROGRESS BAR ── */
 #scrollProgress {
   position: fixed;
@@ -1791,6 +1875,14 @@
   <a href="#contact" class="mobile-nav-link">Contact</a>
   <a href="#contact" class="mobile-nav-cta mobile-nav-link">Source Our Coffee</a>
 </div>
+
+<!-- FLOATING SAMPLE CTA -->
+<a id="floatingCta"
+   href="mailto:hello@yirgacheffe.love?subject=Sample%20Request%20%E2%80%94%20YCFCU&body=Hello%20YCFCU%20team%2C%0A%0AI%20would%20like%20to%20request%20a%20coffee%20sample.%0A%0AOrganisation%3A%20%0ACountry%3A%20%0AVariety%20interest%20(Washed%20%2F%20Natural%20%2F%20Both)%3A%20%0AVolume%20you%20plan%20to%20trial%3A%20%0A"
+   aria-label="Request a coffee sample">
+  <span class="fcta-icon">✦</span>
+  <span class="fcta-text">Request Sample</span>
+</a>
 
 <!-- SCROLL PROGRESS -->
 <div id="scrollProgress" aria-hidden="true"></div>
@@ -2686,6 +2778,32 @@
   }, { threshold: 0.4 });
   numberItems.forEach(el => counterObserver.observe(el));
 
+
+
+
+  // ── FLOATING SAMPLE CTA — show after hero ──
+  const floatingCta = document.getElementById('floatingCta');
+  if (floatingCta) {
+    const heroHeight = window.innerHeight * 0.8;
+    const toggleCta = () => {
+      const nearBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - 120);
+      if (window.scrollY > heroHeight && !nearBottom) {
+        floatingCta.classList.add('visible');
+      } else {
+        floatingCta.classList.remove('visible');
+      }
+    };
+    window.addEventListener('scroll', toggleCta, { passive: true });
+    toggleCta();
+  }
+
+  // ── NAV scroll-shadow ──
+  const mainNav = document.getElementById('mainNav');
+  if (mainNav) {
+    window.addEventListener('scroll', () => {
+      mainNav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+  }
 
   // ── SCROLL PROGRESS BAR ──
   const progressBar = document.getElementById('scrollProgress');
