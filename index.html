@@ -6747,5 +6747,612 @@ section > * { position: relative; z-index: 1; }
   })(); // close outer IIFE
 
 </script>
-</body>
-</html>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     AWARD TIER ADDITIONS — scroll-driven cherry journey + type interlude
+     ═══════════════════════════════════════════════════════════════ -->
+
+<style>
+/* ── CHERRY JOURNEY: full-viewport scroll-driven canvas ────────── */
+#cherry-journey {
+  position: relative;
+  height: 500vh;
+  background: #0a0805;
+}
+#cherry-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#cherry-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cherry-ui {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.cherry-stage-label {
+  position: absolute;
+  top: 4rem;
+  left: clamp(2rem, 6vw, 6rem);
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.55rem, 1vw, 0.7rem);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(212,152,58,0.5);
+  transition: opacity 0.6s;
+}
+.cherry-headline {
+  position: absolute;
+  bottom: 6rem;
+  left: clamp(2rem, 6vw, 6rem);
+  right: clamp(2rem, 6vw, 6rem);
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 300;
+  line-height: 0.95;
+  color: rgba(240,232,216,0);
+  letter-spacing: -0.02em;
+  transition: color 0.8s ease;
+  user-select: none;
+  mix-blend-mode: screen;
+}
+.cherry-headline.visible { color: rgba(240,232,216,0.07); }
+.cherry-progress-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold, #d4983a), transparent);
+  width: 0%;
+  transition: width 0.05s linear;
+}
+.cherry-alt-readout {
+  position: absolute;
+  top: 4rem;
+  right: clamp(2rem, 6vw, 6rem);
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.6rem, 1.1vw, 0.78rem);
+  letter-spacing: 0.25em;
+  color: rgba(212,152,58,0.45);
+  line-height: 1.8;
+}
+.cherry-alt-readout strong {
+  display: block;
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  font-weight: 400;
+  color: rgba(212,152,58,0.7);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.2rem;
+}
+
+/* ── TYPOGRAPHIC INTERLUDE — pure words, full viewport ──────────── */
+#type-interlude {
+  min-height: 100vh;
+  background: var(--cream, #f0e8d8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 6rem clamp(2rem, 8vw, 10rem);
+}
+#type-interlude::before {
+  content: 'YIRGACHEFFE';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: clamp(8rem, 22vw, 28rem);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: rgba(26,18,10,0.035);
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+.type-interlude-inner {
+  max-width: 820px;
+  position: relative;
+  z-index: 1;
+}
+.type-interlude-num {
+  font-family: 'Courier New', monospace;
+  font-size: clamp(0.6rem, 1.1vw, 0.75rem);
+  letter-spacing: 0.4em;
+  color: rgba(61,36,16,0.45);
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.type-interlude-num::before {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 1px;
+  background: rgba(61,36,16,0.3);
+}
+.type-interlude-h {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  font-size: clamp(2.4rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #1a120a;
+  margin-bottom: 2.5rem;
+}
+.type-interlude-h em {
+  font-style: italic;
+  color: #3d2410;
+}
+.type-interlude-body {
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.8;
+  color: rgba(26,18,10,0.65);
+  font-weight: 300;
+  max-width: 56ch;
+  border-left: 2px solid rgba(61,36,16,0.2);
+  padding-left: 1.8rem;
+}
+.type-interlude-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2.5rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #3d2410;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(61,36,16,0.25);
+  padding-bottom: 4px;
+  transition: color 0.3s, border-color 0.3s, gap 0.3s;
+}
+.type-interlude-cta:hover {
+  color: #1a120a;
+  border-color: rgba(61,36,16,0.6);
+  gap: 1.4rem;
+}
+
+@media (max-width: 768px) {
+  #cherry-journey { height: 350vh; }
+  .cherry-headline { font-size: clamp(2rem, 10vw, 4rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #cherry-journey { height: auto; }
+  #cherry-sticky { position: relative; height: 80vh; }
+}
+</style>
+
+<!-- Cherry journey section — inserted before altitude viz -->
+<script>
+(function() {
+  // Inject the cherry journey section before the altitude section
+  const altiviz = document.getElementById('altitude');
+  if (!altiviz) return;
+
+  // Build cherry journey HTML
+  const section = document.createElement('section');
+  section.id = 'cherry-journey';
+  section.setAttribute('aria-label', 'Scroll-driven coffee cherry journey from forest to cup');
+
+  section.innerHTML = `
+    <div id="cherry-sticky">
+      <canvas id="cherry-canvas" aria-hidden="true"></canvas>
+      <div class="cherry-ui">
+        <div class="cherry-stage-label" id="cherry-label">Origin · Gedeo Highlands</div>
+        <div class="cherry-alt-readout" id="cherry-alt">
+          <strong id="cherry-alt-num">2,200m</strong>
+          ALTITUDE
+        </div>
+        <div class="cherry-headline" id="cherry-headline">From forest<br>to cup.</div>
+        <div class="cherry-progress-line" id="cherry-progress"></div>
+      </div>
+    </div>
+  `;
+
+  altiviz.parentNode.insertBefore(section, altiviz);
+
+  // Inject typographic interlude after the coffee section
+  const coffeeSection = document.getElementById('coffee');
+  if (coffeeSection && coffeeSection.nextElementSibling) {
+    const interlude = document.createElement('div');
+    interlude.id = 'type-interlude';
+    interlude.setAttribute('aria-label', 'About YCFCU — statement of origin');
+    interlude.innerHTML = `
+      <div class="type-interlude-inner">
+        <div class="type-interlude-num">A Statement of Origin — Est. 2002</div>
+        <h2 class="type-interlude-h">
+          We do not grow coffee.<br>
+          We <em>are</em> the place<br>
+          coffee comes from.
+        </h2>
+        <p class="type-interlude-body">
+          The Gedeo Highlands are not a growing region. They are the origin. Every other origin in the world traces its coffee lineage — genetically, historically, or spiritually — back to this forest. YCFCU does not farm a commodity. We steward a birthplace.
+        </p>
+        <a href="#coffee" class="type-interlude-cta">Explore the expressions →</a>
+      </div>
+    `;
+    coffeeSection.parentNode.insertBefore(interlude, coffeeSection.nextElementSibling);
+  }
+})();
+</script>
+
+<script>
+// ── CHERRY JOURNEY CANVAS ANIMATION ──────────────────────────────
+(function initCherryJourney() {
+  const section  = document.getElementById('cherry-journey');
+  const sticky   = document.getElementById('cherry-sticky');
+  const canvas   = document.getElementById('cherry-canvas');
+  const labelEl  = document.getElementById('cherry-label');
+  const altEl    = document.getElementById('cherry-alt-num');
+  const headEl   = document.getElementById('cherry-headline');
+  const progEl   = document.getElementById('cherry-progress');
+  if (!section || !canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+
+  function resize() {
+    dpr = window.devicePixelRatio || 1;
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  // ── Scene definitions ───────────────────────────────────────────
+  const STAGES = [
+    { t: 0.00, label: 'Origin · Gedeo Highlands', alt: 2200, bg: [10,8,5],   particle: 'forest'   },
+    { t: 0.20, label: 'Harvest · Hand-Picked',     alt: 1900, bg: [14,20,8],  particle: 'cherry'   },
+    { t: 0.40, label: 'Process · Drying Beds',     alt: 1700, bg: [26,16,8],  particle: 'dry'      },
+    { t: 0.60, label: 'Mill · Cooperative',         alt: 1400, bg: [18,12,6],  particle: 'mill'     },
+    { t: 0.80, label: 'Export · Global',            alt:  600, bg: [8,6,12],   particle: 'steam'    },
+    { t: 1.00, label: 'Cup · Destination',          alt:    0, bg: [12,8,4],   particle: 'steam'    },
+  ];
+
+  // ── Particle pool ───────────────────────────────────────────────
+  const POOL_SIZE = 180;
+  const particles = [];
+
+  function makeParticle(type) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 0.3 + Math.random() * 1.2;
+    let ox, oy;
+    if (type === 'forest') {
+      ox = (Math.random() - 0.5) * W * 1.4;
+      oy = H * 0.5 + (Math.random() - 0.5) * H * 0.8;
+    } else {
+      ox = (Math.random() - 0.5) * W * 0.6;
+      oy = (Math.random() - 0.5) * H * 0.4;
+    }
+    return {
+      x: W / 2 + ox,
+      y: H / 2 + oy,
+      vx: Math.cos(angle) * speed * (type === 'steam' ? 0.4 : 1),
+      vy: Math.sin(angle) * speed - (type === 'steam' ? 1.2 : 0),
+      size: type === 'cherry'  ? 3.5 + Math.random() * 4 :
+            type === 'forest'  ? 1.5 + Math.random() * 3 :
+            type === 'steam'   ? 4   + Math.random() * 8 :
+                                  1.5 + Math.random() * 2.5,
+      alpha: 0.15 + Math.random() * 0.7,
+      life: Math.random(),
+      decay: 0.003 + Math.random() * 0.006,
+      type,
+      hue: type === 'cherry' ? (Math.random() > 0.5 ? [180,40,40] : [212,152,58]) :
+           type === 'forest'  ? [60 + Math.random()*40, 90 + Math.random()*40, 50] :
+           type === 'steam'   ? [200,180,160] :
+                                [180,150,100],
+    };
+  }
+
+  function resetParticle(p, type) {
+    Object.assign(p, makeParticle(type));
+  }
+
+  // Init pool
+  for (let i = 0; i < POOL_SIZE; i++) {
+    particles.push(makeParticle('forest'));
+  }
+
+  // ── Mountain silhouette path points ────────────────────────────
+  function getMtnPath(progress) {
+    const pts = [
+      { x: 0,       y: H },
+      { x: W * 0.0, y: H * (0.7 - progress * 0.1) },
+      { x: W * 0.1, y: H * (0.55 - progress * 0.08) },
+      { x: W * 0.2, y: H * (0.65 - progress * 0.04) },
+      { x: W * 0.32,y: H * (0.35 - progress * 0.15) },
+      { x: W * 0.42,y: H * (0.5  + progress * 0.05) },
+      { x: W * 0.55,y: H * (0.28 - progress * 0.1) },
+      { x: W * 0.68,y: H * (0.44 + progress * 0.03) },
+      { x: W * 0.80,y: H * (0.38 - progress * 0.06) },
+      { x: W * 0.90,y: H * (0.6  + progress * 0.04) },
+      { x: W,        y: H * (0.72 - progress * 0.04) },
+      { x: W,        y: H },
+    ];
+    return pts;
+  }
+
+  // ── Draw mountain silhouette ────────────────────────────────────
+  function drawMountain(progress, bg) {
+    const pts = getMtnPath(progress);
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    pts.slice(1).forEach((p, i) => {
+      if (i === 0) {
+        ctx.lineTo(p.x, p.y);
+      } else {
+        const prev = pts[i];
+        const cpx = (prev.x + p.x) / 2;
+        const cpy = (prev.y + p.y) / 2;
+        ctx.quadraticCurveTo(prev.x, prev.y, cpx, cpy);
+      }
+    });
+    ctx.closePath();
+
+    // Fill with gradient
+    const grad = ctx.createLinearGradient(0, H * 0.2, 0, H);
+    const r = bg[0], g = bg[1], b = bg[2];
+    grad.addColorStop(0, `rgba(${r+20},${g+18},${b+12}, 0.95)`);
+    grad.addColorStop(0.5, `rgba(${r+10},${g+8},${b+5}, 0.88)`);
+    grad.addColorStop(1, `rgba(${r},${g},${b}, 0.7)`);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Edge glow
+    ctx.save();
+    ctx.clip();
+    const glow = ctx.createLinearGradient(0, H * 0.28, 0, H * 0.5);
+    glow.addColorStop(0, 'rgba(212,152,58,0.12)');
+    glow.addColorStop(1, 'rgba(212,152,58,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, W, H);
+    ctx.restore();
+  }
+
+  // ── Draw altitude horizon line ──────────────────────────────────
+  function drawHorizon(progress, stageAlt) {
+    const y = H * 0.5 - (stageAlt / 2400) * H * 0.45;
+    ctx.save();
+    ctx.globalAlpha = 0.25;
+    ctx.strokeStyle = 'rgba(212,152,58,0.6)';
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash([4, 8]);
+    ctx.beginPath();
+    ctx.moveTo(0, y); ctx.lineTo(W, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Label on horizon
+    ctx.fillStyle = 'rgba(212,152,58,0.45)';
+    ctx.font = `${Math.round(9 * dpr) / dpr}px "Courier New", monospace`;
+    ctx.textAlign = 'right';
+    ctx.fillText(stageAlt + 'm ASL', W - 24, y - 8);
+    ctx.restore();
+  }
+
+  // ── Draw cherry SVG-like shape in canvas ────────────────────────
+  function drawCherryIcon(cx, cy, r, alpha) {
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    // Cherry body
+    ctx.beginPath();
+    ctx.arc(cx - r * 0.5, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#8b2020';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx + r * 0.5, cy, r, 0, Math.PI * 2);
+    ctx.fillStyle = '#a03030';
+    ctx.fill();
+    // Stem
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - r);
+    ctx.bezierCurveTo(cx, cy - r * 3, cx + r * 2, cy - r * 4, cx + r * 1.5, cy - r * 5);
+    ctx.strokeStyle = 'rgba(74,90,56,0.9)';
+    ctx.lineWidth = r * 0.35;
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // ── Draw star field (for export/night stage) ────────────────────
+  function drawStars(alpha) {
+    if (alpha < 0.01) return;
+    ctx.save();
+    ctx.globalAlpha = alpha * 0.6;
+    for (let i = 0; i < 80; i++) {
+      const x = (i * 137.5 % 1) * W;
+      const y = (i * 93.7  % 1) * H * 0.6;
+      const s = 0.5 + (i % 3) * 0.5;
+      ctx.beginPath();
+      ctx.arc(x, y, s, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(240,232,216,0.8)';
+      ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  // ── Draw grid lines (mill stage) ───────────────────────────────
+  function drawGrid(alpha) {
+    if (alpha < 0.01) return;
+    ctx.save();
+    ctx.globalAlpha = alpha * 0.08;
+    ctx.strokeStyle = 'rgba(212,152,58,1)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < W; x += W / 12) {
+      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    }
+    for (let y = 0; y < H; y += H / 8) {
+      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // ── Lerp between stages ─────────────────────────────────────────
+  function getStageBlend(t) {
+    let si = 0;
+    for (let i = 0; i < STAGES.length - 1; i++) {
+      if (t >= STAGES[i].t && t <= STAGES[i+1].t) { si = i; break; }
+      if (t > STAGES[STAGES.length-1].t) si = STAGES.length - 2;
+    }
+    const a = STAGES[si], b = STAGES[si+1] || a;
+    const local = (t - a.t) / Math.max(0.001, b.t - a.t);
+    const ease  = local < 0.5 ? 2*local*local : -1+(4-2*local)*local; // easeInOut
+    return {
+      bg:    a.bg.map((v, i) => v + (b.bg[i]-v) * ease),
+      alt:   Math.round(a.alt + (b.alt - a.alt) * ease),
+      label: ease < 0.5 ? a.label : b.label,
+      type:  ease < 0.5 ? a.particle : b.particle,
+      local: ease,
+      si,
+    };
+  }
+
+  // ── Main render ─────────────────────────────────────────────────
+  let animId;
+  let currentT = 0;
+  let currentAlt = 2200;
+  let currentBg  = [10,8,5];
+  let currentType = 'forest';
+
+  function render() {
+    // Get scroll progress
+    const rect  = section.getBoundingClientRect();
+    const total = section.offsetHeight - window.innerHeight;
+    const raw   = Math.max(0, Math.min(1, -rect.top / total));
+
+    const blend = getStageBlend(raw);
+
+    // Smooth internals
+    currentT   += (raw - currentT) * 0.08;
+    currentAlt += (blend.alt - currentAlt) * 0.06;
+    for (let i = 0; i < 3; i++) currentBg[i] += (blend.bg[i] - currentBg[i]) * 0.06;
+    currentType = blend.type;
+
+    const [r, g, b] = currentBg;
+
+    // BG
+    const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+    bgGrad.addColorStop(0, `rgb(${Math.round(r)},${Math.round(g)},${Math.round(b)})`);
+    bgGrad.addColorStop(1, `rgb(${Math.round(r*0.5)},${Math.round(g*0.5)},${Math.round(b*0.5)})`);
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Stars (stage 4+)
+    drawStars(Math.max(0, (currentT - 0.6) * 3));
+
+    // Grid (stage 3)
+    drawGrid(Math.max(0, 1 - Math.abs((currentT - 0.45) / 0.15)));
+
+    // Mountain silhouette
+    drawMountain(currentT, currentBg);
+
+    // Horizon alt line
+    drawHorizon(currentT, Math.round(currentAlt));
+
+    // Central cherry icon (stages 0–0.4)
+    const cherryAlpha = Math.max(0, 1 - currentT * 4);
+    if (cherryAlpha > 0.01) {
+      const cx = W / 2, cy = H * 0.42;
+      const cr = Math.max(8, 18 * (1 - currentT * 2));
+      drawCherryIcon(cx, cy, cr, cherryAlpha * 0.7);
+    }
+
+    // Particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+      if (p.life <= 0 || p.x < -100 || p.x > W + 100 || p.y < -100 || p.y > H + 100) {
+        resetParticle(p, currentType);
+        p.x = W / 2 + (Math.random() - 0.5) * W * 0.8;
+        p.y = H * 0.3 + Math.random() * H * 0.5;
+        continue;
+      }
+
+      const fa = p.life * p.alpha * 0.65;
+      if (fa < 0.01) continue;
+
+      const [pr, pg, pb] = p.hue;
+      ctx.save();
+      ctx.globalAlpha = fa;
+      if (p.type === 'steam') {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * (1 + (1-p.life) * 2), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${pr},${pg},${pb},1)`;
+        ctx.fill();
+      } else if (p.type === 'cherry') {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${pr},${pg},${pb},1)`;
+        ctx.fill();
+      } else {
+        ctx.fillStyle = `rgba(${pr},${pg},${pb},1)`;
+        ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
+      }
+      ctx.restore();
+    }
+
+    // Gold vignette
+    const vig = ctx.createRadialGradient(W/2, H/2, H*0.2, W/2, H/2, H*0.85);
+    vig.addColorStop(0, 'rgba(0,0,0,0)');
+    vig.addColorStop(1, 'rgba(0,0,0,0.65)');
+    ctx.fillStyle = vig;
+    ctx.fillRect(0, 0, W, H);
+
+    // Update DOM
+    if (labelEl)  labelEl.textContent = blend.label;
+    if (altEl)    altEl.textContent   = Math.round(currentAlt) + 'm';
+    if (progEl)   progEl.style.width  = (raw * 100).toFixed(1) + '%';
+    if (headEl) {
+      headEl.classList.toggle('visible', raw > 0.05 && raw < 0.95);
+      const phrases = ['From forest\nto cup.','From seed\nto roast.','From hand\nto world.','One standard.\nForever.'];
+      const pi = Math.min(phrases.length-1, Math.floor(raw * phrases.length));
+      headEl.innerHTML = phrases[pi].replace('\n','<br>');
+    }
+
+    animId = requestAnimationFrame(render);
+  }
+
+  // Only run when section is near viewport
+  const journeyObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      render();
+    } else {
+      cancelAnimationFrame(animId);
+    }
+  }, { threshold: 0 });
+  journeyObs.observe(section);
+
+  // GSAP reveal for type interlude
+  if (window.gsap && window.ScrollTrigger) {
+    const itl = document.getElementById('type-interlude');
+    if (itl) {
+      gsap.from(itl.querySelector('.type-interlude-num'),   { scrollTrigger: { trigger: itl, start: 'top 75%' }, opacity: 0, x: -30, duration: 0.8, ease: 'power2.out', clearProps: 'all' });
+      gsap.from(itl.querySelector('.type-interlude-h'),     { scrollTrigger: { trigger: itl, start: 'top 70%' }, opacity: 0, y: 50,  duration: 1.2, ease: 'power3.out', delay: 0.1, clearProps: 'all' });
+      gsap.from(itl.querySelector('.type-interlude-body'),  { scrollTrigger: { trigger: itl, start: 'top 65%' }, opacity: 0, y: 30,  duration: 0.9, ease: 'power2.out', delay: 0.3, clearProps: 'all' });
+      gsap.from(itl.querySelector('.type-interlude-cta'),   { scrollTrigger: { trigger: itl, start: 'top 60%' }, opacity: 0, y: 20,  duration: 0.7, ease: 'power2.out', delay: 0.5, clearProps: 'all' });
+    }
+  }
+})();
+</script>
