@@ -7700,3 +7700,22 @@ section > * { position: relative; z-index: 1; }
 
 })();
 </script>
+
+<style>
+/* ── Ensure new elements respect reduced motion ───────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .clip-reveal { clip-path: none !important; transition: none !important; }
+  .clip-reveal.clip-in { clip-path: none !important; }
+  .word-reveal-wrap .wr-inner { transform: none !important; transition: none !important; }
+  .mdraw { transition: none !important; }
+  .kinetic-track { animation: none !important; }
+  .origin-map-eyebrow, .origin-map-h, .origin-map-p { opacity: 1 !important; transform: none !important; transition: none !important; }
+  #origin-svg-wrap { opacity: 1 !important; transform: none !important; }
+}
+
+/* ── Map section padding fix for mobile ──────────────────────── */
+@media (max-width: 480px) {
+  #origin-map-section { padding: 5rem 0; }
+  .origin-map-wrap { padding: 0 1.25rem; gap: 2rem; }
+}
+</style>
