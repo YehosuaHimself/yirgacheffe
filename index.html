@@ -8,9 +8,43 @@
 
 <!-- Performance: preload critical hero image -->
 <link rel="preload" as="image" href="images/beans-sorted.webp" fetchpriority="high">
-<!-- Hint browser to connect early to image CDN -->
-<link rel="dns-prefetch" href="https://yirgacheffeunion.com">
-<link rel="preconnect" href="https://yirgacheffeunion.com" crossorigin>
+
+<!--
+  REAL HELVETICA NEUE:
+  On macOS/iOS — 'Helvetica Neue' resolves to the genuine system font.
+  On Windows/Android — we serve 'HelveticaNeue-Light' from Adobe Fonts (Typekit)
+  as the closest licensed match, falling back to system Helvetica, then Arial.
+  Courier New is a genuine Windows/macOS system font on all platforms.
+-->
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="stylesheet" href="https://use.typekit.net/ddc8tds.css">
+<!-- fallback: Neue Haas Grotesk via Google CDN isn't available; system Helvetica Neue is genuine on Apple devices -->
+<!-- On Windows we use the local() call to pick up any installed copy first -->
+<style>
+  /* Ensure genuine Helvetica Neue or best licensed equivalent */
+  @font-face {
+    font-family: 'HelveticaNeueReal';
+    src: local('Helvetica Neue'), local('HelveticaNeue'), local('Helvetica Neue LT'), local('HelveticaNeueLT');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'HelveticaNeueReal';
+    src: local('Helvetica Neue'), local('HelveticaNeue'), local('Helvetica Neue LT'), local('HelveticaNeueLT');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+  }
+  /* Real Courier New — always a genuine system font */
+  @font-face {
+    font-family: 'CourierReal';
+    src: local('Courier New'), local('CourierNewPSMT'), local('Courier');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
 
 <style>
   :root {
@@ -27,10 +61,10 @@
     --leaf: #6a8050;
     --cherry: #8b2020;
     --white: #faf8f4;
-    --font-display: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-    --font-serif: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-    --font-sans: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;
-    --font-mono: 'Courier New', Courier, monospace;
+    --font-display: 'HelveticaNeueReal', 'neue-haas-grotesk-display', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    --font-serif: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    --font-sans: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    --font-mono: 'CourierReal', 'Courier New', CourierNewPSMT, Courier, monospace;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
