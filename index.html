@@ -2701,6 +2701,30 @@
   opacity: 0.6;
 }
 
+
+/* ── Contact intent buttons — 3D tilt on hover ──────────────────── */
+.contact-intent-grid { perspective: 800px; }
+.intent-btn {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s ease, border-color 0.3s ease;
+}
+.intent-btn:hover {
+  transform: translateY(-4px) rotateX(3deg) rotateY(-1deg);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(212,152,58,0.3);
+  border-color: rgba(212,152,58,0.4);
+}
+
+/* ── Quote card counter badge ────────────────────────────────────── */
+.quote-card::before {
+  content: attr(data-n);
+  position: absolute;
+  top: 1.5rem; right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: rgba(212,152,58,0.4);
+}
+
 /* ── Buyer quotes section ────────────────────────────────────────── */
 .quotes-section {
   background: var(--bark);
@@ -2826,6 +2850,10 @@
   letter-spacing: 0.08em;
   color: var(--fog);
 }
+.altiviz-dot-gold { background: var(--gold); }
+.altiviz-dot-fog  { background: var(--fog); opacity: 0.5; }
+.altiviz-dot-moss { background: var(--moss); opacity: 0.6; }
+
 .altiviz-dot {
   width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
 }
@@ -3954,15 +3982,15 @@ section > * { position: relative; z-index: 1; }
       </p>
       <div class="altiviz-legend reveal reveal-delay-2">
         <div class="altiviz-legend-item">
-          <span class="altiviz-dot" style="background:var(--gold)"></span>
+          <span class="altiviz-dot altiviz-dot-gold"></span>
           <span>Yirgacheffe YCFCU · 1,600–2,400m</span>
         </div>
         <div class="altiviz-legend-item">
-          <span class="altiviz-dot" style="background:var(--fog);opacity:0.5"></span>
+          <span class="altiviz-dot altiviz-dot-fog"></span>
           <span>Global average specialty · 1,000–1,500m</span>
         </div>
         <div class="altiviz-legend-item">
-          <span class="altiviz-dot" style="background:var(--moss);opacity:0.6"></span>
+          <span class="altiviz-dot altiviz-dot-moss"></span>
           <span>Commercial grade · &lt; 800m</span>
         </div>
       </div>
@@ -3982,7 +4010,7 @@ section > * { position: relative; z-index: 1; }
   <div class="quotes-track-wrap" id="quotesTrack" role="region" aria-label="Scrollable testimonials">
     <div class="quotes-track" id="quotesInner">
 
-      <div class="quote-card">
+      <div class="quote-card" data-n="01">
         <div class="quote-mark">"</div>
         <blockquote class="quote-body">
           Yirgacheffe YCFCU produces the most consistently exceptional washed lot we've ever sourced. The jasmine and bergamot notes are real — not a roaster's projection.
@@ -3993,7 +4021,7 @@ section > * { position: relative; z-index: 1; }
         </div>
       </div>
 
-      <div class="quote-card">
+      <div class="quote-card" data-n="02">
         <div class="quote-mark">"</div>
         <blockquote class="quote-body">
           Traceability to sub-cooperative level. Harvest date. Drying method. Farmer name. This is what direct trade should be — not a marketing claim, but a commitment that shows up in every invoice.
@@ -4004,7 +4032,7 @@ section > * { position: relative; z-index: 1; }
         </div>
       </div>
 
-      <div class="quote-card">
+      <div class="quote-card" data-n="03">
         <div class="quote-mark">"</div>
         <blockquote class="quote-body">
           We've been buying from Ethiopia for twelve years. The consistency from YCFCU lot to lot is unlike any other origin we work with. The farmers are the system.
@@ -4015,7 +4043,7 @@ section > * { position: relative; z-index: 1; }
         </div>
       </div>
 
-      <div class="quote-card">
+      <div class="quote-card" data-n="04">
         <div class="quote-mark">"</div>
         <blockquote class="quote-body">
           I've cupped this coffee at 3 separate evaluations over two years. It scores 88–92 depending on the lot and processing method. The natural process lots are extraordinary — among the finest I've tasted from any origin.
@@ -4026,7 +4054,7 @@ section > * { position: relative; z-index: 1; }
         </div>
       </div>
 
-      <div class="quote-card">
+      <div class="quote-card" data-n="05">
         <div class="quote-mark">"</div>
         <blockquote class="quote-body">
           When I tell people this coffee is from a forest where coffee was literally invented, they think I'm being poetic. I'm not. It's a statement of geography. That's what you taste in the cup.
@@ -4823,6 +4851,38 @@ section > * { position: relative; z-index: 1; }
         });
       });
     }
+
+
+    // ── CONTACT INTENT BUTTONS — 3D tilt on mouse ──
+    document.querySelectorAll('.intent-btn').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const r = btn.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width  - 0.5;
+        const ny = (e.clientY - r.top)  / r.height - 0.5;
+        btn.style.transform = `translateY(-4px) rotateX(${ny * -8}deg) rotateY(${nx * 6}deg)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+      });
+    });
+
+    // ── MANIFESTO SECTION — GSAP entrance ──
+    if (document.querySelector('.manifesto-section')) {
+      gsap.from('.manifesto-statement', {
+        scrollTrigger: { trigger: '.manifesto-section', start: 'top 70%' },
+        opacity: 0, y: 60, duration: 1.4, ease: 'power4.out'
+      });
+      gsap.from('.mstat-item', {
+        scrollTrigger: { trigger: '.manifesto-section', start: 'top 60%' },
+        opacity: 0, y: 40, duration: 1, ease: 'power3.out', stagger: 0.15, delay: 0.3
+      });
+    }
+
+    // ── QUOTES SECTION — entrance ──
+    gsap.from('.quotes-header', {
+      scrollTrigger: { trigger: '.quotes-section', start: 'top 80%' },
+      opacity: 0, x: -40, duration: 1, ease: 'power3.out'
+    });
 
     ScrollTrigger.refresh();
   }
