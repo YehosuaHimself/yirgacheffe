@@ -7356,3 +7356,347 @@ section > * { position: relative; z-index: 1; }
   }
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     AWARD-TIER LAYER 2 — Text Scramble · Clip Reveals · Cursor Labels
+     · Self-Drawing Origin Map · Kinetic Strip · Word Reveals
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+/* ── Cursor label ──────────────────────────────────────────────── */
+#cursor-label {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold, #d4983a);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  transform: translate(18px, -8px);
+  white-space: nowrap;
+}
+#cursor-label.visible { opacity: 1; }
+
+/* ── Clip-path scroll reveals ──────────────────────────────────── */
+.clip-reveal {
+  clip-path: inset(100% 0 0 0) !important;
+  transition: clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.clip-reveal.clip-in {
+  clip-path: inset(0% 0 0 0) !important;
+}
+
+/* ── Self-drawing origin map ───────────────────────────────────── */
+#origin-map-section {
+  position: relative;
+  background: #0d0906;
+  overflow: hidden;
+  padding: 8rem 0;
+}
+#origin-map-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,152,58,0.06) 0%, transparent 70%);
+}
+.origin-map-wrap {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+@media(max-width:700px){ .origin-map-wrap { grid-template-columns:1fr; gap:2.5rem; } }
+.origin-map-copy { color: #f5ede2; }
+.origin-map-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold, #d4983a);
+  margin-bottom: 1.2rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.origin-map-eyebrow.map-in { opacity: 1; transform: none; }
+.origin-map-h {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 0 1.4rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease 0.1s, transform 0.9s ease 0.1s;
+}
+.origin-map-h.map-in { opacity: 1; transform: none; }
+.origin-map-p {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  color: rgba(245,237,226,0.62);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease 0.22s, transform 0.8s ease 0.22s;
+}
+.origin-map-p.map-in { opacity: 1; transform: none; }
+#origin-svg-wrap {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.9s ease 0.15s, transform 0.9s ease 0.15s;
+}
+#origin-svg-wrap.map-in { opacity: 1; transform: scale(1); }
+#origin-svg-wrap svg { width: 100%; height: auto; display: block; }
+.mdraw {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  transition: stroke-dashoffset 2.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+}
+.mdraw.drawing { stroke-dashoffset: 0; }
+.mpin {
+  opacity: 0;
+  transform-origin: 50% 50%;
+  transform: scale(0);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.mpin.map-in { opacity: 1; transform: scale(1); }
+.mlabel {
+  opacity: 0;
+  transition: opacity 0.5s ease 2s;
+}
+.mlabel.map-in { opacity: 1; }
+
+/* ── Kinetic scroll strip ──────────────────────────────────────── */
+#kinetic-strip {
+  overflow: hidden;
+  background: var(--gold, #d4983a);
+  padding: 0.85rem 0;
+  position: relative;
+  z-index: 10;
+}
+.kinetic-track {
+  display: flex;
+  gap: 0;
+  white-space: nowrap;
+  will-change: transform;
+}
+.kinetic-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 0 2.5rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #1a120a;
+  flex-shrink: 0;
+}
+.kinetic-item .ksep {
+  display: inline-block;
+  width: 4px; height: 4px;
+  background: rgba(26,18,10,0.45);
+  border-radius: 50%;
+}
+
+/* ── Word-slot reveal ──────────────────────────────────────────── */
+.word-reveal-wrap .wr-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.word-reveal-wrap .wr-inner {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.word-reveal-wrap.wr-visible .wr-inner { transform: translateY(0); }
+.word-reveal-wrap .wr-word:nth-child(2) .wr-inner { transition-delay: 0.07s; }
+.word-reveal-wrap .wr-word:nth-child(3) .wr-inner { transition-delay: 0.14s; }
+.word-reveal-wrap .wr-word:nth-child(4) .wr-inner { transition-delay: 0.21s; }
+.word-reveal-wrap .wr-word:nth-child(5) .wr-inner { transition-delay: 0.28s; }
+.word-reveal-wrap .wr-word:nth-child(6) .wr-inner { transition-delay: 0.35s; }
+</style>
+
+<script>
+// ── Inject self-drawing origin map before contact ───────────────
+(function() {
+  var contact = document.getElementById('contact');
+  if (!contact) return;
+  var sec = document.createElement('section');
+  sec.id = 'origin-map-section';
+  sec.setAttribute('aria-label','Geographic origin — Yirgacheffe region map');
+  sec.innerHTML = '<div class="origin-map-wrap"><div class="origin-map-copy"><div class="origin-map-eyebrow">6.2613\xb0N \xb7 38.2098\xb0E</div><h2 class="origin-map-h">The only origin<br>with no equal.</h2><p class="origin-map-p">Yirgacheffe sits inside the Great Rift Valley at 1,700\u20132,200 metres. The Gedeo Zone\u2019s ancient wild coffee forest \u2014 a UNESCO World Heritage Site \u2014 is not a plantation. It is an ecosystem older than agriculture itself. Every bean we export carries the genetic memory of a species born here.</p></div><div id="origin-svg-wrap"><svg viewBox="0 0 340 420" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><radialGradient id="mapGlow2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#d4983a" stop-opacity="0.14"/><stop offset="100%" stop-color="#d4983a" stop-opacity="0"/></radialGradient><filter id="mapBlur2"><feGaussianBlur stdDeviation="10"/></filter></defs><ellipse cx="170" cy="210" rx="140" ry="165" fill="url(#mapGlow2)" filter="url(#mapBlur2)"/><path class="mdraw" d="M95,40L130,28L175,22L220,30L265,55L290,85L300,120L305,155L295,185L280,210L270,245L260,275L248,300L240,325L245,355L235,375L215,385L195,390L175,382L155,370L140,345L130,315L118,285L105,260L88,240L70,215L62,185L58,155L62,120L72,90L85,62Z" fill="rgba(212,152,58,0.04)" stroke="rgba(212,152,58,0.32)" stroke-width="1.5" stroke-linejoin="round"/><ellipse class="mdraw" cx="175" cy="268" rx="48" ry="38" fill="rgba(212,152,58,0.06)" stroke="rgba(212,152,58,0.18)" stroke-width="1"/><ellipse class="mdraw" cx="175" cy="268" rx="32" ry="25" fill="rgba(212,152,58,0.08)" stroke="rgba(212,152,58,0.28)" stroke-width="1"/><ellipse class="mdraw" cx="175" cy="268" rx="18" ry="14" fill="rgba(212,152,58,0.12)" stroke="rgba(212,152,58,0.42)" stroke-width="1"/><circle class="mpin" cx="185" cy="148" r="3" fill="rgba(245,237,226,0.35)" stroke="rgba(245,237,226,0.18)" stroke-width="1"/><text class="mlabel" x="192" y="152" font-family="DM Sans,sans-serif" font-size="7" fill="rgba(245,237,226,0.3)" letter-spacing="0.1em">ADDIS ABABA</text><circle class="mpin" cx="175" cy="268" r="6" fill="none" stroke="#d4983a" stroke-width="1.5"/><circle class="mpin" cx="175" cy="268" r="3" fill="#d4983a"/><circle cx="175" cy="268" r="6" fill="none" stroke="#d4983a" stroke-width="1.2" opacity="0"><animate attributeName="r" values="6;26" dur="2.2s" repeatCount="indefinite" begin="2s"/><animate attributeName="opacity" values="0.6;0" dur="2.2s" repeatCount="indefinite" begin="2s"/></circle><line class="mdraw" x1="175" y1="262" x2="175" y2="236" stroke="#d4983a" stroke-width="1"/><text class="mlabel" x="100" y="231" font-family="DM Sans,sans-serif" font-size="9" font-weight="700" fill="#d4983a" letter-spacing="0.12em">YIRGACHEFFE</text><text class="mlabel" x="115" y="244" font-family="DM Sans,sans-serif" font-size="6.5" fill="rgba(212,152,58,0.55)" letter-spacing="0.08em">1,700 \u2013 2,200m</text><path class="mdraw" d="M118,78Q145,158 155,238Q162,298 168,358" fill="none" stroke="rgba(212,152,58,0.14)" stroke-width="1" stroke-dasharray="4,6"/><line x1="242" y1="392" x2="302" y2="392" stroke="rgba(245,237,226,0.22)" stroke-width="1"/><text x="247" y="388" font-family="DM Sans,sans-serif" font-size="6" fill="rgba(245,237,226,0.28)" letter-spacing="0.08em">100 KM</text><text x="50" y="52" font-family="DM Sans,sans-serif" font-size="9" font-weight="700" fill="rgba(212,152,58,0.45)">N</text><line x1="55" y1="42" x2="55" y2="32" stroke="rgba(212,152,58,0.45)" stroke-width="1.5"/><polygon points="55,28 52,36 55,34 58,36" fill="rgba(212,152,58,0.45)"/></svg></div></div>';
+  contact.parentNode.insertBefore(sec, contact);
+})();
+</script>
+
+<script>
+// ── Inject kinetic ticker strip before mission section ──────────
+(function() {
+  var mission = document.getElementById('about');
+  if (!mission) return;
+  var items = ['Yirgacheffe \xb7 Ethiopia','Est. 2002','46,094 Farmers','UNESCO Heritage Forest','Altitude 1,700\u20132,200m','Fairtrade Certified','Grade 1 \xb7 Grade 2','6.2613\xb0N \xb7 38.2098\xb0E','Direct Trade','Organic \xb7 Natural \xb7 Washed'];
+  var strip = document.createElement('div');
+  strip.id = 'kinetic-strip';
+  strip.setAttribute('aria-hidden','true');
+  var html = '<div class="kinetic-track" id="kinetic-track">';
+  for (var rep = 0; rep < 4; rep++) {
+    items.forEach(function(t) { html += '<span class="kinetic-item">' + t + '<span class="ksep"></span></span>'; });
+  }
+  html += '</div>';
+  strip.innerHTML = html;
+  mission.parentNode.insertBefore(strip, mission);
+
+  var track = document.getElementById('kinetic-track');
+  if (!track) return;
+  var baseX = 0, scrollVel = 0, lastSY = window.scrollY;
+  window.addEventListener('scroll', function() {
+    scrollVel = (window.scrollY - lastSY) * 0.35;
+    lastSY = window.scrollY;
+  }, { passive: true });
+  (function loop() {
+    scrollVel *= 0.9;
+    baseX -= (1.1 + Math.abs(scrollVel) * 0.25);
+    var itemW = track.scrollWidth / 4;
+    if (Math.abs(baseX) >= itemW) baseX += itemW;
+    track.style.transform = 'translateX(' + baseX + 'px)';
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+
+<script>
+(function awardLayer2() {
+  // ── 1. Contextual cursor label ────────────────────────────────
+  if (window.matchMedia('(pointer: fine)').matches) {
+    var lbl = document.createElement('div');
+    lbl.id = 'cursor-label';
+    document.body.appendChild(lbl);
+    var ctxMap = [
+      ['.coffee-card,.hscroll-panel','EXPLORE'],
+      ['a[href*="mailto"],.btn-primary,.intent-btn,.cta-btn','ORDER'],
+      ['.gallery-slot,figure','VIEW'],
+      ['.quote-card,blockquote',  'READ'],
+      ['#cherry-journey',         'SCROLL'],
+      ['.cert-badge',             'CERT'],
+      ['.stat-item',              'FACT'],
+    ];
+    document.addEventListener('mousemove', function(e) {
+      lbl.style.left = e.clientX + 'px';
+      lbl.style.top  = e.clientY + 'px';
+      var el = document.elementFromPoint(e.clientX, e.clientY);
+      if (!el) { lbl.classList.remove('visible'); return; }
+      var matched = null;
+      for (var i = 0; i < ctxMap.length; i++) {
+        if (el.closest(ctxMap[i][0])) { matched = ctxMap[i][1]; break; }
+      }
+      if (matched) { lbl.textContent = matched; lbl.classList.add('visible'); }
+      else lbl.classList.remove('visible');
+    }, { passive: true });
+  }
+
+  // ── 2. Clip-path wipe-in on images ───────────────────────────
+  if ('IntersectionObserver' in window) {
+    var imgs = document.querySelectorAll('.coffee-img img, .heritage-img img, .process-img img, .gallery-slot img');
+    imgs.forEach(function(img) {
+      img.classList.add('clip-reveal');
+      new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('clip-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.12 }).observe(img);
+    });
+  }
+
+  // ── 3. Word-slot reveals on h2s ───────────────────────────────
+  if ('IntersectionObserver' in window) {
+    document.querySelectorAll('.section-header h2').forEach(function(h) {
+      if (h.dataset.wr) return;
+      h.dataset.wr = '1';
+      var words = h.innerHTML.split(/(\s+|<br\s*\/?>)/gi);
+      var rebuilt = words.map(function(w) {
+        if (/^(\s+|<br\s*\/?>)$/i.test(w)) return w;
+        return '<span class="wr-word"><span class="wr-inner">' + w + '</span></span>';
+      }).join('');
+      h.innerHTML = rebuilt;
+      h.classList.add('word-reveal-wrap');
+      new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('wr-visible'); obs.unobserve(e.target); }
+        });
+      }, { threshold: 0.25 }).observe(h);
+    });
+  }
+
+  // ── 4. Origin map scroll trigger ─────────────────────────────
+  if ('IntersectionObserver' in window) {
+    var mapSec = document.getElementById('origin-map-section');
+    if (mapSec) {
+      new IntersectionObserver(function(entries, obs) {
+        entries.forEach(function(e) {
+          if (!e.isIntersecting) return;
+          mapSec.querySelectorAll('.origin-map-eyebrow,.origin-map-h,.origin-map-p').forEach(function(el) { el.classList.add('map-in'); });
+          var svgW = mapSec.querySelector('#origin-svg-wrap');
+          if (svgW) svgW.classList.add('map-in');
+          var delay = 250;
+          mapSec.querySelectorAll('.mdraw').forEach(function(p) {
+            setTimeout(function() { p.classList.add('drawing'); }, delay);
+            delay += 100;
+          });
+          mapSec.querySelectorAll('.mpin').forEach(function(p, i) {
+            setTimeout(function() { p.classList.add('map-in'); }, 900 + i * 180);
+          });
+          mapSec.querySelectorAll('.mlabel').forEach(function(l) { l.classList.add('map-in'); });
+          obs.unobserve(e.target);
+        });
+      }, { threshold: 0.18 }).observe(mapSec);
+    }
+  }
+
+  // ── 5. Scramble effect on hero tagline ───────────────────────
+  var CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\xb7\u2014';
+  function scramble(el, finalText, dur) {
+    if (!el) return;
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var prog = Math.min((ts - start) / dur, 1);
+      el.textContent = finalText.split('').map(function(ch, i) {
+        if (ch === ' ') return ch;
+        return (i / finalText.length < prog * 1.4) ? ch : CHARS[Math.floor(Math.random() * CHARS.length)];
+      }).join('');
+      if (prog < 1) requestAnimationFrame(step);
+      else el.textContent = finalText;
+    }
+    requestAnimationFrame(step);
+  }
+  var tagline = document.querySelector('.hero-tagline, .hero-eyebrow, .hero-sub');
+  if (tagline) {
+    var orig = tagline.textContent.trim();
+    setTimeout(function() { scramble(tagline, orig, 1500); }, 1000);
+  }
+
+  // ── 6. Scroll-velocity skew on section headers ───────────────
+  var lastSY2 = window.scrollY, vel2 = 0;
+  var skewTargets = document.querySelectorAll('.section-header');
+  window.addEventListener('scroll', function() {
+    vel2 = (window.scrollY - lastSY2) * 0.012;
+    lastSY2 = window.scrollY;
+    skewTargets.forEach(function(el) {
+      el.style.transform = 'skewY(' + Math.max(-1.5, Math.min(1.5, vel2)) + 'deg)';
+    });
+    clearTimeout(window._skewReset);
+    window._skewReset = setTimeout(function() {
+      skewTargets.forEach(function(el) { el.style.transform = 'skewY(0deg)'; });
+    }, 300);
+  }, { passive: true });
+
+})();
+</script>
