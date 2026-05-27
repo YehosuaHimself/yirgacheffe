@@ -5,6 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>YCFCU — Yirgacheffe Coffee Farmers Cooperative Union</title>
 <meta name="description" content="From the highlands of Southern Ethiopia, where coffee was born — the world's finest Arabica, grown by 46,094 farmers, certified organic and Fairtrade.">
+<link rel="canonical" href="https://yirgacheffe.love/">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yirgacheffe.love/">
+<meta property="og:title" content="YCFCU — Where Coffee Began">
+<meta property="og:description" content="From the Gedeo Highlands of Southern Ethiopia — 46,094 smallholder farmers producing the world's finest organic, Fairtrade-certified Arabica since 2002.">
+<meta property="og:image" content="https://yirgacheffe.love/images/beans-sorted.webp">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@YCFCU">
+<meta name="twitter:title" content="YCFCU — Where Coffee Began">
+<meta name="twitter:description" content="Organic · Fairtrade · UNESCO Heritage Landscape. 46,094 Ethiopian farmers. The world's finest Arabica.">
+<meta name="twitter:image" content="https://yirgacheffe.love/images/beans-sorted.webp">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cellipse cx='16' cy='16' rx='12' ry='8' fill='none' stroke='%23d4983a' stroke-width='2'/%3E%3Cpath d='M16 8 Q22 16 16 24' fill='none' stroke='%23d4983a' stroke-width='1.5'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#1a120a">
 
 <!-- Performance: preload critical hero image -->
 <link rel="preload" as="image" href="images/beans-sorted.webp" fetchpriority="high">
@@ -61,6 +80,7 @@
     --leaf: #6a8050;
     --cherry: #8b2020;
     --white: #faf8f4;
+    --green: #6a8050;
     --font-display: 'HelveticaNeueReal', 'neue-haas-grotesk-display', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --font-serif: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
     --font-sans: 'HelveticaNeueReal', 'neue-haas-grotesk-text', 'Helvetica Neue', HelveticaNeue, Helvetica, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
@@ -68,6 +88,24 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* Skip nav for accessibility */
+  .skip-nav {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--gold);
+    color: var(--earth);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    z-index: 99999;
+    transition: top 0.2s;
+  }
+  .skip-nav:focus { top: 1rem; }
+
+
 
   html { scroll-behavior: smooth; font-size: 16px; }
 
@@ -78,33 +116,6 @@
     overflow-x: hidden;
     cursor: none;
   }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 8px;
-    height: 8px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.2s, height 0.2s, opacity 0.2s;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px;
-    height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.12s ease-out, width 0.3s, height 0.3s;
-    opacity: 0.6;
-  }
-  body:hover .cursor { opacity: 1; }
 
   /* Noise overlay */
   body::before {
@@ -1858,13 +1869,11 @@
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-nav">Skip to main content</a>
 <!-- CUSTOM CURSOR -->
 <div id="cursor-dot"></div>
 <div id="cursor-ring"></div>
 
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- MOBILE NAV OVERLAY -->
 <div class="mobile-nav-overlay" id="mobileNav">
@@ -1907,7 +1916,8 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" id="home">
+<section class="hero" id="home" aria-label="Hero">
+<div id="main-content"></div>
   <div class="hero-bg">
     <div class="hero-bg-photo"></div>
   </div>
@@ -2639,43 +2649,6 @@
       mobileNav.classList.remove('open');
       menuToggle.classList.remove('open');
       document.body.style.overflow = '';
-    });
-  });
-
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.left = mouseX + 'px';
-    cursor.style.top = mouseY + 'px';
-  });
-
-  function animateRing() {
-    ringX += (mouseX - ringX) * 0.12;
-    ringY += (mouseY - ringY) * 0.12;
-    ring.style.left = ringX + 'px';
-    ring.style.top = ringY + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button, .coffee-card, .project-item, .mandate-item, .pillar').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.style.width = '16px';
-      cursor.style.height = '16px';
-      ring.style.width = '50px';
-      ring.style.height = '50px';
-    });
-    el.addEventListener('mouseleave', () => {
-      cursor.style.width = '8px';
-      cursor.style.height = '8px';
-      ring.style.width = '36px';
-      ring.style.height = '36px';
     });
   });
 
